@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Word Counter — Free Online Word & Character Count Tool | TextCraft</title>
+  <meta name="description" content="Free online word counter tool. Instantly count words, characters, sentences, paragraphs, and reading time. No sign-up, 100% private, works in your browser." />
+  <meta name="keywords" content="word counter, character counter, word count tool, online word counter, free word counter, character count, sentence counter" />
+  <link rel="canonical" href="https://textcraft.io/word-counter" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Word Counter — Free Online Word & Character Count Tool" />
+  <meta property="og:description" content="Instantly count words, characters, sentences, paragraphs, and reading time. Free, private, no sign-up." />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts (same as main site) -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="word-counter.css" />
+
+
+  <!-- SEO Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Word Counter — TextCraft",
+    "url": "https://textcraft.io/word-counter",
+    "description": "Free online word counter. Count words, characters, sentences, paragraphs, and estimate reading time instantly.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T_</div>
+    Text<em>Craft</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#" class="nav-cta">Try Free →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="tool-page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">TextCraft</a>
+    <span>/</span>
+    <span>Word Counter</span>
+  </div>
+  <h1><span style="color:var(--accent)">Word</span> Counter</h1>
+  <p>Paste or type your text below to instantly count words, characters, sentences, paragraphs, and estimated reading time.</p>
+</div>
+
+<!-- TOOL -->
+<div class="tool-wrap">
+
+  <!-- Editor -->
+  <div class="editor-panel">
+    <div class="editor-toolbar">
+      <span class="editor-toolbar-label">// your text</span>
+      <div class="toolbar-actions">
+        <button class="tb-btn" id="btnPaste" title="Paste from clipboard">Paste</button>
+        <button class="tb-btn" id="btnSample">Load Sample</button>
+        <button class="tb-btn danger" id="btnClear">Clear</button>
+      </div>
+    </div>
+    <textarea
+      id="mainInput"
+      placeholder="Start typing or paste your text here…&#10;&#10;Results update in real time."
+      aria-label="Text input for word counting"
+      spellcheck="true"
+    ></textarea>
+    <div class="char-meter-wrap">
+      <div class="char-meter-bar"><div class="char-meter-fill" id="charMeter"></div></div>
+      <span class="char-meter-label" id="charMeterLabel">0 / 10,000 chars</span>
+    </div>
+  </div>
+
+  <!-- Stats sidebar -->
+  <div class="stats-sidebar">
+
+    <div class="stat-card primary">
+      <div class="stat-card-icon">📝</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="statWords">0</div>
+        <div class="stat-card-label">Words</div>
+      </div>
+      <button class="stat-copy-btn" title="Copy count" data-target="statWords">⧉</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-icon">🔤</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="statChars">0</div>
+        <div class="stat-card-label">Characters</div>
+      </div>
+      <button class="stat-copy-btn" title="Copy count" data-target="statChars">⧉</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-icon">〰</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="statCharsNoSpace">0</div>
+        <div class="stat-card-label">Chars (no spaces)</div>
+      </div>
+      <button class="stat-copy-btn" title="Copy count" data-target="statCharsNoSpace">⧉</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-icon">💬</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="statSentences">0</div>
+        <div class="stat-card-label">Sentences</div>
+      </div>
+      <button class="stat-copy-btn" title="Copy count" data-target="statSentences">⧉</button>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card-icon">¶</div>
+      <div class="stat-card-body">
+        <div class="stat-card-value" id="statParas">0</div>
+        <div class="stat-card-label">Paragraphs</div>
+      </div>
+      <button class="stat-copy-btn" title="Copy count" data-target="statParas">⧉</button>
+    </div>
+
+    <div class="reading-strip">
+      <div class="reading-strip-icon">⏱</div>
+      <div class="reading-strip-body">
+        <div class="reading-strip-time" id="statRead">0 sec</div>
+        <div class="reading-strip-label">Reading Time</div>
+      </div>
+    </div>
+
+    <div class="reading-strip">
+      <div class="reading-strip-icon">🗣</div>
+      <div class="reading-strip-body">
+        <div class="reading-strip-time" id="statSpeak">0 sec</div>
+        <div class="reading-strip-label">Speaking Time</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- KEYWORD DENSITY -->
+<div class="density-panel">
+  <h3>Top Keywords <span style="font-family:var(--font-mono);font-weight:400;font-size:.75rem;color:var(--muted)">// word frequency</span></h3>
+  <div class="density-inner">
+    <div class="density-list" id="densityList">
+      <span class="density-empty">Start typing to see keyword frequency…</span>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURES STRIP -->
+<div class="features-wrap">
+  <div class="features-inner">
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Real-time Counting</div>
+      <div class="feature-desc">Every stat updates instantly as you type — no button to click.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">100% Private</div>
+      <div class="feature-desc">All counting happens in your browser. Your text never leaves your device.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Copy Any Stat</div>
+      <div class="feature-desc">Click ⧉ next to any number to copy it to your clipboard instantly.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🚫</div>
+      <div class="feature-title">Zero Limits</div>
+      <div class="feature-desc">No word or character caps — paste entire essays, reports, or novels.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ (SEO) -->
+<section class="faq-section" aria-label="Frequently asked questions about the word counter">
+  <div class="section-label">// faq</div>
+  <h2>Common questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">How does this word counter work?</div>
+    <div class="faq-a">The tool processes your text directly in your browser using JavaScript. Words are counted by splitting the text on whitespace, sentences by detecting ending punctuation (. ! ?), and paragraphs by counting double line breaks. Nothing is sent to a server.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is there a character or word limit?</div>
+    <div class="faq-a">No hard limit — you can paste full essays, reports, books, or any length of text. The tool handles it all in real time.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How is reading time calculated?</div>
+    <div class="faq-a">Reading time is estimated at 238 words per minute (the average adult reading speed), and speaking time at 150 words per minute — both widely accepted averages.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Does it count characters with or without spaces?</div>
+    <div class="faq-a">Both! The tool shows total character count (with spaces) and a separate count excluding spaces — useful for platforms that count characters differently.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is this tool free?</div>
+    <div class="faq-a">Yes, completely free. No account, no sign-up, no ads, no tracking. Part of the TextCraft suite of free browser-based text tools.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 TextCraft · Built for writers, devs &amp; everyone in between.</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+  const input       = document.getElementById('mainInput');
+  const elWords     = document.getElementById('statWords');
+  const elChars     = document.getElementById('statChars');
+  const elCharsNS   = document.getElementById('statCharsNoSpace');
+  const elSentences = document.getElementById('statSentences');
+  const elParas     = document.getElementById('statParas');
+  const elRead      = document.getElementById('statRead');
+  const elSpeak     = document.getElementById('statSpeak');
+  const elMeter     = document.getElementById('charMeter');
+  const elMeterLbl  = document.getElementById('charMeterLabel');
+  const densityList = document.getElementById('densityList');
+  const toast       = document.getElementById('toast');
+
+  const CHAR_CAP = 10000;
+  const STOP_WORDS = new Set(['the','a','an','and','or','but','in','on','at','to','for','of','with','is','was','are','were','it','this','that','be','as','by','from','not','have','has','had','do','did','will','would','could','should','may','might','so','if','then','than','into','more','also','its','he','she','they','we','i','you','my','your','his','her','their','our','all','about','up','out','what','which','who','how','when','where','been','being','am','just','no','can','get','got','there','some','any','each','after','before','over','under','between','through','while','during','here','only','very','one','two','three','well','much','many','such','own','same','other','now','even','still','back','way']);
+
+  function formatTime(words, wpm) {
+    const secs = Math.round((words / wpm) * 60);
+    if (secs < 60) return secs + ' sec';
+    const m = Math.floor(secs / 60), s = secs % 60;
+    return s > 0 ? `${m} min ${s} sec` : `${m} min`;
+  }
+
+  function countWords(t) {
+    return t.trim() === '' ? 0 : t.trim().split(/\s+/).length;
+  }
+
+  function countSentences(t) {
+    const matches = t.match(/[^.!?]*[.!?]+/g);
+    return matches ? matches.length : (t.trim().length > 0 ? 1 : 0);
+  }
+
+  function countParagraphs(t) {
+    if (!t.trim()) return 0;
+    return t.split(/\n{2,}/).filter(p => p.trim().length > 0).length || 1;
+  }
+
+  function topKeywords(t, n = 10) {
+    if (!t.trim()) return [];
+    const words = t.toLowerCase().match(/[a-z']{3,}/g) || [];
+    const freq = {};
+    words.forEach(w => { if (!STOP_WORDS.has(w)) freq[w] = (freq[w] || 0) + 1; });
+    return Object.entries(freq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, n);
+  }
+
+  let toastTimer;
+  function showToast(msg = 'Copied!') {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  function animateValue(el, newVal) {
+    const current = el.textContent;
+    if (current !== String(newVal)) {
+      el.style.transform = 'scale(1.12)';
+      el.style.transition = 'transform .15s ease';
+      el.textContent = newVal;
+      setTimeout(() => { el.style.transform = ''; }, 160);
+    }
+  }
+
+  function update() {
+    const t = input.value;
+    const words     = countWords(t);
+    const chars     = t.length;
+    const charsNS   = t.replace(/\s/g, '').length;
+    const sentences = countSentences(t);
+    const paras     = countParagraphs(t);
+
+    animateValue(elWords,     words.toLocaleString());
+    animateValue(elChars,     chars.toLocaleString());
+    animateValue(elCharsNS,   charsNS.toLocaleString());
+    animateValue(elSentences, sentences.toLocaleString());
+    animateValue(elParas,     paras.toLocaleString());
+
+    elRead.textContent  = formatTime(words, 238);
+    elSpeak.textContent = formatTime(words, 150);
+
+    // Meter (soft cap visual at CHAR_CAP)
+    const pct = Math.min((chars / CHAR_CAP) * 100, 100);
+    elMeter.style.width = pct + '%';
+    elMeter.style.background = pct >= 95 ? 'var(--accent3)' : 'var(--accent)';
+    elMeterLbl.textContent = chars.toLocaleString() + ' chars';
+
+    // Keywords
+    const kw = topKeywords(t);
+    if (!kw.length) {
+      densityList.innerHTML = '<span class="density-empty">Start typing to see keyword frequency…</span>';
+    } else {
+      densityList.innerHTML = kw.map(([w, c]) =>
+        `<span class="density-tag">
+          <span class="density-tag-word">${w}</span>
+          <span class="density-tag-count">×${c}</span>
+        </span>`
+      ).join('');
+    }
+  }
+
+  input.addEventListener('input', update);
+
+  // Toolbar actions
+  document.getElementById('btnClear').addEventListener('click', () => {
+    input.value = '';
+    input.focus();
+    update();
+  });
+
+  document.getElementById('btnSample').addEventListener('click', () => {
+    input.value = `The quick brown fox jumps over the lazy dog. This pangram contains every letter of the English alphabet at least once, making it a popular tool for font demonstrations and keyboard testing.\n\nContent writers often need to check their word count before submitting articles. Blog posts typically range from 800 to 2,000 words, while long-form SEO content can exceed 3,000 words. Knowing your exact count helps you hit targets without padding or cutting.\n\nTextCraft's word counter tracks words, characters, sentences, and paragraphs in real time, so you can focus on writing great content instead of manually counting.`;
+    input.focus();
+    update();
+  });
+
+  document.getElementById('btnPaste').addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      input.value = text;
+      input.focus();
+      update();
+      showToast('Pasted!');
+    } catch {
+      showToast('Allow clipboard access first');
+    }
+  });
+
+  // Copy individual stats
+  document.querySelectorAll('.stat-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const val = document.getElementById(btn.dataset.target).textContent;
+      navigator.clipboard.writeText(val).then(() => showToast('Copied ' + val));
+    });
+  });
+
+  // FAQ accordion
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      item.classList.toggle('open');
+    });
+  });
+
+  update();
+</script>
+</body>
+</html>

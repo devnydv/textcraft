@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TextCraft — Text Tools for Everyone</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="#" class="logo">
+      <div class="logo-mark">T_</div>
+      Text<em>Craft</em>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#tools">Tools</a></li>
+      <li><a href="#features">Features</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#" class="nav-cta">Try Free →</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">
+      <div class="dot"></div> 20+ free text tools, no sign-up
+    </div>
+    <h1>Your text,<br><em>perfectly</em> crafted.</h1>
+    <p class="hero-sub">
+      A complete suite of browser-based text tools — clean, convert, compare, and transform any text in seconds.
+      Private, fast, and free.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Explore
+        Tools ↓</button>
+      <button class="btn-ghost">View All Tools</button>
+    </div>
+  </div>
+
+  <!-- SEARCH -->
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2">
+      <circle cx="11" cy="11" r="8" />
+      <path d="M21 21l-4.35-4.35" />
+    </svg>
+    <input type="text" id="searchInput" placeholder="Search tools — e.g. word counter, case converter, bio…" />
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-bar reveal">
+    <div class="stat">
+      <div class="stat-num">10<span>+</span></div>
+      <div class="stat-label">Text Tools</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">100<span>%</span></div>
+      <div class="stat-label">Free to Use</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">0</div>
+      <div class="stat-label">Sign-ups Needed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">∞</div>
+      <div class="stat-label">Characters Handled</div>
+    </div>
+  </div>
+
+  <!-- TOOLS -->
+  <section id="tools">
+    <div class="reveal">
+      <div class="section-label">// all tools</div>
+      <h2 class="section-title">Everything you need to handle text</h2>
+      <p class="section-desc">Pick any tool and get instant results — right in your browser, nothing to install.</p>
+    </div>
+
+    <div class="categories reveal">
+      <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="analysis">Analysis</button>
+      <button class="cat-btn" data-cat="conversion">Conversion</button>
+      <button class="cat-btn" data-cat="cleaning">Cleaning</button>
+      <button class="cat-btn" data-cat="creative">Creative</button>
+      <button class="cat-btn" data-cat="social">Social</button>
+    </div>
+
+    <div class="tools-grid reveal" id="toolsGrid"></div>
+  </section>
+
+  <!-- FEATURES -->
+  <div class="features-wrap" id="features">
+    <div class="features-inner">
+      <div class="feature reveal">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Results</div>
+        <div class="feature-desc">Every tool processes your text live as you type — zero waiting.</div>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% Private</div>
+        <div class="feature-desc">All processing happens in your browser. Your text never leaves your device.</div>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">One-click Copy</div>
+        <div class="feature-desc">Grab your results with a single click and jump back into your workflow.</div>
+      </div>
+      <div class="feature reveal">
+        <div class="feature-icon">🚫</div>
+        <div class="feature-title">No Clutter</div>
+        <div class="feature-desc">Clean, focused UI with zero ads, popups, or dark patterns. Just the tool.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta-section reveal">
+    <h2>Start crafting<br>better text today.</h2>
+    <p>All tools are free, instant, and run entirely in your browser. No account, no tracking.</p>
+    <button class="btn-primary" onclick="document.getElementById('tools').scrollIntoView({behavior:'smooth'})">Browse
+      All Tools</button>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2025 TextCraft · Built for writers, devs &amp; everyone in between.</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    const tools = [
+      {
+        name: 'Word Counter',
+        desc: 'Count words, characters, sentences, paragraphs and reading time instantly.', icon: '📊', bg: '#152218', accent: '#5cffb1', cat: 'analysis', tag: 'Analysis',
+        a: "word-counter.html"
+      },
+      { name: 'Case Converter', desc: 'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case and more.', icon: 'Aa', bg: '#12182d', accent: '#60a5fa', cat: 'conversion', tag: 'Conversion', a: "case-converter.html" },
+      { name: 'Text Cleaner', desc: 'Remove extra spaces, blank lines, special characters and other formatting noise.', icon: '🧹', bg: '#2a1515', accent: '#ff6f6f', cat: 'cleaning', tag: 'Cleaning', a: "text-cleaner.html" },
+      { name: 'Duplicate Line Remover', desc: 'Paste any list and instantly strip all repeated or duplicate lines.', icon: '⊟', bg: '#1a1530', accent: '#c084fc', cat: 'cleaning', tag: 'Cleaning', a: "duplicate-line-remover.html" },
+      { name: 'Text Compare', desc: 'Diff two blocks of text side-by-side and highlight exactly what changed.', icon: '⇌', bg: '#12282a', accent: '#2dd4bf', cat: 'analysis', tag: 'Analysis', a: "text-compare.html" },
+      { name: 'Fancy Text Generator', desc: 'Transform plain text into 𝓬𝓾𝓻𝓼𝓲𝓿�, 𝕓𝕠𝕝𝕕, and 100+ Unicode styles.', icon: '✦', bg: '#2a1e10', accent: '#fb923c', cat: 'creative', tag: 'Creative', a: "fancy-text-generator.html" },
+      { name: 'Stylish Nickname Generator', desc: 'Create cool, decorated nicknames for gaming profiles, Discord and usernames.', icon: '🎮', bg: '#161830', accent: '#818cf8', cat: 'social', tag: 'Social', a: "stylish-nickname-generator.html" },
+      { name: 'Bio Generator', desc: 'Generate polished bios for Instagram, Twitter, LinkedIn or any platform.', icon: '✍️', bg: '#132215', accent: '#4ade80', cat: 'social', tag: 'Social' },
+      { name: 'Lorem Ipsum Generator', desc: 'Generate placeholder text in any length — words, sentences or full paragraphs.', icon: '¶', bg: '#252015', accent: '#facc15', cat: 'conversion', tag: 'Conversion' },
+      { name: 'Text Reverser', desc: 'Reverse any text character-by-character, word-by-word, or line-by-line.', icon: '↩', bg: '#152015', accent: '#86efac', cat: 'conversion', tag: 'Conversion' },
+      { name: 'Remove Line Breaks', desc: 'Strip line breaks from copied text and join it into clean continuous prose.', icon: '⏎', bg: '#2a1818', accent: '#fca5a5', cat: 'cleaning', tag: 'Cleaning' },
+      { name: 'Text to Slug', desc: 'Convert any title or phrase into a clean, URL-friendly slug instantly.', icon: '🔗', bg: '#121e2e', accent: '#38bdf8', cat: 'conversion', tag: 'Conversion' },
+    ];
+
+    const grid = document.getElementById('toolsGrid');
+
+    function renderTools(list) {
+      grid.innerHTML = '';
+      if (!list.length) {
+        grid.innerHTML = '<div class="empty-state"><span>🔍</span>No tools match your search. Try a different keyword.</div>';
+        return;
+      }
+      list.forEach(t => {
+        const a = document.createElement('a');
+        a.href = t.a; a.className = 'tool-card';
+        a.innerHTML = `
+        <div class="tool-icon" style="background:${t.bg};border:1px solid ${t.accent}25;color:${t.accent};">${t.icon}</div>
+        <div class="tool-name">${t.name}</div>
+        <div class="tool-desc">${t.desc}</div>
+        <div class="tool-meta">
+          <span class="tool-tag" style="background:${t.bg};color:${t.accent};border:1px solid ${t.accent}30;">${t.tag}</span>
+          <span class="tool-arrow">↗</span>
+        </div>`;
+        grid.appendChild(a);
+      });
+    }
+
+    renderTools(tools);
+
+    // Category filter
+    document.querySelectorAll('.cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.cat;
+        renderTools(cat === 'all' ? tools : tools.filter(t => t.cat === cat));
+        document.getElementById('searchInput').value = '';
+      });
+    });
+
+    // Search
+    document.getElementById('searchInput').addEventListener('input', function () {
+      const q = this.value.toLowerCase();
+      const filtered = tools.filter(t =>
+        t.name.toLowerCase().includes(q) ||
+        t.desc.toLowerCase().includes(q) ||
+        t.tag.toLowerCase().includes(q)
+      );
+      renderTools(filtered);
+      document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+    });
+
+    // Scroll reveal
+    const io = new IntersectionObserver(entries =>
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+      { threshold: 0.08 }
+    );
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+
+</html>
