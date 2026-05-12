@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSON Formatter & Validator — Free Online JSON Beautifier | TextCraft</title>
+  <meta name="description" content="Free online JSON formatter, beautifier, and validator. Instantly format, minify, and validate JSON data. No sign-up, 100% private, works in your browser." />
+  <meta name="keywords" content="json formatter, json beautifier, json validator, format json online, json minifier, json viewer, pretty print json, json lint" />
+  <link rel="canonical" href="https://textcraft.io/json-formatter" />
+
+  <meta property="og:title" content="JSON Formatter & Validator — TextCraft" />
+  <meta property="og:description" content="Instantly format, minify, and validate JSON. Free, private, no sign-up required." />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="Capture.PNG" type="image/x-icon">
+  <style>
+    /* ── Tool page layout ── */
+    .tool-page-hero {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 5vw 40px;
+      text-align: center;
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { color: var(--border); }
+
+    .tool-page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      animation: none;
+      opacity: 1;
+      margin-bottom: .75rem;
+    }
+
+    .tool-page-hero p {
+      color: var(--text-dim);
+      font-size: .95rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ── Main layout ── */
+    .tool-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 5vw 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    /* ── Toolbar ── */
+    .main-toolbar {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      flex-wrap: wrap;
+    }
+
+    .main-toolbar .tb-group {
+      display: flex;
+      gap: .4rem;
+      align-items: center;
+    }
+
+    .main-toolbar .sep {
+      width: 1px;
+      height: 24px;
+      background: var(--border);
+      flex-shrink: 0;
+    }
+
+    .tb-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .4rem .9rem;
+      color: var(--text-dim);
+      font-family: var(--font-body);
+      font-size: .78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      white-space: nowrap;
+    }
+
+    .tb-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(92,255,177,.05);
+    }
+
+    .tb-btn.active {
+      background: rgba(92,255,177,.08);
+      border-color: rgba(92,255,177,.4);
+      color: var(--accent);
+    }
+
+    .tb-btn.danger:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+      background: rgba(255,111,111,.05);
+    }
+
+    .tb-btn.primary-btn {
+      background: var(--accent);
+      color: #0c0c0f;
+      border-color: var(--accent);
+      font-weight: 600;
+    }
+
+    .tb-btn.primary-btn:hover {
+      opacity: .88;
+      color: #0c0c0f;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* indent selector */
+    .indent-select {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .4rem .7rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      cursor: pointer;
+      outline: none;
+      transition: border-color .2s;
+    }
+
+    .indent-select:focus { border-color: var(--accent); }
+
+    /* ── Editor grid ── */
+    .editors-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .editor-panel {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+      min-height: 460px;
+    }
+
+    .editor-panel.output-panel {
+      background: var(--bg);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .65rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .panel-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+
+    .status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      transition: background .3s;
+      flex-shrink: 0;
+    }
+
+    .status-dot.valid   { background: var(--accent); box-shadow: 0 0 6px rgba(92,255,177,.5); }
+    .status-dot.invalid { background: var(--accent3); box-shadow: 0 0 6px rgba(255,111,111,.5); }
+
+    .panel-actions {
+      display: flex;
+      gap: .4rem;
+    }
+
+    .sm-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .22rem .6rem;
+      color: var(--text-dim);
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .sm-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Textarea / output */
+    #jsonInput {
+      flex: 1;
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 1.2rem 1.4rem;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      line-height: 1.75;
+      resize: none;
+      outline: none;
+      tab-size: 2;
+    }
+
+    #jsonInput::placeholder { color: var(--muted); }
+
+    /* Output: syntax highlighted */
+    .output-body {
+      flex: 1;
+      padding: 1.2rem 1.4rem;
+      overflow: auto;
+      font-family: var(--font-mono);
+      font-size: .82rem;
+      line-height: 1.75;
+    }
+
+    .output-body pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    /* syntax colors */
+    .jk  { color: #60a5fa; }   /* key */
+    .js  { color: #86efac; }   /* string value */
+    .jn  { color: #fb923c; }   /* number */
+    .jb  { color: #c084fc; }   /* boolean */
+    .jnl { color: var(--muted); } /* null */
+    .jp  { color: var(--muted); } /* punctuation */
+
+    /* error message */
+    .error-banner {
+      margin: 1rem 1.4rem;
+      background: rgba(255,111,111,.07);
+      border: 1px solid rgba(255,111,111,.25);
+      border-radius: 8px;
+      padding: .75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent3);
+      display: none;
+      line-height: 1.6;
+    }
+
+    .error-banner.show { display: block; }
+
+    /* ── Stats bar under editors ── */
+    .json-stats {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: .5rem 0 0;
+    }
+
+    .jstat {
+      display: flex;
+      align-items: center;
+      gap: .45rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--text-dim);
+    }
+
+    .jstat-val {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ── Tree viewer ── */
+    .tree-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 5vw 30px;
+    }
+
+    .tree-wrap h3 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .75rem;
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+
+    .tree-wrap h3 span {
+      font-family: var(--font-mono);
+      font-weight: 400;
+      font-size: .72rem;
+      color: var(--muted);
+    }
+
+    .tree-inner {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.2rem 1.4rem;
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      line-height: 1.8;
+      max-height: 320px;
+      overflow: auto;
+      display: none;
+    }
+
+    .tree-inner.show { display: block; }
+    .tree-empty { color: var(--muted); font-size: .82rem; }
+
+    .tree-node { cursor: pointer; user-select: none; }
+    .tree-node .arrow { display: inline-block; transition: transform .2s; margin-right: .3rem; color: var(--muted); font-size: .7rem; }
+    .tree-node.collapsed .arrow { transform: rotate(-90deg); }
+    .tree-node .node-key { color: #60a5fa; }
+    .tree-node .node-type { color: var(--muted); font-size: .68rem; margin-left: .3rem; }
+    .tree-children { padding-left: 1.4rem; border-left: 1px dashed var(--border); margin-left: .4rem; }
+    .tree-node.collapsed + .tree-children { display: none; }
+    .node-val.str  { color: #86efac; }
+    .node-val.num  { color: #fb923c; }
+    .node-val.bool { color: #c084fc; }
+    .node-val.null { color: var(--muted); }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface2);
+      border: 1px solid rgba(92,255,177,.3);
+      border-radius: 10px;
+      padding: .65rem 1.2rem;
+      font-size: .82rem;
+      color: var(--accent);
+      font-family: var(--font-mono);
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity .25s, transform .25s;
+      pointer-events: none;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── FAQ ── */
+    .faq-section {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 5vw 80px;
+    }
+
+    .faq-section h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.4rem, 3vw, 1.9rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 2rem;
+    }
+
+    .faq-item { border-top: 1px solid var(--border); padding: 1.1rem 0; }
+    .faq-item:last-child { border-bottom: 1px solid var(--border); }
+
+    .faq-q {
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      user-select: none;
+    }
+
+    .faq-q::after { content: '+'; font-family: var(--font-mono); font-size: 1.1rem; color: var(--accent); flex-shrink: 0; transition: transform .25s; }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); }
+
+    .faq-a {
+      font-size: .85rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .3s ease;
+    }
+
+    .faq-item.open .faq-a { max-height: 220px; padding-top: .75rem; }
+
+    /* ── Responsive ── */
+    @media (max-width: 860px) {
+      .editors-grid { grid-template-columns: 1fr; }
+      .editor-panel { min-height: 280px; }
+    }
+
+    @media (max-width: 500px) {
+      .tool-page-hero { padding-top: 40px; }
+      .main-toolbar { gap: .4rem; }
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "JSON Formatter — TextCraft",
+    "url": "https://textcraft.io/json-formatter",
+    "description": "Free online JSON formatter, beautifier, minifier and validator. Works entirely in your browser.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Any",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+  }
+  </script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T_</div>
+    Text<em>Craft</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#" class="nav-cta">Try Free →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="tool-page-hero">
+  <div class="breadcrumb">
+    <a href="index.html">TextCraft</a>
+    <span>/</span>
+    <span>JSON Formatter</span>
+  </div>
+  <h1><span style="color:var(--accent)">JSON</span> Formatter</h1>
+  <p>Paste raw JSON to instantly format, validate, minify, and explore it — all in your browser, nothing uploaded.</p>
+</div>
+
+<!-- TOOL -->
+<div class="tool-wrap">
+
+  <!-- Toolbar -->
+  <div class="main-toolbar">
+    <div class="tb-group">
+      <button class="tb-btn primary-btn" id="btnFormat">⬡ Format</button>
+      <button class="tb-btn" id="btnMinify">⇢ Minify</button>
+    </div>
+    <div class="sep"></div>
+    <div class="tb-group">
+      <label style="font-family:var(--font-mono);font-size:.72rem;color:var(--muted);">Indent</label>
+      <select class="indent-select" id="indentSelect">
+        <option value="2">2 spaces</option>
+        <option value="4">4 spaces</option>
+        <option value="tab">Tab</option>
+      </select>
+    </div>
+    <div class="sep"></div>
+    <div class="tb-group">
+      <button class="tb-btn" id="btnSample">Load Sample</button>
+      <button class="tb-btn" id="btnPaste">Paste</button>
+      <button class="tb-btn danger" id="btnClear">Clear</button>
+    </div>
+    <div class="sep"></div>
+    <div class="tb-group">
+      <button class="tb-btn" id="btnToggleTree">🌳 Tree View</button>
+    </div>
+  </div>
+
+  <!-- Editors -->
+  <div class="editors-grid">
+    <!-- Input -->
+    <div class="editor-panel">
+      <div class="panel-header">
+        <div class="panel-label">
+          <div class="status-dot" id="inputDot"></div>
+          Input JSON
+        </div>
+        <div class="panel-actions">
+          <button class="sm-btn" id="btnPasteSmall">Paste</button>
+          <button class="sm-btn danger" id="btnClearSmall" style="border-color:rgba(255,111,111,.3);color:var(--accent3);">Clear</button>
+        </div>
+      </div>
+      <textarea id="jsonInput" spellcheck="false" placeholder='Paste your JSON here…&#10;&#10;{&#10;  "name": "TextCraft",&#10;  "tools": 20,&#10;  "free": true&#10;}'></textarea>
+      <div class="error-banner" id="errorBanner"></div>
+    </div>
+
+    <!-- Output -->
+    <div class="editor-panel output-panel">
+      <div class="panel-header">
+        <div class="panel-label">
+          <div class="status-dot" id="outputDot"></div>
+          Output
+        </div>
+        <div class="panel-actions">
+          <button class="sm-btn" id="btnCopyOutput">Copy</button>
+          <button class="sm-btn" id="btnDownload">↓ Save</button>
+        </div>
+      </div>
+      <div class="output-body" id="outputBody">
+        <pre id="outputPre"><span style="color:var(--muted);font-family:var(--font-mono);font-size:.8rem;">// formatted output will appear here</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="json-stats" id="jsonStats" style="display:none">
+    <div class="jstat">Size (raw): <span class="jstat-val" id="sRaw">—</span></div>
+    <div class="jstat">Size (formatted): <span class="jstat-val" id="sFormatted">—</span></div>
+    <div class="jstat">Size (minified): <span class="jstat-val" id="sMinified">—</span></div>
+    <div class="jstat">Keys: <span class="jstat-val" id="sKeys">—</span></div>
+    <div class="jstat">Depth: <span class="jstat-val" id="sDepth">—</span></div>
+    <div class="jstat">Arrays: <span class="jstat-val" id="sArrays">—</span></div>
+  </div>
+</div>
+
+<!-- TREE VIEW -->
+<div class="tree-wrap">
+  <h3>Tree Explorer <span>// interactive JSON tree</span></h3>
+  <div class="tree-inner" id="treeInner">
+    <span class="tree-empty">Format valid JSON first to explore the tree…</span>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<div class="features-wrap">
+  <div class="features-inner">
+    <div class="feature">
+      <div class="feature-icon">⚡</div>
+      <div class="feature-title">Instant Formatting</div>
+      <div class="feature-desc">Paste JSON and it's formatted with syntax highlighting in milliseconds.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🔒</div>
+      <div class="feature-title">100% Private</div>
+      <div class="feature-desc">JSON never leaves your device — all processing happens locally in the browser.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">🌳</div>
+      <div class="feature-title">Tree Explorer</div>
+      <div class="feature-desc">Collapse and expand nested nodes to navigate complex JSON structures visually.</div>
+    </div>
+    <div class="feature">
+      <div class="feature-icon">📋</div>
+      <div class="feature-title">Copy & Download</div>
+      <div class="feature-desc">Copy the output or download it as a .json file with one click.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ -->
+<section class="faq-section" aria-label="FAQ about JSON Formatter">
+  <div class="section-label">// faq</div>
+  <h2>Common questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-q">What is a JSON formatter?</div>
+    <div class="faq-a">A JSON formatter (also called a JSON beautifier) takes minified or unformatted JSON text and adds proper indentation and line breaks, making it easy to read and understand. It may also validate the JSON for syntax errors.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is my JSON data safe?</div>
+    <div class="faq-a">Yes. All formatting, validation, and minification happens entirely in your browser using JavaScript. Your JSON data is never sent to any server, logged, or stored anywhere.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">What's the difference between format and minify?</div>
+    <div class="faq-a">Formatting adds indentation and whitespace to make JSON human-readable. Minifying does the opposite — it strips all unnecessary whitespace to produce the smallest possible JSON string, ideal for APIs and storage.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">How do I fix a JSON error?</div>
+    <div class="faq-a">The error banner below the input shows the exact error message and position. Common mistakes include missing commas, trailing commas, unquoted keys, or using single quotes instead of double quotes.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-q">Is there a size limit for JSON input?</div>
+    <div class="faq-a">No hard limit — the tool runs entirely in your browser so it can handle large JSON files. Very large files (10MB+) may be slower depending on your device.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2025 TextCraft · Built for writers, devs &amp; everyone in between.</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</footer>
+
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+  /* ── Helpers ── */
+  const $  = id => document.getElementById(id);
+  const input      = $('jsonInput');
+  const outputPre  = $('outputPre');
+  const outputBody = $('outputBody');
+  const errorBanner= $('errorBanner');
+  const inputDot   = $('inputDot');
+  const outputDot  = $('outputDot');
+  const treeInner  = $('treeInner');
+  const jsonStats  = $('jsonStats');
+  const toast      = $('toast');
+
+  let lastParsed = null;
+  let toastTimer;
+  let treeVisible = false;
+
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+  }
+
+  function formatBytes(n) {
+    if (n < 1024) return n + ' B';
+    return (n / 1024).toFixed(1) + ' KB';
+  }
+
+  function getIndent() {
+    const v = $('indentSelect').value;
+    return v === 'tab' ? '\t' : parseInt(v);
+  }
+
+  /* ── Syntax highlighting ── */
+  function highlight(json) {
+    return json
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(
+        /("(\\u[a-fA-F0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
+        match => {
+          if (/^"/.test(match)) {
+            if (/:$/.test(match)) return `<span class="jk">${match}</span>`;
+            return `<span class="js">${match}</span>`;
+          }
+          if (/true|false/.test(match)) return `<span class="jb">${match}</span>`;
+          if (/null/.test(match))       return `<span class="jnl">${match}</span>`;
+          return `<span class="jn">${match}</span>`;
+        }
+      );
+  }
+
+  /* ── Count stats ── */
+  function countKeys(obj, depth = 0) {
+    let keys = 0, maxDepth = depth, arrays = 0;
+    if (Array.isArray(obj)) {
+      arrays++;
+      obj.forEach(v => {
+        if (typeof v === 'object' && v !== null) {
+          const r = countKeys(v, depth + 1);
+          keys += r.keys; arrays += r.arrays;
+          maxDepth = Math.max(maxDepth, r.depth);
+        }
+      });
+    } else if (typeof obj === 'object' && obj !== null) {
+      Object.entries(obj).forEach(([, v]) => {
+        keys++;
+        if (typeof v === 'object' && v !== null) {
+          const r = countKeys(v, depth + 1);
+          keys += r.keys; arrays += r.arrays;
+          maxDepth = Math.max(maxDepth, r.depth);
+        }
+      });
+    }
+    return { keys, depth: maxDepth, arrays };
+  }
+
+  /* ── Process JSON ── */
+  function process(mode = 'format') {
+    const raw = input.value.trim();
+    if (!raw) { reset(); return; }
+
+    try {
+      const parsed = JSON.parse(raw);
+      lastParsed = parsed;
+      errorBanner.classList.remove('show');
+      inputDot.className = 'status-dot valid';
+      outputDot.className = 'status-dot valid';
+
+      const indent = getIndent();
+      const formatted = JSON.stringify(parsed, null, indent);
+      const minified  = JSON.stringify(parsed);
+
+      const display = mode === 'minify' ? minified : formatted;
+      outputPre.innerHTML = highlight(display);
+
+      // stats
+      const stats = countKeys(parsed);
+      $('sRaw').textContent       = formatBytes(raw.length);
+      $('sFormatted').textContent = formatBytes(formatted.length);
+      $('sMinified').textContent  = formatBytes(minified.length);
+      $('sKeys').textContent      = stats.keys;
+      $('sDepth').textContent     = stats.depth;
+      $('sArrays').textContent    = stats.arrays;
+      jsonStats.style.display     = 'flex';
+
+      if (treeVisible) buildTree(parsed);
+
+    } catch (e) {
+      lastParsed = null;
+      inputDot.className = 'status-dot invalid';
+      outputDot.className = 'status-dot invalid';
+      errorBanner.textContent = '⚠ ' + e.message;
+      errorBanner.classList.add('show');
+      outputPre.innerHTML = `<span style="color:var(--muted)">// fix errors to see output</span>`;
+      jsonStats.style.display = 'none';
+      treeInner.innerHTML = '<span class="tree-empty">Fix JSON errors first…</span>';
+    }
+  }
+
+  function reset() {
+    lastParsed = null;
+    outputPre.innerHTML = '<span style="color:var(--muted);font-family:var(--font-mono);font-size:.8rem;">// formatted output will appear here</span>';
+    errorBanner.classList.remove('show');
+    inputDot.className = 'status-dot';
+    outputDot.className = 'status-dot';
+    jsonStats.style.display = 'none';
+    treeInner.innerHTML = '<span class="tree-empty">Format valid JSON first to explore the tree…</span>';
+  }
+
+  /* ── Tree builder ── */
+  function buildTree(data) {
+    treeInner.innerHTML = '';
+    treeInner.appendChild(renderNode(data, 'root'));
+  }
+
+  function renderNode(val, key) {
+    const wrap = document.createElement('div');
+
+    if (val !== null && typeof val === 'object') {
+      const isArr = Array.isArray(val);
+      const children = isArr ? val.entries() : Object.entries(val);
+      const count = isArr ? val.length : Object.keys(val).length;
+      const typeLabel = isArr ? `[${count}]` : `{${count}}`;
+
+      const nodeEl = document.createElement('div');
+      nodeEl.className = 'tree-node';
+      nodeEl.innerHTML = `<span class="arrow">▾</span><span class="node-key">"${key}"</span><span class="node-type">${typeLabel}</span>`;
+      wrap.appendChild(nodeEl);
+
+      const childWrap = document.createElement('div');
+      childWrap.className = 'tree-children';
+
+      for (const [k, v] of children) {
+        childWrap.appendChild(renderNode(v, k));
+      }
+
+      wrap.appendChild(childWrap);
+
+      nodeEl.addEventListener('click', () => {
+        nodeEl.classList.toggle('collapsed');
+      });
+
+    } else {
+      const cls = val === null ? 'null' : typeof val === 'boolean' ? 'bool' : typeof val === 'number' ? 'num' : 'str';
+      const display = val === null ? 'null' : typeof val === 'string' ? `"${val}"` : String(val);
+      wrap.innerHTML = `<span class="node-key">"${key}"</span>: <span class="node-val ${cls}">${display}</span>`;
+    }
+
+    return wrap;
+  }
+
+  /* ── Events ── */
+  input.addEventListener('input', () => {
+    if (input.value.trim()) process('format');
+    else reset();
+  });
+
+  $('indentSelect').addEventListener('change', () => { if (lastParsed) process('format'); });
+
+  $('btnFormat').addEventListener('click', () => process('format'));
+  $('btnMinify').addEventListener('click', () => process('minify'));
+
+  $('btnClear').addEventListener('click', () => { input.value = ''; reset(); input.focus(); });
+  $('btnClearSmall').addEventListener('click', () => { input.value = ''; reset(); input.focus(); });
+
+  async function pasteFromClipboard() {
+    try {
+      const t = await navigator.clipboard.readText();
+      input.value = t;
+      process('format');
+      showToast('Pasted!');
+    } catch { showToast('Allow clipboard access'); }
+  }
+
+  $('btnPaste').addEventListener('click', pasteFromClipboard);
+  $('btnPasteSmall').addEventListener('click', pasteFromClipboard);
+
+  $('btnSample').addEventListener('click', () => {
+    input.value = `{"store":{"name":"TextCraft Store","open":true,"rating":4.9,"tags":["tools","text","free"],"address":{"city":"San Francisco","zip":"94107","coordinates":{"lat":37.7749,"lng":-122.4194}},"products":[{"id":1,"name":"Word Counter","price":0,"features":["real-time","private","fast"]},{"id":2,"name":"JSON Formatter","price":0,"features":["highlight","minify","tree"]},{"id":3,"name":"Case Converter","price":0,"features":["8 modes","batch","instant"]}],"meta":{"created":"2025-01-01","version":"2.0","active":null}}}`;
+    process('format');
+  });
+
+  $('btnCopyOutput').addEventListener('click', () => {
+    const text = outputPre.innerText;
+    if (!text || text.includes('// formatted')) { showToast('Nothing to copy'); return; }
+    navigator.clipboard.writeText(text).then(() => showToast('Copied!'));
+  });
+
+  $('btnDownload').addEventListener('click', () => {
+    const text = outputPre.innerText;
+    if (!text || text.includes('// formatted')) { showToast('Nothing to save'); return; }
+    const blob = new Blob([text], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'formatted.json';
+    a.click();
+    showToast('Downloaded!');
+  });
+
+  $('btnToggleTree').addEventListener('click', () => {
+    treeVisible = !treeVisible;
+    $('btnToggleTree').classList.toggle('active', treeVisible);
+    treeInner.classList.toggle('show', treeVisible);
+    if (treeVisible && lastParsed) buildTree(lastParsed);
+  });
+
+  /* FAQ */
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+  });
+</script>
+</body>
+</html>

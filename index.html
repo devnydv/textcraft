@@ -9,6 +9,7 @@
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="style.css">
+  <link rel="shortcut icon" href="Capture.PNG" type="image/x-icon">
 </head>
 
 <body>
@@ -44,15 +45,7 @@
     </div>
   </div>
 
-  <!-- SEARCH -->
-  <div class="search-wrap">
-    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      stroke-width="2">
-      <circle cx="11" cy="11" r="8" />
-      <path d="M21 21l-4.35-4.35" />
-    </svg>
-    <input type="text" id="searchInput" placeholder="Search tools — e.g. word counter, case converter, bio…" />
-  </div>
+  
 
   <!-- STATS -->
   <div class="stats-bar reveal">
@@ -81,9 +74,18 @@
       <h2 class="section-title">Everything you need to handle text</h2>
       <p class="section-desc">Pick any tool and get instant results — right in your browser, nothing to install.</p>
     </div>
-
+<!-- SEARCH -->
+  <div class="search-wrap">
+    <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2">
+      <circle cx="11" cy="11" r="8" />
+      <path d="M21 21l-4.35-4.35" />
+    </svg>
+    <input type="text" id="searchInput" placeholder="Search tools — e.g. word counter, case converter, bio…" />
+  </div>
     <div class="categories reveal">
       <button class="cat-btn active" data-cat="all">All</button>
+      <button class="cat-btn" data-cat="development">Development</button>
       <button class="cat-btn" data-cat="analysis">Analysis</button>
       <button class="cat-btn" data-cat="conversion">Conversion</button>
       <button class="cat-btn" data-cat="cleaning">Cleaning</button>
@@ -141,6 +143,10 @@
 
   <script>
     const tools = [
+      {
+        name: 'Json Formatter', desc: 'Paste minified JSON and get a clean, pretty-printed version instantly.', icon: '🗄', bg: '#1e2a2f', accent: '#4fd1c5', cat: 'development', tag: 'Development', a: "json-formatter.html",
+        desc: 'Format JSON with ease. Just paste your minified JSON and get a clean, pretty-printed version instantly. '
+      },
       {
         name: 'Word Counter',
         desc: 'Count words, characters, sentences, paragraphs and reading time instantly.', icon: '📊', bg: '#152218', accent: '#5cffb1', cat: 'analysis', tag: 'Analysis',
