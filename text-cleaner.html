@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Text Cleaner — Remove Extra Spaces, Blank Lines &amp; Special Characters | TextCraft</title>
+  <meta name="description" content="Free online text cleaner tool. Remove extra spaces, blank lines, special characters, HTML tags, and formatting noise from any text instantly. No sign-up required." />
+  <meta name="keywords" content="text cleaner, remove extra spaces, strip special characters, clean text online, remove blank lines, text formatter, plain text converter" />
+  <link rel="canonical" href="https://textmill.site/text-cleaner" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Text Cleaner — Clean &amp; Format Any Text Instantly | TextCraft" />
+  <meta property="og:description" content="Paste any messy text and instantly strip extra spaces, blank lines, HTML tags, and special characters. Free, private, browser-based." />
+  <meta property="og:url" content="https://textmill.site/text-cleaner" />
+  <meta property="og:site_name" content="TextMill" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Text Cleaner — Clean Any Text Instantly" />
+  <meta name="twitter:description" content="Remove extra spaces, blank lines, HTML tags and formatting noise from any text — free &amp; instant." />
+  <!-- link favicon -->
+  <link rel="icon" type="image/x-icon" href="Capture.PNG" />
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text Cleaner",
+    "url": "https://textmill.site/text-cleaner",
+    "description": "Free online tool to clean and format text by removing extra spaces, blank lines, special characters, HTML tags and more.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": [
+      "Remove extra whitespace",
+      "Remove blank lines",
+      "Strip HTML tags",
+      "Remove special characters",
+      "Convert smart quotes",
+      "Trim line spaces"
+    ]
+  }
+  </script>
+
+  <!-- Breadcrumb schema -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "TextMill", "item": "https://textmill.site" },
+      { "@type": "ListItem", "position": 2, "name": "Text Cleaner", "item": "https://textmill.site/text-cleaner" }
+    ]
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════════
+       SHARED DESIGN SYSTEM  (copied from index.html)
+       ═══════════════════════════════════════════════ -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0c0c0f;
+      --surface:   #141418;
+      --surface2:  #1c1c23;
+      --border:    #2a2a35;
+      --accent:    #5cffb1;
+      --accent2:   #3d8bff;
+      --accent3:   #ff6f6f;
+      --muted:     #52525e;
+      --text:      #e8e8f0;
+      --text-dim:  #9898aa;
+      --radius:    14px;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(92,255,177,.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(12,12,15,.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logo {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .logo em { font-style: normal; color: var(--accent); }
+
+    .logo-mark {
+      width: 28px; height: 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      font-weight: 500;
+      color: #0c0c0f;
+    }
+
+    .nav-links {
+      display: flex; align-items: center; gap: 2rem;
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 500;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #0c0c0f !important;
+      padding: .45rem 1.1rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: opacity .2s !important;
+    }
+    .nav-cta:hover { opacity: .85 !important; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #0c0c0f;
+      border: none;
+      border-radius: 10px;
+      padding: .75rem 1.8rem;
+      font-family: var(--font-body);
+      font-size: .95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: .88; }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .75rem 1.8rem;
+      font-family: var(--font-body);
+      font-size: .95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      margin-bottom: .6rem;
+    }
+
+    /* FOOTER */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: .82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text-dim); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 620px) { .nav-links { display: none; } }
+
+    /* ═══════════════════════════════════════════════
+       TOOL-SPECIFIC CSS  (only what's new below)
+       ═══════════════════════════════════════════════ */
+
+    .page-wrap {
+      position: relative; z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 48px 5vw 80px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--text-dim); }
+    .breadcrumb span { color: var(--border); }
+
+    /* Tool header */
+    .tool-header {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      margin-bottom: 2.5rem;
+      animation: fadeUp .5s ease both;
+    }
+    .tool-header-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: #2a1515;
+      border: 1px solid rgba(255,111,111,.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+    }
+    .tool-header-text h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      line-height: 1.1;
+      /* override homepage h1 animation */
+      animation: none;
+      opacity: 1;
+    }
+    .tool-header-text p {
+      color: var(--text-dim);
+      font-size: .9rem;
+      margin-top: .4rem;
+      max-width: 540px;
+    }
+
+    /* Main 2-col layout */
+    .tool-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      animation: fadeUp .5s .1s ease both;
+    }
+
+    .tool-pane {
+      background: var(--surface);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .pane-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pane-label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--text-dim);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .pane-actions { display: flex; gap: .5rem; align-items: center; }
+
+    .icon-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: .35rem .7rem;
+      color: var(--text-dim);
+      font-size: .75rem;
+      font-family: var(--font-body);
+      cursor: pointer;
+      transition: all .18s;
+      display: flex; align-items: center; gap: .35rem;
+      white-space: nowrap;
+    }
+    .icon-btn:hover { border-color: var(--text-dim); color: var(--text); }
+    .icon-btn.danger:hover { border-color: var(--accent3); color: var(--accent3); }
+    .icon-btn.success { border-color: rgba(92,255,177,.4); color: var(--accent); }
+
+    textarea {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 1.2rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .9rem;
+      line-height: 1.65;
+      min-height: 320px;
+    }
+    textarea::placeholder { color: var(--muted); }
+
+    .pane-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .6rem 1.2rem;
+      border-top: 1px solid var(--border);
+    }
+    .char-count {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--muted);
+    }
+
+    /* Options panel */
+    .options-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.4rem;
+      margin-bottom: 1px;
+      animation: fadeUp .5s .15s ease both;
+    }
+
+    .options-title {
+      font-family: var(--font-head);
+      font-size: .85rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: .6rem;
+    }
+
+    .opt-toggle {
+      display: flex; align-items: center; gap: .75rem;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .7rem 1rem;
+      cursor: pointer;
+      transition: border-color .18s, background .18s;
+      user-select: none;
+    }
+    .opt-toggle:hover { border-color: var(--muted); }
+    .opt-toggle.active {
+      border-color: rgba(255,111,111,.4);
+      background: rgba(255,111,111,.05);
+    }
+
+    .opt-check {
+      width: 16px; height: 16px; flex-shrink: 0;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+    }
+    .opt-toggle.active .opt-check {
+      background: var(--accent3);
+      border-color: var(--accent3);
+    }
+    .opt-check svg { display: none; }
+    .opt-toggle.active .opt-check svg { display: block; }
+
+    .opt-text { font-size: .82rem; color: var(--text-dim); line-height: 1.3; }
+    .opt-toggle.active .opt-text { color: var(--text); }
+
+    /* Action bar */
+    .action-bar {
+      display: flex; align-items: center; gap: .75rem;
+      flex-wrap: wrap;
+      margin: 1.2rem 0;
+      animation: fadeUp .5s .2s ease both;
+    }
+
+    .btn-clean {
+      background: var(--accent3);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: .75rem 2rem;
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+      letter-spacing: -.01em;
+    }
+    .btn-clean:hover { transform: translateY(-2px); opacity: .9; }
+
+    .diff-badge {
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--text-dim);
+      padding: .4rem .9rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .diff-badge strong { color: var(--accent); }
+
+    /* Stats row */
+    .clean-stats {
+      display: flex; gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .5s .25s ease both;
+    }
+    .clean-stat {
+      flex: 1;
+      background: var(--surface);
+      padding: .9rem 1rem;
+      text-align: center;
+    }
+    .clean-stat-val {
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+    .clean-stat-key {
+      font-size: .7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      margin-top: .1rem;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      background: var(--surface2);
+      border: 1px solid rgba(92,255,177,.3);
+      color: var(--accent);
+      font-family: var(--font-mono);
+      font-size: .78rem;
+      padding: .6rem 1.1rem;
+      border-radius: 8px;
+      z-index: 999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    /* SEO content section */
+    .seo-section {
+      position: relative; z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 5vw 80px;
+    }
+
+    .seo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1.5rem;
+    }
+
+    .seo-card {
+      background: var(--surface);
+      padding: 1.6rem;
+    }
+
+    .seo-card h3 {
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      display: flex; align-items: center; gap: .5rem;
+    }
+
+    .seo-card p {
+      font-size: .83rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .faq-section {
+      position: relative; z-index: 1;
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 0 5vw 80px;
+    }
+
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      margin-bottom: .75rem;
+      overflow: hidden;
+      background: var(--surface);
+    }
+
+    .faq-q {
+      padding: 1rem 1.2rem;
+      font-family: var(--font-head);
+      font-size: .9rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: background .2s;
+    }
+    .faq-q:hover { background: var(--surface2); }
+
+    .faq-q .arrow {
+      color: var(--muted);
+      font-size: .8rem;
+      transition: transform .2s;
+    }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+
+    .faq-a {
+      padding: 0 1.2rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .3s ease;
+      font-size: .85rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-a {
+      max-height: 200px;
+      padding: 0 1.2rem 1rem;
+    }
+
+    @media (max-width: 700px) {
+      .tool-layout { grid-template-columns: 1fr; }
+      .clean-stats { flex-wrap: wrap; }
+      .options-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .options-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T_</div>
+    Text<em>Mill</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <!-- <li><a href="#">Blog</a></li> -->
+    <li><a href="#" class="nav-cta">Try Free →</a></li>
+  </ul>
+</nav>
+
+<main>
+<div class="page-wrap">
+
+  <!-- Breadcrumb -->
+  <!-- <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">TextCraft</a>
+    <span>/</span>
+    <a href="index.html#tools">Tools</a>
+    <span>/</span>
+    <span style="color:var(--text-dim)">Text Cleaner</span>
+  </nav> -->
+
+  <!-- Tool Header -->
+  <header class="tool-header">
+    <div class="tool-header-icon" aria-hidden="true">🧹</div>
+    <div class="tool-header-text">
+      <h1>Text Cleaner</h1>
+      <p>Remove extra spaces, blank lines, HTML tags, special characters and other formatting noise from any text — instantly, in your browser.</p>
+    </div>
+  </header>
+
+  <!-- Stats row -->
+  <div class="clean-stats" id="statsRow">
+    <div class="clean-stat"><div class="clean-stat-val" id="statCharsRemoved">0</div><div class="clean-stat-key">Chars Removed</div></div>
+    <div class="clean-stat"><div class="clean-stat-val" id="statLinesRemoved">0</div><div class="clean-stat-key">Lines Removed</div></div>
+    <div class="clean-stat"><div class="clean-stat-val" id="statSpacesFixed">0</div><div class="clean-stat-key">Spaces Fixed</div></div>
+    <div class="clean-stat"><div class="clean-stat-val" id="statOutputChars">0</div><div class="clean-stat-key">Output Chars</div></div>
+  </div>
+
+  <!-- Options -->
+  <div class="options-wrap" role="group" aria-label="Cleaning options">
+    <div class="options-title">Cleaning Options</div>
+    <div class="options-grid" id="optionsGrid">
+      <label class="opt-toggle active" data-opt="extraSpaces">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Remove extra spaces</div>
+      </label>
+      <label class="opt-toggle active" data-opt="blankLines">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Remove blank lines</div>
+      </label>
+      <label class="opt-toggle" data-opt="trimLines">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Trim line spaces</div>
+      </label>
+      <label class="opt-toggle" data-opt="htmlTags">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Strip HTML tags</div>
+      </label>
+      <label class="opt-toggle" data-opt="specialChars">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Remove special characters</div>
+      </label>
+      <label class="opt-toggle" data-opt="smartQuotes">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Convert smart quotes</div>
+      </label>
+      <label class="opt-toggle" data-opt="lineBreaks">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Remove line breaks</div>
+      </label>
+      <label class="opt-toggle" data-opt="tabs">
+        <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <div class="opt-text">Replace tabs with spaces</div>
+      </label>
+    </div>
+  </div>
+
+  <!-- Action bar -->
+  <div class="action-bar">
+    <button class="btn-clean" id="cleanBtn" aria-label="Clean text now">🧹 Clean Text</button>
+    <button class="btn-ghost" id="resetBtn" style="padding:.7rem 1.3rem;font-size:.88rem;">Reset</button>
+    <div class="diff-badge" id="diffBadge">Paste text to begin</div>
+  </div>
+
+  <!-- Editor layout -->
+  <div class="tool-layout" role="region" aria-label="Text editor">
+
+    <!-- Input pane -->
+    <div class="tool-pane">
+      <div class="pane-header">
+        <span class="pane-label">Input</span>
+        <div class="pane-actions">
+          <button class="icon-btn danger" id="clearBtn" title="Clear input">✕ Clear</button>
+          <button class="icon-btn" id="pasteBtn" title="Paste from clipboard">⌘ Paste</button>
+        </div>
+      </div>
+      <textarea id="inputText" placeholder="Paste your messy text here…&#10;&#10;Extra   spaces, blank lines, HTML tags &lt;b&gt;bold&lt;/b&gt;, special ©®™ characters — this tool handles all of it." aria-label="Input text" spellcheck="false"></textarea>
+      <div class="pane-footer">
+        <span class="char-count" id="inputCount">0 characters · 0 words</span>
+      </div>
+    </div>
+
+    <!-- Output pane -->
+    <div class="tool-pane">
+      <div class="pane-header">
+        <span class="pane-label">Cleaned Output</span>
+        <div class="pane-actions">
+          <button class="icon-btn" id="copyBtn" title="Copy output">⎘ Copy</button>
+          <button class="icon-btn" id="downloadBtn" title="Download as .txt">↓ Download</button>
+        </div>
+      </div>
+      <textarea id="outputText" placeholder="Cleaned text will appear here…" aria-label="Cleaned output text" spellcheck="false" readonly></textarea>
+      <div class="pane-footer">
+        <span class="char-count" id="outputCount">0 characters · 0 words</span>
+      </div>
+    </div>
+
+  </div><!-- .tool-layout -->
+
+</div><!-- .page-wrap -->
+
+<!-- SEO Feature Cards -->
+<section class="seo-section reveal" aria-label="Features">
+  <div class="section-label">// what it does</div>
+  <h2 style="font-family:var(--font-head);font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.4rem;">Everything the Text Cleaner handles</h2>
+  <p style="color:var(--text-dim);font-size:.9rem;max-width:520px;">One tool, eight cleaning operations. Select the ones you need and run them together.</p>
+
+  <div class="seo-grid">
+    <div class="seo-card">
+      <h3>⎵ Extra Whitespace</h3>
+      <p>Collapses multiple consecutive spaces into a single space throughout your text, instantly fixing copy-paste spacing issues.</p>
+    </div>
+    <div class="seo-card">
+      <h3>⬜ Blank Lines</h3>
+      <p>Removes empty or whitespace-only lines between paragraphs, giving your text a clean, tight structure ready to use anywhere.</p>
+    </div>
+    <div class="seo-card">
+      <h3>◁▷ Trim Lines</h3>
+      <p>Strips leading and trailing spaces from every single line — perfect for cleaning up exported data, code, or pasted lists.</p>
+    </div>
+    <div class="seo-card">
+      <h3>&lt;/&gt; Strip HTML Tags</h3>
+      <p>Removes all HTML tags and converts entities like <code style="font-family:var(--font-mono);font-size:.78rem;color:var(--accent);">&amp;amp;</code> to plain text characters automatically.</p>
+    </div>
+    <div class="seo-card">
+      <h3>©™ Special Characters</h3>
+      <p>Removes non-standard Unicode symbols, control characters, and punctuation that cause problems in databases or plain-text fields.</p>
+    </div>
+    <div class="seo-card">
+      <h3>" " Smart Quotes</h3>
+      <p>Converts curly "smart" quotes, em-dashes and ellipses to their plain ASCII equivalents for use in code or simple editors.</p>
+    </div>
+    <div class="seo-card">
+      <h3>⏎ Line Breaks</h3>
+      <p>Joins all lines into a single continuous block of text — great for un-wrapping paragraphs copied from PDFs or emails.</p>
+    </div>
+    <div class="seo-card">
+      <h3>⇥ Tabs to Spaces</h3>
+      <p>Replaces every tab character with a space so your text looks consistent across every editor, web form, and application.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section reveal" aria-label="Frequently asked questions">
+  <div class="section-label">// faq</div>
+  <h2 style="font-family:var(--font-head);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1.2rem;">Frequently Asked Questions</h2>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+      <span itemprop="name">Is the Text Cleaner free to use?</span><span class="arrow">▾</span>
+    </div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+      <p itemprop="text">Yes, completely free. No account, subscription or credit card required. All tools on TextCraft are free and will stay that way.</p>
+    </div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+      <span itemprop="name">Does my text get sent to a server?</span><span class="arrow">▾</span>
+    </div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+      <p itemprop="text">No. All cleaning operations run entirely inside your browser using JavaScript. Your text is never uploaded, logged, or stored anywhere.</p>
+    </div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+      <span itemprop="name">Can I use this to clean text copied from a PDF?</span><span class="arrow">▾</span>
+    </div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+      <p itemprop="text">Yes. Enable "Remove extra spaces", "Trim line spaces" and "Remove line breaks" to quickly turn broken PDF copy-paste into clean, readable prose.</p>
+    </div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+      <span itemprop="name">Will removing special characters affect my content?</span><span class="arrow">▾</span>
+    </div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+      <p itemprop="text">It removes non-ASCII symbols and control characters, keeping regular punctuation intact. Preview the output pane before copying to confirm the result looks right.</p>
+    </div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false">
+      <span itemprop="name">Is there a character limit?</span><span class="arrow">▾</span>
+    </div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer">
+      <p itemprop="text">No hard limit. Because everything runs locally in your browser, performance depends on your device. Most modern machines handle hundreds of thousands of characters without any issue.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 TextMill · Built for writers, devs &amp; everyone in between.</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</footer>
+
+<!-- Toast -->
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+  /* ── Options state ── */
+  const opts = {};
+  document.querySelectorAll('.opt-toggle').forEach(el => {
+    const key = el.dataset.opt;
+    opts[key] = el.classList.contains('active');
+    el.addEventListener('click', () => {
+      el.classList.toggle('active');
+      opts[key] = el.classList.contains('active');
+    });
+  });
+
+  /* ── Core clean function ── */
+  function cleanText(input) {
+    let out = input;
+    let spacesFixed = 0, charsRemoved = 0, linesRemoved = 0;
+
+    if (opts.htmlTags) {
+      const before = out.length;
+      out = out.replace(/<[^>]+>/g, '').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'").replace(/&nbsp;/g,' ');
+      charsRemoved += before - out.length;
+    }
+    if (opts.smartQuotes) {
+      out = out
+        .replace(/[\u2018\u2019]/g, "'")
+        .replace(/[\u201C\u201D]/g, '"')
+        .replace(/\u2013/g, '-').replace(/\u2014/g, '--')
+        .replace(/\u2026/g, '...');
+    }
+    if (opts.tabs) {
+      const c = (out.match(/\t/g)||[]).length;
+      out = out.replace(/\t/g, ' ');
+      spacesFixed += c;
+    }
+    if (opts.trimLines) {
+      out = out.split('\n').map(l => l.trim()).join('\n');
+    }
+    if (opts.extraSpaces) {
+      const before = out.length;
+      out = out.replace(/[^\S\r\n]{2,}/g, ' ');
+      spacesFixed += before - out.length;
+    }
+    if (opts.lineBreaks) {
+      out = out.replace(/\r?\n/g, ' ').replace(/  +/g, ' ').trim();
+    } else if (opts.blankLines) {
+      const lines = out.split('\n');
+      const cleaned = lines.filter(l => l.trim() !== '');
+      linesRemoved = lines.length - cleaned.length;
+      out = cleaned.join('\n');
+    }
+    if (opts.specialChars) {
+      const before = out.length;
+      out = out.replace(/[^\x20-\x7E\n\r]/g, '');
+      charsRemoved += before - out.length;
+    }
+
+    return { out, spacesFixed, charsRemoved, linesRemoved };
+  }
+
+  /* ── Count helper ── */
+  function countInfo(text) {
+    const chars = text.length;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    return `${chars.toLocaleString()} characters · ${words.toLocaleString()} words`;
+  }
+
+  /* ── DOM refs ── */
+  const inputEl   = document.getElementById('inputText');
+  const outputEl  = document.getElementById('outputText');
+  const diffBadge = document.getElementById('diffBadge');
+
+  /* ── Live input stats ── */
+  inputEl.addEventListener('input', () => {
+    document.getElementById('inputCount').textContent = countInfo(inputEl.value);
+    diffBadge.textContent = inputEl.value.trim() ? `${inputEl.value.length.toLocaleString()} chars ready to clean` : 'Paste text to begin';
+  });
+
+  /* ── Clean button ── */
+  document.getElementById('cleanBtn').addEventListener('click', () => {
+    if (!inputEl.value.trim()) { showToast('Paste some text first!'); return; }
+    const { out, spacesFixed, charsRemoved, linesRemoved } = cleanText(inputEl.value);
+    outputEl.value = out;
+
+    document.getElementById('statCharsRemoved').textContent = charsRemoved.toLocaleString();
+    document.getElementById('statLinesRemoved').textContent = linesRemoved.toLocaleString();
+    document.getElementById('statSpacesFixed').textContent  = spacesFixed.toLocaleString();
+    document.getElementById('statOutputChars').textContent  = out.length.toLocaleString();
+    document.getElementById('outputCount').textContent = countInfo(out);
+
+    const saved = inputEl.value.length - out.length;
+    diffBadge.innerHTML = saved > 0
+      ? `Removed <strong style="color:var(--accent)">${saved.toLocaleString()}</strong> characters`
+      : '<strong style="color:var(--text-dim)">Text already clean</strong>';
+  });
+
+  /* ── Reset ── */
+  document.getElementById('resetBtn').addEventListener('click', () => {
+    inputEl.value = ''; outputEl.value = '';
+    document.getElementById('inputCount').textContent = '0 characters · 0 words';
+    document.getElementById('outputCount').textContent = '0 characters · 0 words';
+    diffBadge.textContent = 'Paste text to begin';
+    ['statCharsRemoved','statLinesRemoved','statSpacesFixed','statOutputChars'].forEach(id => {
+      document.getElementById(id).textContent = '0';
+    });
+  });
+
+  /* ── Clear input ── */
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    inputEl.value = '';
+    document.getElementById('inputCount').textContent = '0 characters · 0 words';
+    diffBadge.textContent = 'Paste text to begin';
+    inputEl.focus();
+  });
+
+  /* ── Paste ── */
+  document.getElementById('pasteBtn').addEventListener('click', async () => {
+    try {
+      const text = await navigator.clipboard.readText();
+      inputEl.value = text;
+      inputEl.dispatchEvent(new Event('input'));
+      showToast('Pasted from clipboard');
+    } catch { showToast('Clipboard access denied'); }
+  });
+
+  /* ── Copy output ── */
+  document.getElementById('copyBtn').addEventListener('click', () => {
+    if (!outputEl.value) { showToast('Nothing to copy yet'); return; }
+    navigator.clipboard.writeText(outputEl.value).then(() => showToast('Copied to clipboard ✓'));
+  });
+
+  /* ── Download ── */
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (!outputEl.value) { showToast('Nothing to download yet'); return; }
+    const blob = new Blob([outputEl.value], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'cleaned-text.txt';
+    a.click();
+  });
+
+  /* ── Toast ── */
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  /* ── FAQ accordion ── */
+  document.querySelectorAll('.faq-q').forEach(q => {
+    q.addEventListener('click', () => {
+      const item = q.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+      });
+      if (!isOpen) {
+        item.classList.add('open');
+        q.setAttribute('aria-expanded', 'true');
+      }
+    });
+    q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); } });
+  });
+
+  /* ── Scroll reveal ── */
+  const io = new IntersectionObserver(entries =>
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+    { threshold: 0.08 }
+  );
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
