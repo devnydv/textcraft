@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Text Compare — Side-by-Side Diff Tool to Find Differences | TextCraft</title>
+  <meta name="description" content="Free online text compare tool. Paste two texts and instantly see every difference highlighted side-by-side. Word-level and line-level diff, no sign-up required." />
+  <meta name="keywords" content="text compare, text diff, compare two texts, find differences in text, online diff tool, side by side text comparison, text difference checker" />
+  <link rel="canonical" href="https://textMill.site/text-compare" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Text Compare — Instantly Find Differences Between Two Texts | TextCraft" />
+  <meta property="og:description" content="Paste two texts and see every added, removed, and changed line highlighted side-by-side. Free, private, browser-based." />
+  <meta property="og:url" content="https://textMill.site/text-compare" />
+  <meta property="og:site_name" content="TextCraft" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Text Compare — Side-by-Side Diff Tool" />
+  <meta name="twitter:description" content="Find every difference between two texts instantly — word-level highlights, free &amp; private." />
+  <link rel="icon" href="Capture.PNG" />
+  <link rel="stylesheet" href="style.css">
+  <!-- Schema.org: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text Compare",
+    "url": "https://textMill.site/text-compare",
+    "description": "Free online tool to compare two texts side-by-side with word-level and line-level diff highlighting.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": [
+      "Side-by-side text comparison",
+      "Word-level diff highlighting",
+      "Line-level diff highlighting",
+      "Added and removed line detection",
+      "Ignore whitespace option",
+      "Ignore case option",
+      "Diff statistics"
+    ]
+  }
+  </script>
+
+  <!-- Schema.org: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "TextCraft", "item": "https://textMill.site" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://textMill.site/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Text Compare", "item": "https://textMill.site/text-compare" }
+    ]
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <!-- ═══════════════════════════════════════════
+       SHARED DESIGN SYSTEM (same as index.html)
+       ═══════════════════════════════════════════ -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0c0c0f;
+      --surface:   #141418;
+      --surface2:  #1c1c23;
+      --border:    #2a2a35;
+      --accent:    #5cffb1;
+      --accent2:   #3d8bff;
+      --accent3:   #ff6f6f;
+      --muted:     #52525e;
+      --text:      #e8e8f0;
+      --text-dim:  #9898aa;
+      --radius:    14px;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(92,255,177,.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* NAV */
+    /* nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 64px;
+      background: rgba(12,12,15,.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--font-head); font-size: 1.25rem; font-weight: 800;
+      letter-spacing: -.02em; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .logo em { font-style: normal; color: var(--accent); }
+    .logo-mark {
+      width: 28px; height: 28px; background: var(--accent); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: .8rem; font-weight: 500; color: #0c0c0f;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--accent) !important; color: #0c0c0f !important; padding: .45rem 1.1rem; border-radius: 8px; font-weight: 600 !important; transition: opacity .2s !important; }
+    .nav-cta:hover { opacity: .85 !important; }
+
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: .75rem 1.8rem; font-family: var(--font-body);
+      font-size: .95rem; font-weight: 500; cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+
+    .section-label {
+      font-family: var(--font-mono); font-size: .75rem; color: var(--accent);
+      letter-spacing: .1em; text-transform: uppercase; margin-bottom: .6rem;
+    } */
+
+    /* footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border); padding: 2.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: .82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text-dim); } */
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @media (max-width: 620px) { .nav-links { display: none; } }
+
+    /* ═══════════════════════════════════════
+       TOOL-SPECIFIC CSS ONLY
+       ═══════════════════════════════════════ */
+
+    :root {
+      --tool-accent: #2dd4bf;
+      --tool-bg:     #12282a;
+      --diff-add:    rgba(45, 212, 191, .12);
+      --diff-add-hl: rgba(45, 212, 191, .28);
+      --diff-add-bd: rgba(45, 212, 191, .35);
+      --diff-del:    rgba(255, 111, 111, .12);
+      --diff-del-hl: rgba(255, 111, 111, .28);
+      --diff-del-bd: rgba(255, 111, 111, .35);
+      --diff-chg:    rgba(250, 204, 21, .10);
+      --diff-chg-bd: rgba(250, 204, 21, .3);
+    }
+
+    .page-wrap {
+      position: relative; z-index: 1;
+      max-width: 1300px; margin: 0 auto;
+      padding: 48px 5vw 60px;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+      display: flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--muted); margin-bottom: 2rem;
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--text-dim); }
+    .breadcrumb span { color: var(--border); }
+
+    /* Tool header */
+    .tool-header {
+      display: flex; align-items: flex-start; gap: 1.2rem;
+      margin-bottom: 2rem;
+      animation: fadeUp .5s ease both;
+    }
+    .tool-header-icon {
+      width: 52px; height: 52px; flex-shrink: 0;
+      background: var(--tool-bg);
+      border: 1px solid rgba(45,212,191,.2);
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem; font-family: var(--font-mono);
+    }
+    .tool-header-text h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.5rem, 3.5vw, 2rem);
+      font-weight: 800; letter-spacing: -.03em; line-height: 1.1;
+      animation: none; opacity: 1;
+    }
+    .tool-header-text p {
+      color: var(--text-dim); font-size: .9rem;
+      margin-top: .4rem; max-width: 600px;
+    }
+
+    /* Stats row */
+    .tool-stats {
+      display: flex; gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      margin-bottom: 1.4rem;
+      animation: fadeUp .5s .05s ease both;
+    }
+    .tool-stat {
+      flex: 1; background: var(--surface);
+      padding: .85rem 1rem; text-align: center;
+    }
+    .tool-stat-val {
+      font-family: var(--font-head);
+      font-size: 1.25rem; font-weight: 800;
+      color: var(--tool-accent);
+    }
+    .tool-stat-val.red  { color: var(--accent3); }
+    .tool-stat-val.same { color: var(--accent); }
+    .tool-stat-key {
+      font-size: .68rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .05em; margin-top: .1rem;
+    }
+
+    /* Options */
+    .options-wrap {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1rem 1.4rem;
+      margin-bottom: 1.2rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      animation: fadeUp .5s .1s ease both;
+    }
+    .options-label {
+      font-family: var(--font-head); font-size: .78rem; font-weight: 700;
+      color: var(--text-dim); text-transform: uppercase; letter-spacing: .05em;
+      margin-right: .25rem; white-space: nowrap;
+    }
+    .opt-toggle {
+      display: flex; align-items: center; gap: .6rem;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: .5rem .9rem;
+      cursor: pointer; transition: border-color .18s, background .18s;
+      user-select: none; font-size: .82rem; color: var(--text-dim);
+    }
+    .opt-toggle:hover { border-color: var(--muted); }
+    .opt-toggle.active {
+      border-color: rgba(45,212,191,.4);
+      background: rgba(45,212,191,.06);
+      color: var(--text);
+    }
+    .opt-check {
+      width: 15px; height: 15px; flex-shrink: 0;
+      border: 1.5px solid var(--border); border-radius: 4px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all .18s;
+    }
+    .opt-toggle.active .opt-check { background: var(--tool-accent); border-color: var(--tool-accent); }
+    .opt-check svg { display: none; }
+    .opt-toggle.active .opt-check svg { display: block; }
+
+    /* View toggle */
+    .view-toggle {
+      display: flex; gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+      margin-left: auto;
+    }
+    .view-btn {
+      background: var(--surface2); border: none;
+      padding: .48rem 1rem; font-family: var(--font-body);
+      font-size: .78rem; font-weight: 500; color: var(--text-dim);
+      cursor: pointer; transition: background .18s, color .18s;
+    }
+    .view-btn.active { background: var(--tool-bg); color: var(--tool-accent); }
+
+    /* Action bar */
+    .action-bar {
+      display: flex; align-items: center; gap: .75rem;
+      flex-wrap: wrap; margin-bottom: 1.2rem;
+      animation: fadeUp .5s .15s ease both;
+    }
+    .btn-run {
+      background: var(--tool-accent); color: #0c0c0f;
+      border: none; border-radius: 10px; padding: .75rem 2rem;
+      font-family: var(--font-head); font-size: .95rem; font-weight: 700;
+      cursor: pointer; transition: transform .15s, opacity .15s;
+      letter-spacing: -.01em;
+    }
+    .btn-run:hover { transform: translateY(-2px); opacity: .9; }
+
+    .diff-badge {
+      font-family: var(--font-mono); font-size: .75rem;
+      color: var(--text-dim); padding: .4rem .9rem;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 8px;
+    }
+
+    .icon-btn {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 7px; padding: .35rem .7rem;
+      color: var(--text-dim); font-size: .75rem; font-family: var(--font-body);
+      cursor: pointer; transition: all .18s;
+      display: flex; align-items: center; gap: .35rem; white-space: nowrap;
+    }
+    .icon-btn:hover { border-color: var(--text-dim); color: var(--text); }
+    .icon-btn.danger:hover { border-color: var(--accent3); color: var(--accent3); }
+
+    /* ── INPUT SECTION ── */
+    .input-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      margin-bottom: 1.5rem;
+      animation: fadeUp .5s .2s ease both;
+    }
+    .input-pane { background: var(--surface); display: flex; flex-direction: column; }
+    .pane-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.2rem; border-bottom: 1px solid var(--border);
+    }
+    .pane-label {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--text-dim); letter-spacing: .08em; text-transform: uppercase;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .pane-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .pane-actions { display: flex; gap: .5rem; }
+
+    textarea {
+      flex: 1; background: transparent; border: none; outline: none;
+      resize: none; padding: 1.2rem; color: var(--text);
+      font-family: var(--font-mono); font-size: .85rem; line-height: 1.7;
+      min-height: 220px;
+    }
+    textarea::placeholder { color: var(--muted); font-family: var(--font-body); }
+
+    .pane-footer {
+      padding: .55rem 1.2rem; border-top: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: .7rem; color: var(--muted);
+    }
+
+    /* ── DIFF OUTPUT ── */
+    .diff-section {
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden;
+      animation: fadeUp .5s .25s ease both;
+    }
+
+    .diff-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.2rem; border-bottom: 1px solid var(--border);
+      background: var(--surface);
+    }
+    .diff-title {
+      font-family: var(--font-head); font-size: .82rem; font-weight: 700;
+      color: var(--text-dim); text-transform: uppercase; letter-spacing: .04em;
+    }
+    .legend {
+      display: flex; gap: 1rem; align-items: center;
+    }
+    .legend-item {
+      display: flex; align-items: center; gap: .4rem;
+      font-family: var(--font-mono); font-size: .7rem; color: var(--text-dim);
+    }
+    .legend-dot {
+      width: 10px; height: 10px; border-radius: 2px;
+    }
+    .legend-dot.add { background: var(--diff-add-hl); border: 1px solid var(--diff-add-bd); }
+    .legend-dot.del { background: var(--diff-del-hl); border: 1px solid var(--diff-del-bd); }
+    .legend-dot.chg { background: var(--diff-chg); border: 1px solid var(--diff-chg-bd); }
+
+    /* Side-by-side diff */
+    .diff-body {
+      display: grid; grid-template-columns: 1fr 1fr;
+      background: var(--border); gap: 1px;
+    }
+
+    .diff-col {
+      background: var(--surface);
+      font-family: var(--font-mono); font-size: .83rem; line-height: 1.7;
+      overflow-x: auto;
+    }
+
+    .diff-col-header {
+      padding: .55rem 1.2rem; border-bottom: 1px solid var(--border);
+      font-family: var(--font-mono); font-size: .7rem; color: var(--text-dim);
+      display: flex; align-items: center; gap: .5rem;
+    }
+
+    .diff-lines { padding: .5rem 0; }
+
+    .diff-line {
+      display: flex; align-items: baseline;
+      min-height: 1.7em;
+    }
+    .diff-line:hover { background: rgba(255,255,255,.02); }
+
+    .line-num {
+      flex-shrink: 0; width: 44px; padding: 0 .6rem 0 .8rem;
+      color: var(--muted); font-size: .72rem; text-align: right;
+      border-right: 1px solid var(--border); margin-right: .8rem;
+      user-select: none;
+    }
+    .line-gutter {
+      flex-shrink: 0; width: 16px;
+      font-size: .75rem; padding-right: .3rem;
+      user-select: none;
+    }
+    .line-content {
+      flex: 1; white-space: pre-wrap; word-break: break-all;
+      padding-right: 1rem;
+    }
+
+    /* Line-level colouring */
+    .diff-line.added   { background: var(--diff-add); }
+    .diff-line.removed { background: var(--diff-del); }
+    .diff-line.changed { background: var(--diff-chg); }
+    .diff-line.empty   { opacity: .35; }
+
+    .diff-line.added   .line-gutter { color: var(--tool-accent); }
+    .diff-line.removed .line-gutter { color: var(--accent3); }
+    .diff-line.changed .line-gutter { color: #facc15; }
+
+    /* Word-level highlights inside a line */
+    mark.w-add {
+      background: var(--diff-add-hl);
+      outline: 1px solid var(--diff-add-bd);
+      border-radius: 3px; padding: 0 1px; color: inherit;
+    }
+    mark.w-del {
+      background: var(--diff-del-hl);
+      outline: 1px solid var(--diff-del-bd);
+      border-radius: 3px; padding: 0 1px; color: inherit;
+      text-decoration: line-through; text-decoration-color: var(--accent3);
+    }
+
+    /* Unified diff view */
+    .diff-unified { padding: .5rem 0; }
+    .unified-line { display: flex; align-items: baseline; min-height: 1.7em; }
+    .unified-line:hover { background: rgba(255,255,255,.02); }
+    .unified-line.added   { background: var(--diff-add); }
+    .unified-line.removed { background: var(--diff-del); }
+    .unified-line.changed { background: var(--diff-chg); }
+    .unified-gutter {
+      flex-shrink: 0; width: 28px; padding: 0 .5rem;
+      font-size: .75rem; text-align: center;
+      border-right: 1px solid var(--border); margin-right: .8rem;
+      user-select: none;
+    }
+    .unified-line.added   .unified-gutter { color: var(--tool-accent); }
+    .unified-line.removed .unified-gutter { color: var(--accent3); }
+    .unified-line.changed .unified-gutter { color: #facc15; }
+    .unified-content {
+      flex: 1; white-space: pre-wrap; word-break: break-all;
+      font-family: var(--font-mono); font-size: .83rem; line-height: 1.7;
+      padding-right: 1rem;
+    }
+
+    /* Identical state */
+    .identical-state {
+      padding: 3rem 2rem; text-align: center; color: var(--text-dim);
+      font-size: .9rem;
+    }
+    .identical-state .big { font-size: 2rem; display: block; margin-bottom: .75rem; }
+    .identical-state strong { color: var(--accent); }
+
+    /* Empty / prompt state */
+    .prompt-state {
+      padding: 3rem 2rem; text-align: center; color: var(--muted);
+      font-family: var(--font-mono); font-size: .8rem;
+    }
+
+    /* SEO / FAQ sections */
+    .seo-section {
+      position: relative; z-index: 1;
+      max-width: 1300px; margin: 0 auto; padding: 0 5vw 80px;
+    }
+    .seo-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1px; background: var(--border);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      overflow: hidden; margin-top: 1.5rem;
+    }
+    .seo-card { background: var(--surface); padding: 1.6rem; }
+    .seo-card h3 { font-family: var(--font-head); font-size: .95rem; font-weight: 700; margin-bottom: .5rem; }
+    .seo-card p { font-size: .83rem; color: var(--text-dim); line-height: 1.6; }
+
+    .faq-section {
+      position: relative; z-index: 1;
+      max-width: 780px; margin: 0 auto; padding: 0 5vw 80px;
+    }
+    .faq-item { border: 1px solid var(--border); border-radius: 10px; margin-bottom: .75rem; overflow: hidden; background: var(--surface); }
+    .faq-q { padding: 1rem 1.2rem; font-family: var(--font-head); font-size: .9rem; font-weight: 700; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background .2s; }
+    .faq-q:hover { background: var(--surface2); }
+    .faq-q .arrow { color: var(--muted); font-size: .8rem; transition: transform .2s; }
+    .faq-item.open .faq-q .arrow { transform: rotate(180deg); }
+    .faq-a { padding: 0 1.2rem; max-height: 0; overflow: hidden; transition: max-height .3s ease, padding .3s ease; font-size: .85rem; color: var(--text-dim); line-height: 1.65; }
+    .faq-item.open .faq-a { max-height: 220px; padding: 0 1.2rem 1rem; }
+
+    /* Toast */
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      background: var(--surface2);
+      border: 1px solid rgba(45,212,191,.3); color: var(--tool-accent);
+      font-family: var(--font-mono); font-size: .78rem;
+      padding: .6rem 1.1rem; border-radius: 8px; z-index: 999;
+      opacity: 0; transform: translateY(8px); transition: opacity .2s, transform .2s; pointer-events: none;
+    }
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 760px) {
+      .input-grid { grid-template-columns: 1fr; }
+      .diff-body  { grid-template-columns: 1fr; }
+      .diff-col:last-child { border-top: 1px solid var(--border); }
+      .view-toggle { margin-left: 0; }
+      .options-wrap { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="logo">
+    <div class="logo-mark">T_</div>
+    Text<em>Mill</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html#tools">Tools</a></li>
+    <li><a href="index.html#features">Features</a></li>
+    <!-- <li><a href="#">Blog</a></li> -->
+    <li><a href="#" class="nav-cta">Try Free →</a></li>
+  </ul>
+</nav>
+
+<main>
+<div class="page-wrap">
+
+  <!-- Breadcrumb -->
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="index.html">TextMill</a>
+    <span>/</span>
+    <a href="index.html#tools">Tools</a>
+    <span>/</span>
+    <span style="color:var(--text-dim)">Text Compare</span>
+  </nav>
+
+  <!-- Tool Header -->
+  <header class="tool-header">
+    <div class="tool-header-icon" aria-hidden="true">⇌</div>
+    <div class="tool-header-text">
+      <h1>Text Compare</h1>
+      <p>Paste two texts and instantly see every difference highlighted side-by-side — added lines, removed lines, and word-level changes. Entirely in your browser, nothing uploaded.</p>
+    </div>
+  </header>
+
+  <!-- Stats -->
+  <div class="tool-stats">
+    <div class="tool-stat"><div class="tool-stat-val same" id="statSame">—</div><div class="tool-stat-key">Lines Same</div></div>
+    <div class="tool-stat"><div class="tool-stat-val" id="statAdded">—</div><div class="tool-stat-key">Lines Added</div></div>
+    <div class="tool-stat"><div class="tool-stat-val red" id="statRemoved">—</div><div class="tool-stat-key">Lines Removed</div></div>
+    <div class="tool-stat"><div class="tool-stat-val" id="statChanged">—</div><div class="tool-stat-key">Lines Changed</div></div>
+    <div class="tool-stat"><div class="tool-stat-val" id="statSimilarity">—</div><div class="tool-stat-key">Similarity</div></div>
+  </div>
+
+  <!-- Options + View toggle -->
+  <div class="options-wrap" role="group" aria-label="Compare options">
+    <span class="options-label">Options</span>
+    <label class="opt-toggle" data-opt="ignoreCase">
+      <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Ignore case
+    </label>
+    <label class="opt-toggle" data-opt="ignoreWhitespace">
+      <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Ignore extra whitespace
+    </label>
+    <label class="opt-toggle" data-opt="ignoreBlank">
+      <div class="opt-check"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4l3 3 5-6" stroke="#0c0c0f" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      Ignore blank lines
+    </label>
+    <div class="view-toggle" role="group" aria-label="View mode">
+      <button class="view-btn active" data-view="split">⇌ Split</button>
+      <button class="view-btn" data-view="unified">≡ Unified</button>
+    </div>
+  </div>
+
+  <!-- Action bar -->
+  <div class="action-bar">
+    <button class="btn-run" id="compareBtn">⇌ Compare Texts</button>
+    <button class="btn-ghost" id="swapBtn" style="padding:.7rem 1.1rem;font-size:.88rem;">⇅ Swap</button>
+    <button class="btn-ghost" id="resetBtn" style="padding:.7rem 1.1rem;font-size:.88rem;">Reset</button>
+    <div class="diff-badge" id="diffBadge">Paste both texts to begin</div>
+  </div>
+
+  <!-- Input panes -->
+  <div class="input-grid" role="region" aria-label="Text inputs">
+    <div class="input-pane">
+      <div class="pane-header">
+        <span class="pane-label">
+          <span class="pane-dot" style="background:var(--accent3);"></span>
+          Original (A)
+        </span>
+        <div class="pane-actions">
+          <button class="icon-btn danger" id="clearA">✕</button>
+          <button class="icon-btn" id="pasteA">⌘ Paste</button>
+        </div>
+      </div>
+      <textarea id="textA" placeholder="Paste the original text here…" aria-label="Original text A" spellcheck="false"></textarea>
+      <div class="pane-footer" id="countA">0 lines · 0 characters</div>
+    </div>
+    <div class="input-pane">
+      <div class="pane-header">
+        <span class="pane-label">
+          <span class="pane-dot" style="background:var(--tool-accent);"></span>
+          Modified (B)
+        </span>
+        <div class="pane-actions">
+          <button class="icon-btn danger" id="clearB">✕</button>
+          <button class="icon-btn" id="pasteB">⌘ Paste</button>
+        </div>
+      </div>
+      <textarea id="textB" placeholder="Paste the modified text here…" aria-label="Modified text B" spellcheck="false"></textarea>
+      <div class="pane-footer" id="countB">0 lines · 0 characters</div>
+    </div>
+  </div>
+
+  <!-- Diff output -->
+  <div class="diff-section">
+    <div class="diff-header">
+      <span class="diff-title">Diff Output</span>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-dot add"></div>Added</div>
+        <div class="legend-item"><div class="legend-dot del"></div>Removed</div>
+        <div class="legend-item"><div class="legend-dot chg"></div>Changed</div>
+        <button class="icon-btn" id="copyDiffBtn" style="margin-left:.5rem;">⎘ Copy diff</button>
+      </div>
+    </div>
+    <div id="diffOutput">
+      <div class="prompt-state">Paste text into both panes above and click <strong style="color:var(--tool-accent)">Compare Texts</strong> to see the diff.</div>
+    </div>
+  </div>
+
+</div><!-- .page-wrap -->
+
+<!-- SEO Features -->
+<section class="seo-section reveal" aria-label="Features">
+  <div class="section-label">// what it does</div>
+  <h2 style="font-family:var(--font-head);font-size:clamp(1.4rem,3vw,2rem);font-weight:800;letter-spacing:-.03em;margin-bottom:.4rem;">How the Text Compare tool works</h2>
+  <p style="color:var(--text-dim);font-size:.9rem;max-width:540px;">A line-by-line and word-by-word diff engine that shows exactly what changed between any two texts.</p>
+  <div class="seo-grid">
+    <div class="seo-card">
+      <h3>⇌ Side-by-side View</h3>
+      <p>See original and modified text in two aligned columns, with each line colour-coded so differences are immediately obvious.</p>
+    </div>
+    <div class="seo-card">
+      <h3>≡ Unified View</h3>
+      <p>View all added and removed lines in a single column, similar to a <code style="font-family:var(--font-mono);font-size:.78rem;color:var(--tool-accent);">git diff</code> output — ideal for quick scanning.</p>
+    </div>
+    <div class="seo-card">
+      <h3>🔤 Word-level Highlights</h3>
+      <p>Inside changed lines, individual words that were added or removed are highlighted with their own colour so you never miss a detail.</p>
+    </div>
+    <div class="seo-card">
+      <h3>🔡 Ignore Case</h3>
+      <p>When enabled, "Hello" and "hello" are treated as identical. Useful when comparing text that may have different capitalisation.</p>
+    </div>
+    <div class="seo-card">
+      <h3>⎵ Ignore Whitespace</h3>
+      <p>Collapses multiple spaces before comparing, so formatting differences don't show up as meaningful changes in the diff.</p>
+    </div>
+    <div class="seo-card">
+      <h3>📊 Similarity Score</h3>
+      <p>The stats bar shows an overall similarity percentage so you can instantly gauge how close the two texts are before reading the full diff.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section reveal" aria-label="Frequently asked questions">
+  <div class="section-label">// faq</div>
+  <h2 style="font-family:var(--font-head);font-size:clamp(1.3rem,2.5vw,1.8rem);font-weight:800;letter-spacing:-.03em;margin-bottom:1.2rem;">Frequently Asked Questions</h2>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false"><span itemprop="name">Is the Text Compare tool free?</span><span class="arrow">▾</span></div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer"><p itemprop="text">Yes, completely free with no account required. All TextCraft tools are free to use without limits.</p></div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false"><span itemprop="name">Is my text private?</span><span class="arrow">▾</span></div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer"><p itemprop="text">Yes. The entire diff runs in your browser using JavaScript. Neither text is ever sent to a server, stored, or logged. Your content stays on your device.</p></div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false"><span itemprop="name">What is the difference between Split and Unified view?</span><span class="arrow">▾</span></div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer"><p itemprop="text">Split view shows both texts side by side in two columns — ideal for reading context. Unified view shows a single column where added lines are marked with + and removed lines with −, similar to a git diff. Use unified view for a compact overview.</p></div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false"><span itemprop="name">How does word-level highlighting work?</span><span class="arrow">▾</span></div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer"><p itemprop="text">For lines that are similar but not identical (marked as "changed"), the tool runs a second word-level diff and highlights the exact words that were added or removed within that line — so you can spot a single word change in a long sentence instantly.</p></div>
+  </div>
+
+  <div class="faq-item" itemscope itemtype="https://schema.org/Question">
+    <div class="faq-q" tabindex="0" role="button" aria-expanded="false"><span itemprop="name">Is there a text size limit?</span><span class="arrow">▾</span></div>
+    <div class="faq-a" itemscope itemtype="https://schema.org/Answer" itemprop="acceptedAnswer"><p itemprop="text">There is no hard limit. The diff algorithm runs locally, so capacity depends on your device. Documents of thousands of lines compare in milliseconds on modern hardware.</p></div>
+  </div>
+</section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-copy">© 2026 TextMill · Built for writers, devs &amp; everyone in between.</div>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">Contact</a></li>
+    <li><a href="#">GitHub</a></li>
+  </ul>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+const opts = { ignoreCase: false, ignoreWhitespace: false, ignoreBlank: false };
+let currentView = 'split';
+let lastDiffResult = null;
+
+/* ══════════════════════════════════════
+   OPTIONS TOGGLES
+══════════════════════════════════════ */
+document.querySelectorAll('.opt-toggle').forEach(el => {
+  const key = el.dataset.opt;
+  el.addEventListener('click', () => {
+    el.classList.toggle('active');
+    opts[key] = el.classList.contains('active');
+  });
+});
+
+/* ══════════════════════════════════════
+   VIEW TOGGLE
+══════════════════════════════════════ */
+document.querySelectorAll('.view-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentView = btn.dataset.view;
+    if (lastDiffResult) renderDiff(lastDiffResult);
+  });
+});
+
+/* ══════════════════════════════════════
+   HELPERS
+══════════════════════════════════════ */
+function norm(line) {
+  let s = line;
+  if (opts.ignoreWhitespace) s = s.replace(/\s+/g, ' ').trim();
+  if (opts.ignoreCase) s = s.toLowerCase();
+  return s;
+}
+
+function countInfo(text) {
+  if (!text) return '0 lines · 0 characters';
+  const lines = text.split('\n').length;
+  return `${lines.toLocaleString()} line${lines !== 1 ? 's' : ''} · ${text.length.toLocaleString()} characters`;
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function esc(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ══════════════════════════════════════
+   LCS-BASED LINE DIFF
+══════════════════════════════════════ */
+function lcs(a, b) {
+  const m = a.length, n = b.length;
+  const dp = Array.from({length: m+1}, () => new Uint16Array(n+1));
+  for (let i = 1; i <= m; i++)
+    for (let j = 1; j <= n; j++)
+      dp[i][j] = a[i-1] === b[j-1] ? dp[i-1][j-1]+1 : Math.max(dp[i-1][j], dp[i][j-1]);
+  // backtrack
+  const result = [];
+  let i = m, j = n;
+  while (i > 0 && j > 0) {
+    if (a[i-1] === b[j-1]) { result.push({type:'same', a:i-1, b:j-1}); i--; j--; }
+    else if (dp[i-1][j] >= dp[i][j-1]) i--;
+    else j--;
+  }
+  return result.reverse();
+}
+
+function diffLines(rawA, rawB) {
+  let linesA = rawA.split('\n');
+  let linesB = rawB.split('\n');
+
+  if (opts.ignoreBlank) {
+    linesA = linesA.filter(l => l.trim() !== '');
+    linesB = linesB.filter(l => l.trim() !== '');
+  }
+
+  const normedA = linesA.map(norm);
+  const normedB = linesB.map(norm);
+
+  // Build LCS on normed arrays
+  const common = lcs(normedA, normedB); // [{type,a,b}]
+
+  const result = []; // [{type:'same'|'added'|'removed'|'changed', lineA, lineB}]
+  let ia = 0, ib = 0, ci = 0;
+
+  while (ci < common.length) {
+    const {a: ca, b: cb} = common[ci];
+    // lines before this common block
+    const delBlock = linesA.slice(ia, ca);
+    const addBlock = linesB.slice(ib, cb);
+    const pairLen = Math.min(delBlock.length, addBlock.length);
+    // pair up removals/additions as "changed"
+    for (let k = 0; k < pairLen; k++)
+      result.push({type:'changed', lineA: delBlock[k], lineB: addBlock[k]});
+    for (let k = pairLen; k < delBlock.length; k++)
+      result.push({type:'removed', lineA: delBlock[k], lineB: null});
+    for (let k = pairLen; k < addBlock.length; k++)
+      result.push({type:'added', lineA: null, lineB: addBlock[k]});
+    // the common line
+    result.push({type:'same', lineA: linesA[ca], lineB: linesB[cb]});
+    ia = ca+1; ib = cb+1; ci++;
+  }
+  // trailing
+  const delBlock = linesA.slice(ia);
+  const addBlock = linesB.slice(ib);
+  const pairLen = Math.min(delBlock.length, addBlock.length);
+  for (let k = 0; k < pairLen; k++)
+    result.push({type:'changed', lineA: delBlock[k], lineB: addBlock[k]});
+  for (let k = pairLen; k < delBlock.length; k++)
+    result.push({type:'removed', lineA: delBlock[k], lineB: null});
+  for (let k = pairLen; k < addBlock.length; k++)
+    result.push({type:'added', lineA: null, lineB: addBlock[k]});
+
+  return result;
+}
+
+/* ══════════════════════════════════════
+   WORD-LEVEL DIFF  (token diff)
+══════════════════════════════════════ */
+function tokenize(s) {
+  // split on word boundaries, keeping delimiters
+  return s.split(/(\s+|[^\w]+)/).filter(t => t.length);
+}
+
+function wordDiff(a, b) {
+  const ta = tokenize(a), tb = tokenize(b);
+  const na = ta.map(t => opts.ignoreCase ? t.toLowerCase() : t);
+  const nb = tb.map(t => opts.ignoreCase ? t.toLowerCase() : t);
+  const common = lcs(na, nb);
+
+  let htmlA = '', htmlB = '';
+  let ia = 0, ib = 0, ci = 0;
+
+  while (ci < common.length) {
+    const {a: ca, b: cb} = common[ci];
+    // deleted tokens
+    for (let k = ia; k < ca; k++) htmlA += `<mark class="w-del">${esc(ta[k])}</mark>`;
+    // added tokens
+    for (let k = ib; k < cb; k++) htmlB += `<mark class="w-add">${esc(tb[k])}</mark>`;
+    // common
+    htmlA += esc(ta[ca]);
+    htmlB += esc(tb[cb]);
+    ia = ca+1; ib = cb+1; ci++;
+  }
+  for (let k = ia; k < ta.length; k++) htmlA += `<mark class="w-del">${esc(ta[k])}</mark>`;
+  for (let k = ib; k < tb.length; k++) htmlB += `<mark class="w-add">${esc(tb[k])}</mark>`;
+  return {htmlA, htmlB};
+}
+
+/* ══════════════════════════════════════
+   RENDER
+══════════════════════════════════════ */
+function renderDiff(diffResult) {
+  const out = document.getElementById('diffOutput');
+
+  if (currentView === 'split') {
+    renderSplit(diffResult, out);
+  } else {
+    renderUnified(diffResult, out);
+  }
+}
+
+function renderSplit(dr, container) {
+  let leftLines = '', rightLines = '';
+  let lnA = 1, lnB = 1;
+
+  dr.forEach(row => {
+    if (row.type === 'same') {
+      const content = esc(row.lineA);
+      leftLines  += `<div class="diff-line"><span class="line-num">${lnA++}</span><span class="line-gutter"> </span><span class="line-content">${content || ' '}</span></div>`;
+      rightLines += `<div class="diff-line"><span class="line-num">${lnB++}</span><span class="line-gutter"> </span><span class="line-content">${content || ' '}</span></div>`;
+    } else if (row.type === 'removed') {
+      leftLines  += `<div class="diff-line removed"><span class="line-num">${lnA++}</span><span class="line-gutter">−</span><span class="line-content">${esc(row.lineA) || ' '}</span></div>`;
+      rightLines += `<div class="diff-line empty"><span class="line-num"> </span><span class="line-gutter"> </span><span class="line-content"> </span></div>`;
+    } else if (row.type === 'added') {
+      leftLines  += `<div class="diff-line empty"><span class="line-num"> </span><span class="line-gutter"> </span><span class="line-content"> </span></div>`;
+      rightLines += `<div class="diff-line added"><span class="line-num">${lnB++}</span><span class="line-gutter">+</span><span class="line-content">${esc(row.lineB) || ' '}</span></div>`;
+    } else { // changed
+      const {htmlA, htmlB} = wordDiff(row.lineA, row.lineB);
+      leftLines  += `<div class="diff-line changed"><span class="line-num">${lnA++}</span><span class="line-gutter">~</span><span class="line-content">${htmlA || ' '}</span></div>`;
+      rightLines += `<div class="diff-line changed"><span class="line-num">${lnB++}</span><span class="line-gutter">~</span><span class="line-content">${htmlB || ' '}</span></div>`;
+    }
+  });
+
+  container.innerHTML = `
+    <div class="diff-body">
+      <div class="diff-col">
+        <div class="diff-col-header"><span class="pane-dot" style="background:var(--accent3);width:8px;height:8px;border-radius:50%;display:inline-block;"></span> &nbsp;Original (A)</div>
+        <div class="diff-lines">${leftLines}</div>
+      </div>
+      <div class="diff-col">
+        <div class="diff-col-header"><span class="pane-dot" style="background:var(--tool-accent);width:8px;height:8px;border-radius:50%;display:inline-block;"></span> &nbsp;Modified (B)</div>
+        <div class="diff-lines">${rightLines}</div>
+      </div>
+    </div>`;
+}
+
+function renderUnified(dr, container) {
+  let html = '';
+  let lnA = 1, lnB = 1;
+
+  dr.forEach(row => {
+    if (row.type === 'same') {
+      html += `<div class="unified-line"><span class="unified-gutter"> </span><span class="unified-content">${esc(row.lineA) || ' '}</span></div>`;
+      lnA++; lnB++;
+    } else if (row.type === 'removed') {
+      html += `<div class="unified-line removed"><span class="unified-gutter">−</span><span class="unified-content">${esc(row.lineA) || ' '}</span></div>`;
+      lnA++;
+    } else if (row.type === 'added') {
+      html += `<div class="unified-line added"><span class="unified-gutter">+</span><span class="unified-content">${esc(row.lineB) || ' '}</span></div>`;
+      lnB++;
+    } else {
+      const {htmlA, htmlB} = wordDiff(row.lineA, row.lineB);
+      html += `<div class="unified-line removed"><span class="unified-gutter">−</span><span class="unified-content">${htmlA || ' '}</span></div>`;
+      html += `<div class="unified-line added"><span class="unified-gutter">+</span><span class="unified-content">${htmlB || ' '}</span></div>`;
+      lnA++; lnB++;
+    }
+  });
+
+  container.innerHTML = `<div class="diff-unified" style="padding:.5rem 0;">${html}</div>`;
+}
+
+/* ══════════════════════════════════════
+   COMPARE
+══════════════════════════════════════ */
+document.getElementById('compareBtn').addEventListener('click', () => {
+  const a = document.getElementById('textA').value;
+  const b = document.getElementById('textB').value;
+  if (!a.trim() && !b.trim()) { showToast('Paste text into both panes first'); return; }
+
+  const dr = diffLines(a, b);
+  lastDiffResult = dr;
+
+  // Stats
+  let same = 0, added = 0, removed = 0, changed = 0;
+  dr.forEach(r => {
+    if (r.type === 'same') same++;
+    else if (r.type === 'added') added++;
+    else if (r.type === 'removed') removed++;
+    else changed++;
+  });
+  const total = same + added + removed + changed;
+  const similarity = total ? Math.round((same / total) * 100) : 100;
+
+  document.getElementById('statSame').textContent      = same.toLocaleString();
+  document.getElementById('statAdded').textContent     = added.toLocaleString();
+  document.getElementById('statRemoved').textContent   = removed.toLocaleString();
+  document.getElementById('statChanged').textContent   = changed.toLocaleString();
+  document.getElementById('statSimilarity').textContent = similarity + '%';
+
+  const diffCount = added + removed + changed;
+  document.getElementById('diffBadge').innerHTML = diffCount === 0
+    ? '<strong style="color:var(--accent)">Texts are identical</strong>'
+    : `Found <strong style="color:var(--tool-accent)">${diffCount.toLocaleString()}</strong> different line${diffCount !== 1 ? 's' : ''}`;
+
+  if (diffCount === 0) {
+    document.getElementById('diffOutput').innerHTML = `
+      <div class="identical-state">
+        <span>✓</span>
+        <strong>The texts are identical.</strong><br>
+        No differences were found${opts.ignoreCase || opts.ignoreWhitespace ? ' with the current options applied' : ''}.
+      </div>`;
+  } else {
+    renderDiff(dr);
+  }
+});
+
+/* ══════════════════════════════════════
+   SWAP
+══════════════════════════════════════ */
+document.getElementById('swapBtn').addEventListener('click', () => {
+  const a = document.getElementById('textA');
+  const b = document.getElementById('textB');
+  [a.value, b.value] = [b.value, a.value];
+  a.dispatchEvent(new Event('input'));
+  b.dispatchEvent(new Event('input'));
+  if (lastDiffResult) document.getElementById('compareBtn').click();
+});
+
+/* ══════════════════════════════════════
+   RESET
+══════════════════════════════════════ */
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('textA').value = '';
+  document.getElementById('textB').value = '';
+  document.getElementById('countA').textContent = '0 lines · 0 characters';
+  document.getElementById('countB').textContent = '0 lines · 0 characters';
+  document.getElementById('diffBadge').textContent = 'Paste both texts to begin';
+  document.getElementById('diffOutput').innerHTML = '<div class="prompt-state">Paste text into both panes above and click <strong style="color:var(--tool-accent)">Compare Texts</strong> to see the diff.</div>';
+  ['statSame','statAdded','statRemoved','statChanged','statSimilarity'].forEach(id => {
+    document.getElementById(id).textContent = '—';
+  });
+  lastDiffResult = null;
+});
+
+/* ══════════════════════════════════════
+   COPY DIFF
+══════════════════════════════════════ */
+document.getElementById('copyDiffBtn').addEventListener('click', () => {
+  if (!lastDiffResult) { showToast('Run a comparison first'); return; }
+  const lines = lastDiffResult.map(r => {
+    if (r.type === 'same')    return '  ' + r.lineA;
+    if (r.type === 'added')   return '+ ' + r.lineB;
+    if (r.type === 'removed') return '- ' + r.lineA;
+    return '- ' + r.lineA + '\n+ ' + r.lineB;
+  });
+  navigator.clipboard.writeText(lines.join('\n')).then(() => showToast('Diff copied ✓'));
+});
+
+/* ══════════════════════════════════════
+   PASTE & CLEAR
+══════════════════════════════════════ */
+async function pasteToEl(id) {
+  try {
+    const text = await navigator.clipboard.readText();
+    document.getElementById(id).value = text;
+    document.getElementById(id).dispatchEvent(new Event('input'));
+    showToast('Pasted from clipboard');
+  } catch { showToast('Clipboard access denied'); }
+}
+
+document.getElementById('pasteA').addEventListener('click', () => pasteToEl('textA'));
+document.getElementById('pasteB').addEventListener('click', () => pasteToEl('textB'));
+
+document.getElementById('clearA').addEventListener('click', () => {
+  document.getElementById('textA').value = '';
+  document.getElementById('textA').dispatchEvent(new Event('input'));
+});
+document.getElementById('clearB').addEventListener('click', () => {
+  document.getElementById('textB').value = '';
+  document.getElementById('textB').dispatchEvent(new Event('input'));
+});
+
+/* ══════════════════════════════════════
+   LIVE COUNTS
+══════════════════════════════════════ */
+document.getElementById('textA').addEventListener('input', e => {
+  document.getElementById('countA').textContent = countInfo(e.target.value);
+});
+document.getElementById('textB').addEventListener('input', e => {
+  document.getElementById('countB').textContent = countInfo(e.target.value);
+});
+
+/* ══════════════════════════════════════
+   FAQ ACCORDION
+══════════════════════════════════════ */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) { item.classList.add('open'); q.setAttribute('aria-expanded', 'true'); }
+  });
+  q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); } });
+});
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+const io = new IntersectionObserver(entries =>
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
