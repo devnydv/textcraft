@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text Reverser — Reverse by Character, Word or Line | TextMill</title>
+  <meta name="description" content="Reverse any text character-by-character, word-by-word, or line-by-line. Instant, free, no sign-up." />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+    :root{
+      --bg:#0c0c0f;
+      --surface:#141418;
+      --surface2:#1c1c23;
+      --border:#2a2a35;
+      --accent:#5cffb1;
+      --accent2:#3d8bff;
+      --accent3:#ff6f6f;
+      --accent4:#ffb86c;
+      --muted:#52525e;
+      --text:#e8e8f0;
+      --text-dim:#9898aa;
+      --radius:14px;
+      --font-head:'Syne',sans-serif;
+      --font-mono:'DM Mono',monospace;
+      --font-body:'DM Sans',sans-serif;
+    }
+
+    html{scroll-behavior:smooth}
+
+    body{
+      background:var(--bg);
+      color:var(--text);
+      font-family:var(--font-body);
+      font-size:16px;
+      line-height:1.6;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* grid bg */
+    body::before{
+      content:'';position:fixed;inset:0;
+      background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);
+      background-size:48px 48px;opacity:.3;pointer-events:none;z-index:0;
+    }
+
+    /* glow */
+    body::after{
+      content:'';position:fixed;top:-200px;left:50%;transform:translateX(-50%);
+      width:800px;height:600px;
+      background:radial-gradient(ellipse,rgba(92,255,177,.07) 0%,transparent 70%);
+      pointer-events:none;z-index:0;
+    }
+
+    /* ── NAV ── */
+    nav{
+      position:sticky;top:0;z-index:100;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 5vw;height:64px;
+      background:rgba(12,12,15,.85);backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--border);
+    }
+    .logo{font-family:var(--font-head);font-size:1.25rem;font-weight:800;letter-spacing:-.02em;color:var(--text);text-decoration:none;display:flex;align-items:center;gap:.5rem}
+    .logo em{font-style:normal;color:var(--accent)}
+    .logo-mark{width:28px;height:28px;background:var(--accent);border-radius:6px;display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:.8rem;font-weight:500;color:#0c0c0f}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+    .nav-links a{color:var(--text-dim);text-decoration:none;font-size:.875rem;font-weight:500;transition:color .2s}
+    .nav-links a:hover{color:var(--text)}
+    .nav-cta{background:var(--accent)!important;color:#0c0c0f!important;padding:.45rem 1.1rem;border-radius:8px;font-weight:600!important;transition:opacity .2s!important}
+    .nav-cta:hover{opacity:.85!important}
+
+    /* ── HERO ── */
+    .tool-page-hero{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:60px 5vw 40px;text-align:center}
+    .breadcrumb{font-family:var(--font-mono);font-size:.72rem;color:var(--muted);margin-bottom:1.2rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+    .breadcrumb a{color:var(--muted);text-decoration:none;transition:color .2s}
+    .breadcrumb a:hover{color:var(--accent)}
+    .breadcrumb span{color:var(--border)}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(92,255,177,.07);border:1px solid rgba(92,255,177,.18);border-radius:999px;padding:.3rem 1rem;font-family:var(--font-mono);font-size:.75rem;color:var(--accent);margin-bottom:1.5rem}
+    .hero-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:blink 1.5s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.25}}
+    .tool-page-hero h1{font-family:var(--font-head);font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-.04em;line-height:1.07;margin-bottom:.75rem}
+    .tool-page-hero h1 em{font-style:normal;color:var(--accent)}
+    .tool-page-hero p{color:var(--text-dim);font-size:.95rem;max-width:520px;margin:0 auto}
+
+    /* ── TOOL WRAP ── */
+    .tool-wrap{
+      position:relative;z-index:1;
+      max-width:1060px;margin:0 auto;
+      padding:0 5vw 90px;
+      display:flex;flex-direction:column;gap:1.25rem;
+    }
+
+    /* ── MODE SELECTOR ── */
+    .mode-row{
+      display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;
+    }
+
+    .mode-card{
+      background:var(--surface);
+      border:1px solid var(--border);
+      border-radius:12px;
+      padding:1.1rem 1.3rem;
+      cursor:pointer;
+      transition:all .2s;
+      display:flex;align-items:center;gap:.9rem;
+      position:relative;overflow:hidden;
+    }
+
+    .mode-card::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(92,255,177,.05),transparent 60%);
+      opacity:0;transition:opacity .25s;
+    }
+
+    .mode-card:hover{border-color:var(--muted);background:var(--surface2)}
+    .mode-card:hover::before{opacity:1}
+
+    .mode-card.active{
+      background:rgba(92,255,177,.05);
+      border-color:rgba(92,255,177,.4);
+    }
+    .mode-card.active::before{opacity:1}
+
+    .mode-icon{
+      width:42px;height:42px;border-radius:9px;
+      display:flex;align-items:center;justify-content:center;
+      font-size:1rem;font-family:var(--font-mono);
+      flex-shrink:0;
+      background:var(--surface2);border:1px solid var(--border);
+      transition:all .2s;
+    }
+
+    .mode-card.active .mode-icon{
+      background:rgba(92,255,177,.1);
+      border-color:rgba(92,255,177,.3);
+      color:var(--accent);
+    }
+
+    .mode-info{}
+    .mode-title{font-family:var(--font-head);font-size:.92rem;font-weight:700;margin-bottom:.1rem;color:var(--text)}
+    .mode-desc{font-size:.75rem;color:var(--text-dim);line-height:1.4}
+
+    .mode-card.active .mode-title{color:var(--accent)}
+
+    /* ── EDITOR ROW ── */
+    .editor-row{
+      display:grid;grid-template-columns:1fr auto 1fr;gap:0;
+      background:var(--border);
+      border-radius:var(--radius);
+      overflow:hidden;
+      border:1px solid var(--border);
+    }
+
+    .editor-pane{
+      background:var(--surface);
+      display:flex;flex-direction:column;
+    }
+
+    .pane-header{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:.85rem 1.2rem;
+      border-bottom:1px solid var(--border);
+      gap:.5rem;
+      flex-shrink:0;
+    }
+
+    .pane-label{
+      font-family:var(--font-mono);font-size:.7rem;
+      color:var(--accent);letter-spacing:.1em;text-transform:uppercase;
+    }
+
+    .pane-actions{display:flex;gap:.4rem}
+
+    .icon-btn{
+      width:28px;height:28px;
+      background:var(--surface2);border:1px solid var(--border);
+      border-radius:6px;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:.75rem;color:var(--muted);
+      transition:all .2s;
+    }
+    .icon-btn:hover{border-color:var(--accent);color:var(--accent)}
+    .icon-btn.success{border-color:var(--accent);color:var(--accent);background:rgba(92,255,177,.07)}
+
+    .pane-textarea{
+      flex:1;
+      background:transparent;border:none;outline:none;
+      color:var(--text);font-family:var(--font-mono);font-size:.875rem;
+      line-height:1.7;resize:none;
+      padding:1.1rem 1.2rem;
+      min-height:260px;
+    }
+    .pane-textarea::placeholder{color:var(--muted)}
+
+    .pane-footer{
+      padding:.6rem 1.2rem;
+      border-top:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+    }
+
+    .pane-stats{
+      font-family:var(--font-mono);font-size:.65rem;color:var(--muted);
+      display:flex;gap:1rem;
+    }
+    .pane-stats span{color:var(--text-dim)}
+
+    /* ── DIVIDER / SWAP ── */
+    .divider-col{
+      width:60px;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:.75rem;
+      background:var(--surface2);
+      border-left:1px solid var(--border);
+      border-right:1px solid var(--border);
+      padding:.75rem 0;
+    }
+
+    .arrow-icon{
+      font-family:var(--font-mono);font-size:1.2rem;color:var(--muted);
+      animation:pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+    .btn-swap{
+      width:36px;height:36px;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:8px;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;font-size:.9rem;color:var(--muted);
+      transition:all .25s;
+    }
+    .btn-swap:hover{border-color:var(--accent4);color:var(--accent4);transform:rotate(180deg)}
+
+    /* ── OPTIONS BAR ── */
+    .options-bar{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);
+      padding:1rem 1.4rem;
+      display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;
+    }
+
+    .opt-label{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+
+    .toggle-row{display:flex;align-items:center;gap:.5rem}
+
+    .toggle{
+      width:36px;height:20px;
+      background:var(--surface2);border:1px solid var(--border);
+      border-radius:999px;cursor:pointer;position:relative;transition:all .2s;
+    }
+    .toggle::after{
+      content:'';position:absolute;top:3px;left:3px;
+      width:12px;height:12px;border-radius:50%;
+      background:var(--muted);transition:all .2s;
+    }
+    .toggle.on{background:rgba(92,255,177,.15);border-color:rgba(92,255,177,.4)}
+    .toggle.on::after{transform:translateX(16px);background:var(--accent)}
+
+    .toggle-label{font-size:.8rem;color:var(--text-dim);cursor:pointer;user-select:none}
+
+    .divider-v{width:1px;height:24px;background:var(--border)}
+
+    /* ── REVERSE BTN ── */
+    .btn-reverse{
+      background:var(--accent);color:#0c0c0f;
+      border:none;border-radius:10px;
+      padding:.8rem 2rem;
+      font-family:var(--font-head);font-size:.95rem;font-weight:700;
+      cursor:pointer;transition:transform .15s,opacity .15s;
+      display:flex;align-items:center;gap:.5rem;
+      white-space:nowrap;
+    }
+    .btn-reverse:hover{transform:translateY(-2px);opacity:.88}
+    .btn-reverse:active{transform:translateY(0)}
+
+    /* ── DIFF HIGHLIGHT ── */
+    .pane-output{position:relative}
+
+    .output-text{
+      flex:1;
+      padding:1.1rem 1.2rem;
+      font-family:var(--font-mono);font-size:.875rem;
+      line-height:1.7;color:var(--text);
+      white-space:pre-wrap;word-break:break-all;
+      min-height:260px;
+      overflow-y:auto;
+    }
+
+    .output-empty{
+      color:var(--muted);font-style:italic;
+    }
+
+    /* animated reveal for output chars */
+    @keyframes charIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── QUICK EXAMPLES ── */
+    .examples-row{
+      display:flex;align-items:center;gap:.55rem;flex-wrap:wrap;
+    }
+    .ex-label{font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+    .ex-chip{
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:7px;padding:.3rem .75rem;
+      font-size:.78rem;color:var(--text-dim);
+      cursor:pointer;transition:all .2s;font-family:var(--font-mono);
+      max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .ex-chip:hover{border-color:var(--accent2);color:var(--accent2)}
+
+    /* ── STATS STRIP ── */
+    .stats-strip{
+      display:flex;gap:0;
+      background:var(--surface);border:1px solid var(--border);
+      border-radius:var(--radius);overflow:hidden;
+    }
+    .stat-cell{
+      flex:1;padding:.9rem 1.2rem;text-align:center;
+      border-right:1px solid var(--border);
+    }
+    .stat-cell:last-child{border-right:none}
+    .stat-num{font-family:var(--font-head);font-size:1.5rem;font-weight:800;color:var(--accent)}
+    .stat-lbl{font-family:var(--font-mono);font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-top:.1rem}
+
+    /* ── FOOTER ── */
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:2.5rem 5vw;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+    .footer-copy{font-size:.82rem;color:var(--muted)}
+    .footer-links{display:flex;gap:1.5rem;list-style:none}
+    .footer-links a{font-size:.82rem;color:var(--muted);text-decoration:none;transition:color .2s}
+    .footer-links a:hover{color:var(--text-dim)}
+
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+    @media(max-width:760px){
+      .nav-links{display:none}
+      .editor-row{grid-template-columns:1fr;grid-template-rows:auto auto auto}
+      .divider-col{width:100%;height:44px;flex-direction:row;border-left:none;border-right:none;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+      .mode-row{grid-template-columns:1fr}
+      .stats-strip{flex-wrap:wrap}
+      .stat-cell{min-width:50%}
+    }
+
+    @media(max-width:540px){
+      .options-bar{gap:.8rem}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo">
+    <span class="logo-mark">TM</span>Text<em>Mill</em>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#">Tools</a></li>
+    <li><a href="#">Generators</a></li>
+    <li><a href="#">Blog</a></li>
+    <li><a href="#" class="nav-cta">Try Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="tool-page-hero">
+  <div class="breadcrumb">
+    <a href="#">Home</a><span>/</span>
+    <a href="#">Tools</a><span>/</span>
+    Text Reverser
+  </div>
+  <div class="hero-badge"><span class="dot"></span> Instant · No Sign-up</div>
+  <h1>Text <em>Reverser</em></h1>
+  <p>Flip any text character-by-character, word-by-word, or line-by-line. Paste in, pick a mode, and reverse instantly.</p>
+</div>
+
+<!-- TOOL -->
+<div class="tool-wrap">
+
+  <!-- MODE CARDS -->
+  <div class="mode-row">
+    <div class="mode-card active" data-mode="char">
+      <div class="mode-icon">ɐ→a</div>
+      <div class="mode-info">
+        <div class="mode-title">Character</div>
+        <div class="mode-desc">Reverses every single character across the entire text</div>
+      </div>
+    </div>
+    <div class="mode-card" data-mode="word">
+      <div class="mode-icon">W↔W</div>
+      <div class="mode-info">
+        <div class="mode-title">Word</div>
+        <div class="mode-desc">Reverses the order of words on each line</div>
+      </div>
+    </div>
+    <div class="mode-card" data-mode="line">
+      <div class="mode-icon">L↕L</div>
+      <div class="mode-info">
+        <div class="mode-title">Line</div>
+        <div class="mode-desc">Reverses the order of lines, keeping each line intact</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPTIONS BAR -->
+  <div class="options-bar">
+    <span class="opt-label">Options</span>
+    <div class="toggle-row">
+      <div class="toggle" id="toggleCase" title="Toggle preserve case"></div>
+      <span class="toggle-label" id="labelCase">Preserve case</span>
+    </div>
+    <div class="divider-v"></div>
+    <div class="toggle-row">
+      <div class="toggle" id="toggleTrim"></div>
+      <span class="toggle-label">Trim whitespace</span>
+    </div>
+    <div class="divider-v"></div>
+    <div class="toggle-row">
+      <div class="toggle on" id="toggleLive"></div>
+      <span class="toggle-label">Live preview</span>
+    </div>
+    <div style="margin-left:auto">
+      <button class="btn-reverse" id="reverseBtn">↺ Reverse</button>
+    </div>
+  </div>
+
+  <!-- EDITOR -->
+  <div class="editor-row">
+
+    <!-- INPUT PANE -->
+    <div class="editor-pane">
+      <div class="pane-header">
+        <span class="pane-label">Input</span>
+        <div class="pane-actions">
+          <button class="icon-btn" id="pasteBtn" title="Paste from clipboard">⎘</button>
+          <button class="icon-btn" id="clearBtn" title="Clear input">✕</button>
+        </div>
+      </div>
+      <textarea class="pane-textarea" id="inputText" placeholder="Type or paste your text here…" spellcheck="false"></textarea>
+      <div class="pane-footer">
+        <div class="pane-stats">
+          Chars <span id="inChars">0</span> &nbsp;·&nbsp;
+          Words <span id="inWords">0</span> &nbsp;·&nbsp;
+          Lines <span id="inLines">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="divider-col">
+      <div class="arrow-icon">→</div>
+      <button class="btn-swap" id="swapBtn" title="Swap input ↔ output">⇄</button>
+      <div class="arrow-icon">→</div>
+    </div>
+
+    <!-- OUTPUT PANE -->
+    <div class="editor-pane pane-output">
+      <div class="pane-header">
+        <span class="pane-label">Output</span>
+        <div class="pane-actions">
+          <button class="icon-btn" id="copyBtn" title="Copy output">⎘</button>
+          <button class="icon-btn" id="downloadBtn" title="Download as .txt">↓</button>
+        </div>
+      </div>
+      <div class="output-text" id="outputText"><span class="output-empty">Reversed text will appear here…</span></div>
+      <div class="pane-footer">
+        <div class="pane-stats">
+          Chars <span id="outChars">0</span> &nbsp;·&nbsp;
+          Words <span id="outWords">0</span> &nbsp;·&nbsp;
+          Lines <span id="outLines">0</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- EXAMPLES -->
+  <div class="examples-row">
+    <span class="ex-label">Try</span>
+    <span class="ex-chip" data-text="Hello World">Hello World</span>
+    <span class="ex-chip" data-text="The quick brown fox">The quick brown fox</span>
+    <span class="ex-chip" data-text="First line&#10;Second line&#10;Third line">Multi-line text</span>
+    <span class="ex-chip" data-text="racecar">racecar (palindrome)</span>
+    <span class="ex-chip" data-text="Was it a car or a cat I saw">Classic palindrome</span>
+  </div>
+
+  <!-- STATS STRIP -->
+  <div class="stats-strip">
+    <div class="stat-cell">
+      <div class="stat-num" id="statChars">0</div>
+      <div class="stat-lbl">Characters</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="statWords">0</div>
+      <div class="stat-lbl">Words</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="statLines">0</div>
+      <div class="stat-lbl">Lines</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-num" id="statPalin" style="color:var(--accent4)">—</div>
+      <div class="stat-lbl">Palindrome?</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 TextMill. All rights reserved.</span>
+  <ul class="footer-links">
+    <li><a href="#">Privacy</a></li>
+    <li><a href="#">Terms</a></li>
+    <li><a href="#">API</a></li>
+  </ul>
+</footer>
+
+<script>
+  /* ── State ── */
+  let mode = 'char';
+  let livePreview = true;
+  let trimWhitespace = false;
+  let preserveCase = false;
+
+  /* ── Mode cards ── */
+  document.querySelectorAll('.mode-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      mode = card.dataset.mode;
+      if (livePreview) doReverse();
+    });
+  });
+
+  /* ── Toggles ── */
+  function setupToggle(id, callback) {
+    const el = document.getElementById(id);
+    el.addEventListener('click', () => {
+      el.classList.toggle('on');
+      callback(el.classList.contains('on'));
+    });
+    return el;
+  }
+
+  setupToggle('toggleCase', v => { preserveCase = v; if(livePreview) doReverse(); });
+  setupToggle('toggleTrim', v => { trimWhitespace = v; if(livePreview) doReverse(); });
+  setupToggle('toggleLive', v => { livePreview = v; });
+
+  /* ── Core reverse functions ── */
+  function reverseChars(text) {
+    // Unicode-safe: spread into array then reverse
+    return [...text].reverse().join('');
+  }
+
+  function reverseWords(text) {
+    return text.split('\n').map(line => {
+      const words = line.split(/(\s+)/); // keep spaces as tokens
+      // Only reverse actual word tokens, interleave spaces back
+      const wordTokens = [];
+      const spaceTokens = [];
+      words.forEach(w => (w.trim() === '' ? spaceTokens : wordTokens).push(w));
+      return wordTokens.reverse().join(' ');
+    }).join('\n');
+  }
+
+  function reverseLines(text) {
+    return text.split('\n').reverse().join('\n');
+  }
+
+  function applyCase(original, reversed) {
+    if (!preserveCase) return reversed;
+    // Map case pattern of original onto reversed characters
+    const origArr = [...original];
+    const revArr  = [...reversed];
+    return revArr.map((ch, i) => {
+      const ref = origArr[i];
+      if (!ref) return ch;
+      if (ref === ref.toUpperCase() && ref !== ref.toLowerCase()) return ch.toUpperCase();
+      if (ref === ref.toLowerCase() && ref !== ref.toUpperCase()) return ch.toLowerCase();
+      return ch;
+    }).join('');
+  }
+
+  function process(text) {
+    let t = text;
+    if (trimWhitespace) t = t.split('\n').map(l => l.trim()).join('\n').trim();
+
+    let result;
+    if (mode === 'char')  result = reverseChars(t);
+    else if (mode === 'word') result = reverseWords(t);
+    else                  result = reverseLines(t);
+
+    if (preserveCase) result = applyCase(t, result);
+    return result;
+  }
+
+  /* ── Stats ── */
+  function countStats(text) {
+    const chars = [...text].length;
+    const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    const lines = text === '' ? 0 : text.split('\n').length;
+    return { chars, words, lines };
+  }
+
+  function isPalindrome(text) {
+    const clean = text.toLowerCase().replace(/[^a-z0-9]/g,'');
+    if (!clean) return null;
+    return clean === [...clean].reverse().join('');
+  }
+
+  function updateStats(text) {
+    const s = countStats(text);
+    document.getElementById('statChars').textContent = s.chars;
+    document.getElementById('statWords').textContent = s.words;
+    document.getElementById('statLines').textContent = s.lines;
+    const pal = isPalindrome(text);
+    const palEl = document.getElementById('statPalin');
+    if (pal === null) { palEl.textContent = '—'; palEl.style.color = 'var(--accent4)'; }
+    else if (pal)     { palEl.textContent = 'Yes ✓'; palEl.style.color = 'var(--accent)'; }
+    else              { palEl.textContent = 'No'; palEl.style.color = 'var(--muted)'; }
+  }
+
+  function updateInputStats(text) {
+    const s = countStats(text);
+    document.getElementById('inChars').textContent = s.chars;
+    document.getElementById('inWords').textContent = s.words;
+    document.getElementById('inLines').textContent = s.lines;
+  }
+
+  function updateOutputStats(text) {
+    const s = countStats(text);
+    document.getElementById('outChars').textContent = s.chars;
+    document.getElementById('outWords').textContent = s.words;
+    document.getElementById('outLines').textContent = s.lines;
+  }
+
+  /* ── Render output ── */
+  let lastOutput = '';
+
+  function renderOutput(text) {
+    const el = document.getElementById('outputText');
+    if (!text) {
+      el.innerHTML = '<span class="output-empty">Reversed text will appear here…</span>';
+      lastOutput = '';
+      return;
+    }
+    // Escape HTML
+    const escaped = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    el.innerHTML = escaped;
+    lastOutput = text;
+  }
+
+  function doReverse() {
+    const input = document.getElementById('inputText').value;
+    const result = process(input);
+    renderOutput(result);
+    updateInputStats(input);
+    updateOutputStats(result);
+    updateStats(input);
+  }
+
+  /* ── Live preview ── */
+  document.getElementById('inputText').addEventListener('input', () => {
+    if (livePreview) doReverse();
+    else {
+      const t = document.getElementById('inputText').value;
+      updateInputStats(t);
+      updateStats(t);
+    }
+  });
+
+  /* ── Reverse button ── */
+  document.getElementById('reverseBtn').addEventListener('click', () => {
+    doReverse();
+    // Flash animation
+    const btn = document.getElementById('reverseBtn');
+    btn.style.transform = 'rotate(360deg)';
+    btn.style.transition = 'transform .4s ease';
+    setTimeout(() => { btn.style.transform=''; btn.style.transition=''; }, 420);
+  });
+
+  /* ── Paste ── */
+  document.getElementById('pasteBtn').addEventListener('click', async () => {
+    try {
+      const t = await navigator.clipboard.readText();
+      document.getElementById('inputText').value = t;
+      doReverse();
+    } catch { /* denied */ }
+  });
+
+  /* ── Clear ── */
+  document.getElementById('clearBtn').addEventListener('click', () => {
+    document.getElementById('inputText').value = '';
+    doReverse();
+  });
+
+  /* ── Copy output ── */
+  document.getElementById('copyBtn').addEventListener('click', function() {
+    if (!lastOutput) return;
+    navigator.clipboard.writeText(lastOutput).then(() => {
+      this.textContent = '✓';
+      this.classList.add('success');
+      setTimeout(() => { this.textContent='⎘'; this.classList.remove('success'); }, 1600);
+    });
+  });
+
+  /* ── Download ── */
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    if (!lastOutput) return;
+    const blob = new Blob([lastOutput], { type:'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'reversed-text.txt';
+    a.click();
+  });
+
+  /* ── Swap ── */
+  document.getElementById('swapBtn').addEventListener('click', () => {
+    if (!lastOutput) return;
+    document.getElementById('inputText').value = lastOutput;
+    doReverse();
+  });
+
+  /* ── Example chips ── */
+  document.querySelectorAll('.ex-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.getElementById('inputText').value = chip.dataset.text;
+      doReverse();
+      document.getElementById('inputText').scrollIntoView({ behavior:'smooth', block:'nearest' });
+    });
+  });
+</script>
+</body>
+</html>

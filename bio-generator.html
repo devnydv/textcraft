@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bio Generator — Polished Bios for Instagram, Twitter, LinkedIn | TextMill</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet" />
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --bg: #0c0c0f;
+      --surface: #141418;
+      --surface2: #1c1c23;
+      --border: #2a2a35;
+      --accent: #5cffb1;
+      --accent2: #3d8bff;
+      --accent3: #ff6f6f;
+      --accent4: #ffb86c;
+      --muted: #52525e;
+      --text: #e8e8f0;
+      --text-dim: #9898aa;
+      --radius: 14px;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .3;
+      pointer-events: none;
+      z-index: 0
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(92, 255, 177, .07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 5vw;
+      height: 64px;
+      background: rgba(12, 12, 15, .85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .logo {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      color: var(--text);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .logo em {
+      font-style: normal;
+      color: var(--accent)
+    }
+
+    .logo-mark {
+      width: 28px;
+      height: 28px;
+      background: var(--accent);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      font-weight: 500;
+      color: #0c0c0f
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      list-style: none
+    }
+
+    .nav-links a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: .875rem;
+      font-weight: 500;
+      transition: color .2s
+    }
+
+    .nav-links a:hover {
+      color: var(--text)
+    }
+
+    .nav-cta {
+      background: var(--accent) !important;
+      color: #0c0c0f !important;
+      padding: .45rem 1.1rem;
+      border-radius: 8px;
+      font-weight: 600 !important;
+      transition: opacity .2s !important
+    }
+
+    .nav-cta:hover {
+      opacity: .85 !important
+    }
+
+    .tool-page-hero {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 5vw 40px;
+      text-align: center
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem
+    }
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .breadcrumb a:hover {
+      color: var(--accent)
+    }
+
+    .breadcrumb span {
+      color: var(--border)
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(92, 255, 177, .07);
+      border: 1px solid rgba(92, 255, 177, .18);
+      border-radius: 999px;
+      padding: .3rem 1rem;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem
+    }
+
+    .hero-badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: blink 1.5s infinite
+    }
+
+    @keyframes blink {
+
+      0%,
+      100% {
+        opacity: 1
+      }
+
+      50% {
+        opacity: .25
+      }
+    }
+
+    .tool-page-hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -.04em;
+      line-height: 1.07;
+      margin-bottom: .75rem
+    }
+
+    .tool-page-hero h1 em {
+      font-style: normal;
+      color: var(--accent)
+    }
+
+    .tool-page-hero p {
+      color: var(--text-dim);
+      font-size: .95rem;
+      max-width: 500px;
+      margin: 0 auto
+    }
+
+    .tool-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 0 5vw 90px;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 1.5rem;
+      align-items: start
+    }
+
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .panel-title {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--accent);
+      letter-spacing: .1em;
+      text-transform: uppercase
+    }
+
+    .panel-body {
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.1rem
+    }
+
+    .platform-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: .4rem
+    }
+
+    .ptab {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .55rem .3rem;
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
+      font-family: var(--font-body);
+      font-size: .72rem;
+      font-weight: 500;
+      color: var(--text-dim)
+    }
+
+    .ptab .ptab-icon {
+      font-size: 1.1rem
+    }
+
+    .ptab:hover {
+      border-color: var(--muted);
+      color: var(--text)
+    }
+
+    .ptab.active {
+      background: rgba(92, 255, 177, .07);
+      border-color: rgba(92, 255, 177, .4);
+      color: var(--accent)
+    }
+
+    .ptab[data-platform="twitter"].active {
+      background: rgba(61, 139, 255, .07);
+      border-color: rgba(61, 139, 255, .4);
+      color: var(--accent2)
+    }
+
+    .ptab[data-platform="linkedin"].active {
+      background: rgba(61, 139, 255, .1);
+      border-color: rgba(61, 139, 255, .5);
+      color: #60aaff
+    }
+
+    .ptab[data-platform="tiktok"].active {
+      background: rgba(255, 111, 111, .07);
+      border-color: rgba(255, 111, 111, .4);
+      color: var(--accent3)
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: .4rem
+    }
+
+    .field label {
+      font-size: .75rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      letter-spacing: .03em;
+      text-transform: uppercase;
+      font-family: var(--font-mono)
+    }
+
+    .field input,
+    .field textarea,
+    .field select {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 9px;
+      padding: .7rem 1rem;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: .88rem;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      width: 100%;
+      resize: none
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--muted)
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(92, 255, 177, .08)
+    }
+
+    .field select {
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2352525e' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem
+    }
+
+    .field textarea {
+      height: 80px;
+      line-height: 1.55
+    }
+
+    .tone-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .4rem
+    }
+
+    .tone-pill {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: .3rem .8rem;
+      font-size: .75rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-body)
+    }
+
+    .tone-pill:hover {
+      border-color: var(--muted);
+      color: var(--text)
+    }
+
+    .tone-pill.active {
+      background: rgba(92, 255, 177, .07);
+      border-color: rgba(92, 255, 177, .4);
+      color: var(--accent)
+    }
+
+    .tags-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .35rem;
+      margin-top: .3rem
+    }
+
+    .tag {
+      background: rgba(61, 139, 255, .08);
+      border: 1px solid rgba(61, 139, 255, .2);
+      border-radius: 5px;
+      padding: .2rem .6rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--accent2);
+      display: flex;
+      align-items: center;
+      gap: .3rem
+    }
+
+    .tag-remove {
+      cursor: pointer;
+      opacity: .6;
+      transition: opacity .15s;
+      font-size: .75rem
+    }
+
+    .tag-remove:hover {
+      opacity: 1
+    }
+
+    .tag-input-row {
+      display: flex;
+      gap: .5rem
+    }
+
+    .tag-input-row input {
+      flex: 1
+    }
+
+    .tag-input-row button {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .68rem .9rem;
+      color: var(--text-dim);
+      font-size: .8rem;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+      font-family: var(--font-mono)
+    }
+
+    .tag-input-row button:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .btn-generate {
+      background: var(--accent);
+      color: #0c0c0f;
+      border: none;
+      border-radius: 10px;
+      padding: .85rem 1.8rem;
+      font-family: var(--font-head);
+      font-size: .95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .15s, opacity .15s;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem
+    }
+
+    .btn-generate:hover {
+      transform: translateY(-2px);
+      opacity: .88
+    }
+
+    .btn-generate:active {
+      transform: translateY(0)
+    }
+
+    .output-panel {
+      position: sticky;
+      top: 80px
+    }
+
+    .output-placeholder {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--text-dim);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem
+    }
+
+    .output-placeholder .ph-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem
+    }
+
+    .output-placeholder p {
+      font-size: .88rem;
+      max-width: 260px
+    }
+
+    .bio-results {
+      display: flex;
+      flex-direction: column
+    }
+
+    .bio-card {
+      padding: 1.4rem;
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      transition: background .2s;
+      animation: slideIn .35s ease both
+    }
+
+    .bio-card:last-child {
+      border-bottom: none
+    }
+
+    .bio-card:hover {
+      background: var(--surface2)
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .bio-card:nth-child(1) {
+      animation-delay: .05s
+    }
+
+    .bio-card:nth-child(2) {
+      animation-delay: .1s
+    }
+
+    .bio-card:nth-child(3) {
+      animation-delay: .15s
+    }
+
+    .bio-card:nth-child(4) {
+      animation-delay: .2s
+    }
+
+    .bio-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: .75rem
+    }
+
+    .bio-card-label {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--text-dim);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: .4rem
+    }
+
+    .style-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      display: inline-block
+    }
+
+    .bio-card-actions {
+      display: flex;
+      gap: .4rem
+    }
+
+    .icon-btn {
+      width: 30px;
+      height: 30px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: .8rem;
+      color: var(--muted);
+      transition: all .2s
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    .icon-btn.copied {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(92, 255, 177, .07)
+    }
+
+    .bio-text {
+      font-size: .9rem;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word
+    }
+
+    .bio-footer {
+      margin-top: .7rem;
+      display: flex;
+      align-items: center;
+      gap: .75rem
+    }
+
+    .limit-bar {
+      flex: 1;
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden
+    }
+
+    .limit-bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width .5s ease
+    }
+
+    .char-count {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      color: var(--muted);
+      white-space: nowrap
+    }
+
+    .char-count.warn {
+      color: var(--accent4)
+    }
+
+    .char-count.over {
+      color: var(--accent3)
+    }
+
+    .output-actions {
+      display: flex;
+      gap: .5rem
+    }
+
+    .btn-regen {
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: .35rem .75rem;
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      color: var(--text-dim);
+      cursor: pointer;
+      transition: all .2s;
+      display: flex;
+      align-items: center;
+      gap: .35rem
+    }
+
+    .btn-regen:hover {
+      border-color: var(--accent);
+      color: var(--accent)
+    }
+
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 2.5rem 5vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem
+    }
+
+    .footer-copy {
+      font-size: .82rem;
+      color: var(--muted)
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none
+    }
+
+    .footer-links a {
+      font-size: .82rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s
+    }
+
+    .footer-links a:hover {
+      color: var(--text-dim)
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg)
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px
+    }
+
+    @media(max-width:760px) {
+      .nav-links {
+        display: none
+      }
+
+      .tool-wrap {
+        grid-template-columns: 1fr
+      }
+
+      .output-panel {
+        position: static
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav>
+    <a href="#" class="logo">
+      <span class="logo-mark">TM</span>Text<em>Mill</em>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#">Tools</a></li>
+      <li><a href="#">Generators</a></li>
+      <li><a href="#">Blog</a></li>
+      <li><a href="#" class="nav-cta">Try Free</a></li>
+    </ul>
+  </nav>
+
+  <div class="tool-page-hero">
+    <div class="breadcrumb">
+      <a href="#">Home</a><span>/</span>
+      <a href="#">Generators</a><span>/</span>
+      Bio Generator
+    </div>
+    <div class="hero-badge"><span class="dot"></span> Instant · No Sign-up</div>
+    <h1>Bio <em>Generator</em></h1>
+    <p>Craft polished bios for Instagram, Twitter/X, LinkedIn, TikTok and more — tailored to your tone, role, and
+      personality.</p>
+  </div>
+
+  <div class="tool-wrap">
+
+    <!-- INPUT -->
+    <div class="panel">
+      <div class="panel-header"><span class="panel-title">Configure</span></div>
+      <div class="panel-body">
+
+        <div class="field">
+          <label>Platform</label>
+          <div class="platform-tabs">
+            <button class="ptab active" data-platform="instagram"><span class="ptab-icon">📸</span>Instagram</button>
+            <button class="ptab" data-platform="twitter"><span class="ptab-icon">𝕏</span>Twitter</button>
+            <button class="ptab" data-platform="linkedin"><span class="ptab-icon">💼</span>LinkedIn</button>
+            <button class="ptab" data-platform="tiktok"><span class="ptab-icon">🎵</span>TikTok</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Your Name / Handle</label>
+          <input type="text" id="nameInput" placeholder="e.g. Alex Chen or @alexcreates" maxlength="60" />
+        </div>
+
+        <div class="field">
+          <label>Role / What you do</label>
+          <input type="text" id="roleInput" placeholder="e.g. UX Designer · Founder · Photographer" maxlength="100" />
+        </div>
+
+        <div class="field">
+          <label>Location (optional)</label>
+          <input type="text" id="locationInput" placeholder="e.g. New York · Remote · NYC 🗽" maxlength="60" />
+        </div>
+
+        <div class="field">
+          <label>Keywords / Interests</label>
+          <div class="tag-input-row">
+            <input type="text" id="keywordInput" placeholder="e.g. travel, coffee, design…" maxlength="40" />
+            <button id="addTagBtn">+ Add</button>
+          </div>
+          <div class="tags-wrap" id="tagsWrap"></div>
+        </div>
+
+        <div class="field">
+          <label>Call to action (optional)</label>
+          <input type="text" id="ctaInput" placeholder="e.g. DM for collabs · Link below 👇" maxlength="80" />
+        </div>
+
+        <div class="field">
+          <label>Tone</label>
+          <div class="tone-pills">
+            <button class="tone-pill active" data-tone="professional">Professional</button>
+            <button class="tone-pill" data-tone="casual">Casual</button>
+            <button class="tone-pill" data-tone="witty">Witty</button>
+            <button class="tone-pill" data-tone="inspirational">Inspirational</button>
+            <button class="tone-pill" data-tone="minimal">Minimal</button>
+            <button class="tone-pill" data-tone="bold">Bold</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Emoji usage</label>
+          <select id="emojiSelect">
+            <option value="none">No emojis</option>
+            <option value="minimal">Minimal (1–2)</option>
+            <option value="moderate" selected>Moderate (3–5)</option>
+            <option value="heavy">Heavy (lots!)</option>
+          </select>
+        </div>
+
+        <button class="btn-generate" id="generateBtn">✦ Generate Bios</button>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="panel output-panel" id="outputPanel">
+      <div class="panel-header">
+        <span class="panel-title" id="outputTitle">Results</span>
+        <div class="output-actions">
+          <button class="btn-regen" id="regenBtn" style="display:none">↻ Shuffle</button>
+        </div>
+      </div>
+      <div class="output-placeholder" id="placeholder">
+        <div class="ph-icon">✦</div>
+        <p>Fill in your details and hit <strong>Generate Bios</strong> to get 4 unique variations.</p>
+      </div>
+      <div class="bio-results" id="bioResults"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span class="footer-copy">© 2025 TextMill. All rights reserved.</span>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">API</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    /* ── State ── */
+    let platform = 'instagram';
+    let tone = 'professional';
+    let tags = [];
+
+    const LIMITS = { instagram: 150, twitter: 160, linkedin: 220, tiktok: 80 };
+    const STYLE_COLORS = { 'Short & Punchy': '#5cffb1', 'Story-driven': '#3d8bff', 'Keyword-rich': '#ffb86c', 'Creative': '#ff6f6f' };
+
+    /* ── Emoji sets by usage level ── */
+    const EMOJI_SETS = {
+      role: ['🎨', '💻', '📷', '✍️', '🎯', '🚀', '🎤', '🎬', '📊', '🔧', '🌿', '💡', '📚', '🎸', '🍳', '🏋️', '✈️', '🎭', '💼', '🖌️'],
+      interest: ['🌍', '📸', '🎵', '⚽', '🏄', '🎮', '🍕', '☕', '📖', '🎨', '🌸', '🐾', '🎯', '🧠', '💪', '🌊', '🏔️', '🎪', '🛸', '🦋'],
+      location: ['📍', '🗺️', '🌆', '🏙️', '🌇'],
+      cta: ['👇', '✉️', '💬', '🤝', '🔗', '📩', '👋'],
+      sparkle: ['✨', '💫', '⚡', '🔥', '💥', '🌟', '⭐'],
+      heart: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🤍'],
+    };
+
+    function pickEmoji(set) { return EMOJI_SETS[set][Math.floor(Math.random() * EMOJI_SETS[set].length)]; }
+
+    /* ── Tone phrase banks ── */
+    const TONE_OPENERS = {
+      professional: ['Helping {role} professionals thrive', 'Building the future of {topic}', 'Dedicated to {role} excellence', 'Creating impact through {topic}', 'Transforming {topic} one step at a time'],
+      casual: ["Just a {role} doing {role} things", "Obsessed with {topic} (and coffee ☕)", "Living life one {topic} at a time", "{role} by day, dreamer always", "Making {topic} my whole personality"],
+      witty: ["Professionally a {role}. Unofficially chaotic.", "{role} who Googles everything (like everyone else)", "Warning: may spontaneously talk about {topic}", "{role} — it's a vibe, actually", "Expert at {topic}. Amateur at everything else."],
+      inspirational: ["Turning passion for {topic} into purpose", "Every day is a chance to {topic} better", "Building dreams one {topic} at a time", "Committed to growing through {topic}", "Your reminder that {topic} is possible"],
+      minimal: ["{role}", "{role}. {topic}.", "Working on {topic}.", "Into {topic}.", "Here for {topic}."],
+      bold: ["THE {role} you need to follow", "Disrupting {topic} — unapologetically", "Not your average {role}", "{topic} is what I do. Obsessively.", "The {role} changing the game"],
+    };
+
+    const TONE_MIDDLES = {
+      professional: ['Specializing in {topic}', 'With a focus on {topic}', 'Expert in {topic}', 'Background in {topic}', 'Passionate about {topic}'],
+      casual: ['big fan of {topic}', 'always talking about {topic}', '{topic} enthusiast', 'lowkey obsessed with {topic}', 'here for all things {topic}'],
+      witty: ['my {topic} era is forever', 'accidentally an expert in {topic}', 'somehow {topic} became my whole thing', 'blame it on {topic}', 'professionally into {topic}'],
+      inspirational: ['driven by {topic}', 'fueled by passion for {topic}', 'on a mission with {topic}', 'inspired by {topic} daily', 'growing through {topic}'],
+      minimal: ['{topic}', '{topic} ·', '· {topic}'],
+      bold: ['mastering {topic}', 'dominating {topic}', '{topic} runs in my veins', '{topic} or nothing', 'relentlessly pursuing {topic}'],
+    };
+
+    const TONE_CLOSERS = {
+      professional: ['Open to collaborations.', 'Let\'s connect.', 'Always happy to network.', 'Reach out anytime.', 'Building meaningful connections.'],
+      casual: ["say hi, don't be shy!", "let's vibe 👋", "come hang", "slide in anytime", "let's collab!"],
+      witty: ["(my mom thinks I'm cool)", "—professionally online", "currently overthinking", "send memes", "chaos is my brand"],
+      inspirational: ["Join the journey.", "Let's grow together.", "Your story matters.", "Start today.", "Dream. Build. Repeat."],
+      minimal: ['', '', ''],
+      bold: ['No excuses.', 'Move different.', 'Built different.', 'You in or not?', 'Let\'s build.'],
+    };
+
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    function fillTemplate(tpl, role, topics) {
+      const topic = topics.length ? pick(topics) : (role || 'what I do');
+      return tpl.replace(/\{role\}/g, role || 'creator').replace(/\{topic\}/g, topic);
+    }
+
+    /* ── Bio builders ── */
+    function buildBio(style, name, role, location, tags, cta, tone, emojiLevel, platform) {
+      const topicPool = tags.length ? tags : (role ? role.split(/[·,\/\s]+/).filter(Boolean) : ['this craft']);
+      const limit = LIMITS[platform];
+      const useEmoji = emojiLevel !== 'none';
+      const emojiCount = { none: 0, minimal: 1, moderate: 3, heavy: 6 }[emojiLevel];
+
+      let parts = [];
+
+      if (style === 'Short & Punchy') {
+        // One-liner punch
+        const opener = fillTemplate(pick(TONE_OPENERS[tone]), role, topicPool);
+        if (role) parts.push(role + (useEmoji && emojiCount >= 1 ? ' ' + pickEmoji('role') : ''));
+        parts.push(opener);
+        if (cta) parts.push(cta);
+
+      } else if (style === 'Story-driven') {
+        // Multi-line narrative
+        if (name) parts.push((useEmoji && emojiCount >= 1 ? pickEmoji('sparkle') + ' ' : '') + name);
+        if (role) parts.push(role);
+        const middle = fillTemplate(pick(TONE_MIDDLES[tone]), role, topicPool);
+        parts.push(middle + (useEmoji && emojiCount >= 2 ? ' ' + pickEmoji('interest') : ''));
+        if (location) parts.push((useEmoji && emojiCount >= 3 ? pickEmoji('location') + ' ' : '') + location);
+        if (cta) parts.push((useEmoji && emojiCount >= 4 ? pickEmoji('cta') + ' ' : '') + cta);
+
+      } else if (style === 'Keyword-rich') {
+        // Hashtag / bullet keyword style
+        if (role) parts.push(role);
+        const kws = topicPool.slice(0, 5).map(k => (useEmoji && emojiCount >= 2 ? pickEmoji('interest') + ' ' : '') + k);
+        parts.push(kws.join(' · '));
+        if (location) parts.push(location);
+        if (cta) parts.push(cta);
+
+      } else { // Creative
+        // Playful / unexpected format
+        const opener = fillTemplate(pick(TONE_OPENERS[tone]), role, topicPool);
+        const closer = fillTemplate(pick(TONE_CLOSERS[tone]), role, topicPool);
+        if (role) parts.push((useEmoji && emojiCount >= 1 ? pickEmoji('role') + ' ' : '') + role);
+        parts.push(opener);
+        if (tags.length >= 2) parts.push(tags.slice(0, 3).join(' | '));
+        if (location) parts.push((useEmoji && emojiCount >= 3 ? pickEmoji('location') + ' ' : '') + location);
+        if (closer) parts.push(closer);
+        if (cta) parts.push(cta);
+      }
+
+      let bio = parts.filter(Boolean).join('\n');
+
+      // Trim to limit
+      if (bio.length > limit) {
+        bio = bio.substring(0, limit - 1).replace(/[\s\n·|]+$/, '') + '…';
+      }
+
+      return bio;
+    }
+
+    /* ── Platform-specific tweaks ── */
+    function applyPlatformStyle(bio, platform) {
+      if (platform === 'linkedin') {
+        // LinkedIn: more professional, swap casual linebreaks to dots
+        return bio.replace(/\n/g, ' · ').replace(/ ·  · /g, ' · ');
+      }
+      if (platform === 'tiktok') {
+        // TikTok: compact, single line
+        return bio.replace(/\n/g, ' ');
+      }
+      return bio; // instagram, twitter: keep newlines
+    }
+
+    /* ── Main generate ── */
+    function generate() {
+      const name = document.getElementById('nameInput').value.trim();
+      const role = document.getElementById('roleInput').value.trim();
+      const location = document.getElementById('locationInput').value.trim();
+      const cta = document.getElementById('ctaInput').value.trim();
+      const emojiLevel = document.getElementById('emojiSelect').value;
+
+      if (!name && !role && tags.length === 0) {
+        ['nameInput', 'roleInput'].forEach(id => {
+          const el = document.getElementById(id);
+          el.style.borderColor = 'var(--accent3)';
+          el.style.boxShadow = '0 0 0 3px rgba(255,111,111,.08)';
+          setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1200);
+        });
+        return;
+      }
+
+      const styles = ['Short & Punchy', 'Story-driven', 'Keyword-rich', 'Creative'];
+      const bios = styles.map(style => {
+        let text = buildBio(style, name, role, location, tags, cta, tone, emojiLevel, platform);
+        text = applyPlatformStyle(text, platform);
+        return { style, text };
+      });
+
+      renderBios(bios);
+    }
+
+    function renderBios(bios) {
+      const container = document.getElementById('bioResults');
+      document.getElementById('placeholder').style.display = 'none';
+      container.innerHTML = '';
+
+      const limit = LIMITS[platform];
+      const platformLabel = { instagram: 'Instagram', twitter: 'Twitter/X', linkedin: 'LinkedIn', tiktok: 'TikTok' }[platform];
+
+      bios.forEach(bio => {
+        const len = [...bio.text].length; // unicode-safe
+        const pct = Math.min((len / limit) * 100, 100);
+        const countClass = len > limit ? 'over' : len > limit * 0.85 ? 'warn' : '';
+        const fillColor = len > limit ? 'var(--accent3)' : len > limit * 0.85 ? 'var(--accent4)' : 'var(--accent)';
+        const dotColor = STYLE_COLORS[bio.style] || 'var(--accent)';
+
+        const card = document.createElement('div');
+        card.className = 'bio-card';
+        card.innerHTML = `
+      <div class="bio-card-header">
+        <span class="bio-card-label">
+          <span class="style-dot" style="background:${dotColor}"></span>
+          ${bio.style}
+        </span>
+        <div class="bio-card-actions">
+          <button class="icon-btn copy-btn" title="Copy bio">⎘</button>
+        </div>
+      </div>
+      <div class="bio-text">${esc(bio.text)}</div>
+      <div class="bio-footer">
+        <div class="limit-bar"><div class="limit-bar-fill" style="width:${pct}%;background:${fillColor}"></div></div>
+        <span class="char-count ${countClass}">${len}/${limit}</span>
+      </div>
+    `;
+
+        card.querySelector('.copy-btn').addEventListener('click', function () {
+          navigator.clipboard.writeText(bio.text).then(() => {
+            this.textContent = '✓';
+            this.classList.add('copied');
+            setTimeout(() => { this.textContent = '⎘'; this.classList.remove('copied'); }, 1800);
+          });
+        });
+
+        container.appendChild(card);
+      });
+
+      document.getElementById('outputTitle').textContent = `Results · ${platformLabel}`;
+      document.getElementById('regenBtn').style.display = 'flex';
+    }
+
+    function esc(str) {
+      return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    /* ── Platform tabs ── */
+    document.querySelectorAll('.ptab').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.ptab').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        platform = btn.dataset.platform;
+      });
+    });
+
+    /* ── Tone pills ── */
+    document.querySelectorAll('.tone-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        document.querySelectorAll('.tone-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        tone = pill.dataset.tone;
+      });
+    });
+
+    /* ── Tags ── */
+    function addTag(val) {
+      val = val.trim().replace(/,/g, '');
+      if (!val || tags.includes(val) || tags.length >= 8) return;
+      tags.push(val);
+      renderTags();
+    }
+
+    function renderTags() {
+      const wrap = document.getElementById('tagsWrap');
+      wrap.innerHTML = tags.map((t, i) => `
+    <span class="tag">${esc(t)}<span class="tag-remove" data-i="${i}">✕</span></span>
+  `).join('');
+      wrap.querySelectorAll('.tag-remove').forEach(el => {
+        el.addEventListener('click', () => { tags.splice(+el.dataset.i, 1); renderTags(); });
+      });
+    }
+
+    document.getElementById('addTagBtn').addEventListener('click', () => {
+      const inp = document.getElementById('keywordInput');
+      addTag(inp.value); inp.value = '';
+    });
+    document.getElementById('keywordInput').addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ',') { e.preventDefault(); addTag(e.target.value); e.target.value = ''; }
+    });
+
+    document.getElementById('generateBtn').addEventListener('click', generate);
+    document.getElementById('regenBtn').addEventListener('click', generate);
+
+    /* Allow Enter key on inputs to trigger generate */
+    ['nameInput', 'roleInput', 'locationInput', 'ctaInput'].forEach(id => {
+      document.getElementById(id).addEventListener('keydown', e => {
+        if (e.key === 'Enter') generate();
+      });
+    });
+  </script>
+</body>
+
+</html>

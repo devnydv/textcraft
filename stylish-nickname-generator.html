@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stylish Nickname Generator — Cool Gaming Names &amp; Username Styles | TextMill</title>
+  <meta name="description" content="Generate cool, decorated stylish nicknames for gaming profiles, Discord, and usernames. 20+ unique styles with symbols, borders, and Unicode decorations. Free, instant, no sign-up." />
+  <meta name="keywords" content="stylish nickname generator, cool nickname generator, gaming name generator, fancy username, discord name, unicode nickname, decorated username" />
+  <meta property="og:title" content="Stylish Nickname Generator — Cool Gaming Names | TextMill" />
+  <meta property="og:description" content="Create cool, decorated nicknames for gaming profiles, Discord and usernames. 20+ styles, instant, free." />
+  <meta property="og:type" content="website" />
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="shortcut icon" href="Capture.PNG" type="image/x-icon">
+
+  <style>
+    /* ── Page hero ── */
+    .tool-page-hero {
+      position: relative;
+      z-index: 1;
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 60px 5vw 40px;
+      text-align: center;
+    }
+
+    .breadcrumb {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+    }
+
+    .breadcrumb a {
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s;
+    }
+
+    .breadcrumb a:hover { color: var(--accent); }
+    .breadcrumb span { color: var(--border); }
+
+    .tool-page-hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      animation: none;
+      opacity: 1;
+      margin-bottom: .75rem;
+    }
+
+    .tool-page-hero p {
+      color: var(--text-dim);
+      font-size: .95rem;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ── Wrap ── */
+    .tool-wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 5vw 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    /* ── Input panel ── */
+    .input-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .65rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .panel-label {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .tool-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: .35rem .8rem;
+      color: var(--text-dim);
+      font-family: var(--font-body);
+      font-size: .75rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      white-space: nowrap;
+    }
+
+    .tool-btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: rgba(92,255,177,.06);
+    }
+
+    .tool-btn.danger:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+      background: rgba(255,111,111,.06);
+    }
+
+    .nickname-input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 1.2rem 1.4rem;
+      color: var(--text);
+      font-family: var(--font-mono);
+      font-size: 1.1rem;
+      outline: none;
+      resize: none;
+      min-height: 80px;
+    }
+
+    .nickname-input::placeholder { color: var(--muted); }
+
+    /* ── Category tabs ── */
+    .style-cats {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .style-cat-btn {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .4rem .9rem;
+      color: var(--text-dim);
+      font-size: .78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-body);
+    }
+
+    .style-cat-btn:hover,
+    .style-cat-btn.active {
+      background: rgba(129,140,248,.08);
+      border-color: rgba(129,140,248,.45);
+      color: #818cf8;
+    }
+
+    /* ── Results grid ── */
+    .results-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .results-title {
+      font-family: var(--font-head);
+      font-size: .9rem;
+      font-weight: 700;
+      color: var(--text-dim);
+    }
+
+    .results-count {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--muted);
+    }
+
+    .results-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .nickname-card {
+      background: var(--surface);
+      padding: 1.2rem 1.4rem;
+      display: flex;
+      flex-direction: column;
+      gap: .6rem;
+      transition: background .2s;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nickname-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--card-glow, rgba(129,140,248,.04)), transparent 60%);
+      opacity: 0;
+      transition: opacity .25s;
+      pointer-events: none;
+    }
+
+    .nickname-card:hover { background: var(--surface2); }
+    .nickname-card:hover::before { opacity: 1; }
+
+    .nickname-card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: .5rem;
+    }
+
+    .nickname-style-label {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      flex-shrink: 0;
+    }
+
+    .nickname-cat-tag {
+      font-family: var(--font-mono);
+      font-size: .6rem;
+      padding: .15rem .5rem;
+      border-radius: 4px;
+      border: 1px solid;
+      flex-shrink: 0;
+    }
+
+    .nickname-text {
+      font-size: 1.15rem;
+      line-height: 1.5;
+      word-break: break-all;
+      color: var(--text);
+      transition: color .15s;
+      min-height: 1.5em;
+    }
+
+    .nickname-card:hover .nickname-text {
+      color: #fff;
+    }
+
+    .nickname-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .5rem;
+      margin-top: .2rem;
+    }
+
+    .copy-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .3rem .75rem;
+      color: var(--text-dim);
+      font-size: .72rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s;
+      font-family: var(--font-body);
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .copy-btn:hover {
+      background: rgba(129,140,248,.1);
+      border-color: rgba(129,140,248,.4);
+      color: #818cf8;
+    }
+
+    .copy-btn.copied {
+      background: rgba(92,255,177,.1);
+      border-color: rgba(92,255,177,.4);
+      color: var(--accent);
+    }
+
+    .char-count {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: var(--muted);
+    }
+
+    /* ── Empty state ── */
+    .results-empty {
+      grid-column: 1/-1;
+      padding: 4rem 2rem;
+      text-align: center;
+      color: var(--text-dim);
+    }
+
+    .results-empty .empty-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+      opacity: .5;
+    }
+
+    .results-empty p {
+      font-size: .9rem;
+    }
+
+    /* ── Copy-all bar ── */
+    .copy-all-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .75rem 1.2rem;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .copy-all-info {
+      font-size: .82rem;
+      color: var(--text-dim);
+    }
+
+    .copy-all-info strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .btn-copy-all {
+      background: rgba(129,140,248,.1);
+      border: 1px solid rgba(129,140,248,.3);
+      border-radius: 8px;
+      padding: .5rem 1.2rem;
+      color: #818cf8;
+      font-family: var(--font-body);
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+
+    .btn-copy-all:hover {
+      background: rgba(129,140,248,.18);
+      border-color: rgba(129,140,248,.5);
+    }
+
+    /* ── Style showcase (category colors) ── */
+    [data-stylecat="borders"]    { --card-glow: rgba(251,146,60,.05); }
+    [data-stylecat="symbols"]    { --card-glow: rgba(192,132,252,.05); }
+    [data-stylecat="unicode"]    { --card-glow: rgba(45,212,191,.05); }
+    [data-stylecat="aesthetic"]  { --card-glow: rgba(248,113,113,.05); }
+    [data-stylecat="glitch"]     { --card-glow: rgba(250,204,21,.05); }
+    [data-stylecat="gaming"]     { --card-glow: rgba(129,140,248,.05); }
+
+    .tag-borders   { color: #fb923c; border-color: rgba(251,146,60,.3);   background: rgba(251,146,60,.07);  }
+    .tag-symbols   { color: #c084fc; border-color: rgba(192,132,252,.3);  background: rgba(192,132,252,.07); }
+    .tag-unicode   { color: #2dd4bf; border-color: rgba(45,212,191,.3);   background: rgba(45,212,191,.07);  }
+    .tag-aesthetic { color: #f87171; border-color: rgba(248,113,113,.3);  background: rgba(248,113,113,.07); }
+    .tag-glitch    { color: #facc15; border-color: rgba(250,204,21,.3);   background: rgba(250,204,21,.07);  }
+    .tag-gaming    { color: #818cf8; border-color: rgba(129,140,248,.3);  background: rgba(129,140,248,.07); }
+
+    /* ── Tips panel ── */
+    .tips-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: .75rem;
+    }
+
+    .tip-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      font-size: .8rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .tip-card strong {
+      display: block;
+      font-family: var(--font-head);
+      font-size: .82rem;
+      color: var(--text);
+      margin-bottom: .3rem;
+    }
+
+    /* ── Features section ── */
+    .features-wrap {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .features-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 60px 5vw;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 2.5rem;
+    }
+
+    /* ── FAQ ── */
+    .faq-section {
+      position: relative;
+      z-index: 1;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 5vw;
+    }
+
+    .faq-section h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 800;
+      letter-spacing: -.03em;
+      margin-bottom: 2rem;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-q {
+      padding: 1.1rem 0;
+      font-weight: 600;
+      font-size: .9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      transition: color .2s;
+      user-select: none;
+    }
+
+    .faq-q::after {
+      content: '+';
+      font-family: var(--font-mono);
+      font-size: 1rem;
+      color: var(--muted);
+      transition: transform .25s, color .2s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.open .faq-q { color: var(--accent); }
+    .faq-item.open .faq-q::after { transform: rotate(45deg); color: var(--accent); }
+
+    .faq-a {
+      font-size: .85rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease, padding .3s;
+    }
+
+    .faq-item.open .faq-a {
+      max-height: 300px;
+      padding-bottom: 1.2rem;
+    }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(8px);
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: .6rem 1.4rem;
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text);
+      z-index: 9999;
+      opacity: 0;
+      transition: opacity .2s, transform .2s;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Mobile ── */
+    @media (max-width: 620px) {
+      .results-grid { grid-template-columns: 1fr; }
+      .tips-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="index.html" class="logo">
+      <div class="logo-mark">T_</div>
+      Text<em>Mill</em>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html#tools">Tools</a></li>
+      <li><a href="index.html#features">Features</a></li>
+      <li><a href="index.html" class="nav-cta">All Tools →</a></li>
+    </ul>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <div class="tool-page-hero">
+    <div class="breadcrumb">
+      <a href="index.html">TextMill</a>
+      <span>/</span>
+      <span>Stylish Nickname Generator</span>
+    </div>
+    <h1>🎮 Stylish Nickname<br><em>Generator</em></h1>
+    <p>Create cool, decorated nicknames for gaming profiles, Discord, and usernames. 20+ unique styles instantly.</p>
+  </div>
+
+  <!-- TOOL -->
+  <div class="tool-wrap">
+
+    <!-- Input panel -->
+    <div class="input-panel">
+      <div class="panel-header">
+        <span class="panel-label">// your name</span>
+        <div class="panel-actions">
+          <button class="tool-btn" id="btnSample">Try Sample</button>
+          <button class="tool-btn" id="btnPaste">Paste</button>
+          <button class="tool-btn danger" id="btnClear">Clear</button>
+        </div>
+      </div>
+      <textarea
+        class="nickname-input"
+        id="nicknameInput"
+        placeholder="Type your name or gamertag here…  e.g. Shadow, XxDragon, Nova"
+        rows="2"
+        maxlength="32"
+        spellcheck="false"
+      ></textarea>
+    </div>
+
+    <!-- Style category filter -->
+    <div style="display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;">
+      <span style="font-family:var(--font-mono);font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;">Filter:</span>
+      <div class="style-cats" id="styleCats">
+        <button class="style-cat-btn active" data-cat="all">All Styles</button>
+        <button class="style-cat-btn" data-cat="borders">Borders</button>
+        <button class="style-cat-btn" data-cat="symbols">Symbols</button>
+        <button class="style-cat-btn" data-cat="unicode">Unicode</button>
+        <button class="style-cat-btn" data-cat="aesthetic">Aesthetic</button>
+        <button class="style-cat-btn" data-cat="glitch">Glitch</button>
+        <button class="style-cat-btn" data-cat="gaming">Gaming</button>
+      </div>
+    </div>
+
+    <!-- Results header -->
+    <div class="results-header">
+      <div class="results-title">Generated Nicknames</div>
+      <div class="results-count" id="resultsCount">—</div>
+    </div>
+
+    <!-- Results grid -->
+    <div class="results-grid" id="resultsGrid">
+      <div class="results-empty">
+        <span class="empty-icon">🎮</span>
+        <p>Type your name above and watch the styles appear instantly.</p>
+      </div>
+    </div>
+
+    <!-- Copy all bar -->
+    <div class="copy-all-bar" id="copyAllBar" style="display:none;">
+      <div class="copy-all-info">
+        <strong id="copyAllCount">0</strong> nicknames generated — copy all at once or pick your favorite above.
+      </div>
+      <button class="btn-copy-all" id="btnCopyAll">Copy All</button>
+    </div>
+
+    <!-- Tips -->
+    <div class="tips-row">
+      <div class="tip-card">
+        <strong>🎯 Short names work best</strong>
+        Names under 12 characters look cleanest with border and symbol styles. Try initials or abbreviations.
+      </div>
+      <div class="tip-card">
+        <strong>🌐 Platform limits vary</strong>
+        Discord allows ~32 chars, most games allow 16–24. Check character count on each card.
+      </div>
+      <div class="tip-card">
+        <strong>✨ Unicode support</strong>
+        Some platforms may not render all Unicode characters. Test before committing to a style.
+      </div>
+      <div class="tip-card">
+        <strong>🔤 Mix and match</strong>
+        Copy a style you like and tweak it manually — swap symbols or add your own decorations.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FEATURES -->
+  <div class="features-wrap">
+    <div class="features-inner">
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <div class="feature-title">Instant Generation</div>
+        <div class="feature-desc">20+ styles generated live as you type. Zero delay, zero waiting.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🎨</div>
+        <div class="feature-title">20+ Unique Styles</div>
+        <div class="feature-desc">From gaming borders to aesthetic Unicode — something for every platform and personality.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">📋</div>
+        <div class="feature-title">One-click Copy</div>
+        <div class="feature-desc">Copy any nickname instantly. Or copy all of them at once with one click.</div>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <div class="feature-title">100% Private</div>
+        <div class="feature-desc">All generation happens locally in your browser. Your name never leaves your device.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="section-label">// faq</div>
+    <h2>Common questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">What is a stylish nickname generator?</div>
+      <div class="faq-a">It transforms your regular name or gamertag into decorated versions using Unicode characters, symbols, and border patterns. The results work on platforms like Discord, Steam, PUBG, Free Fire, and most gaming and social apps.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Will these nicknames work on all platforms?</div>
+      <div class="faq-a">Most platforms support Unicode characters, but some (like older games or strict systems) may strip special characters. We recommend testing your chosen nickname before committing. The character count shown on each card helps you stay within platform limits.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What's the difference between Unicode and ASCII styles?</div>
+      <div class="faq-a">ASCII styles use characters available on every keyboard (like -, |, *, #), while Unicode styles use special characters from the Unicode standard (like ░, ▓, ꧁꧂). Unicode styles look more exotic but may not render on all platforms.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is there a character limit for input?</div>
+      <div class="faq-a">The input is capped at 32 characters since most platform nickname limits fall in that range. Shorter names (6–12 chars) tend to produce the most visually appealing results.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use these for my Discord server name or profile?</div>
+      <div class="faq-a">Absolutely — Discord supports most Unicode characters in display names and server names. The "Aesthetic", "Unicode", and "Borders" categories work especially well for Discord profiles.</div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-copy">© 2026 TextMill · Built for writers, devs &amp; everyone in between.</div>
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+      <li><a href="#">GitHub</a></li>
+    </ul>
+  </footer>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    /* ── Style definitions ── */
+    const STYLES = [
+      // --- Gaming ---
+      { id: 'gaming1',   cat: 'gaming',    label: 'Classic Gaming',   fn: n => `ッ ${n} ッ` },
+      { id: 'gaming2',   cat: 'gaming',    label: 'Pro Gamer',        fn: n => `[${n}]` },
+      { id: 'gaming3',   cat: 'gaming',    label: 'Elite Tag',        fn: n => `•|${n}|•` },
+      { id: 'gaming4',   cat: 'gaming',    label: 'Clan Style',       fn: n => `《${n}》` },
+      { id: 'gaming5',   cat: 'gaming',    label: 'Squad Mark',       fn: n => `꧁${n}꧂` },
+
+      // --- Borders ---
+      { id: 'border1',   cat: 'borders',   label: 'Double Angle',     fn: n => `≪ ${n} ≫` },
+      { id: 'border2',   cat: 'borders',   label: 'Stars',            fn: n => `★彡 ${n} 彡★` },
+      { id: 'border3',   cat: 'borders',   label: 'Wave Border',      fn: n => `~•~${n}~•~` },
+      { id: 'border4',   cat: 'borders',   label: 'Diamond Frame',    fn: n => `◈ ${n} ◈` },
+      { id: 'border5',   cat: 'borders',   label: 'Lace Border',      fn: n => `༻${n}༺` },
+
+      // --- Symbols ---
+      { id: 'sym1',      cat: 'symbols',   label: 'Crown',            fn: n => `👑 ${n} 👑` },
+      { id: 'sym2',      cat: 'symbols',   label: 'Fire',             fn: n => `🔥${n}🔥` },
+      { id: 'sym3',      cat: 'symbols',   label: 'Lightning',        fn: n => `⚡${n}⚡` },
+      { id: 'sym4',      cat: 'symbols',   label: 'Swords',           fn: n => `⚔️ ${n} ⚔️` },
+      { id: 'sym5',      cat: 'symbols',   label: 'Skull',            fn: n => `☠️ ${n} ☠️` },
+
+      // --- Unicode text styles ---
+      { id: 'uni1',      cat: 'unicode',   label: 'Bold Serif',       fn: n => toUni(n, 'bold_serif') },
+      { id: 'uni2',      cat: 'unicode',   label: 'Italic Serif',     fn: n => toUni(n, 'italic_serif') },
+      { id: 'uni3',      cat: 'unicode',   label: 'Double-struck',    fn: n => toUni(n, 'double_struck') },
+      { id: 'uni4',      cat: 'unicode',   label: 'Script / Cursive', fn: n => toUni(n, 'script') },
+      { id: 'uni5',      cat: 'unicode',   label: 'Fraktur',          fn: n => toUni(n, 'fraktur') },
+      { id: 'uni6',      cat: 'unicode',   label: 'Monospace',        fn: n => toUni(n, 'monospace') },
+      { id: 'uni7',      cat: 'unicode',   label: 'Fullwidth',        fn: n => toUni(n, 'fullwidth') },
+
+      // --- Aesthetic / vaporwave ---
+      { id: 'aes1',      cat: 'aesthetic', label: 'Vaporwave',        fn: n => toFullwidth(n) },
+      { id: 'aes2',      cat: 'aesthetic', label: 'Aesthetic Dots',   fn: n => n.split('').join('·') },
+      { id: 'aes3',      cat: 'aesthetic', label: 'SpAcEd',           fn: n => n.split('').join(' ') },
+      { id: 'aes4',      cat: 'aesthetic', label: 'Strikethrough',    fn: n => n.split('').map(c => c + '\u0336').join('') },
+      { id: 'aes5',      cat: 'aesthetic', label: 'Underline',        fn: n => n.split('').map(c => c + '\u0332').join('') },
+      { id: 'aes6',      cat: 'aesthetic', label: 'Tiny Caps',        fn: n => toSmallCaps(n) },
+
+      // --- Glitch / zalgo-lite ---
+      { id: 'glitch1',   cat: 'glitch',    label: 'Zalgo Light',      fn: n => zalgoLite(n) },
+      { id: 'glitch2',   cat: 'glitch',    label: 'Overline Glitch',  fn: n => n.split('').map(c => c + '\u0305').join('') },
+      { id: 'glitch3',   cat: 'glitch',    label: 'Chaos',            fn: n => n.split('').map((c,i) => i%2===0 ? c.toUpperCase() : c.toLowerCase()).join('') },
+      { id: 'glitch4',   cat: 'glitch',    label: 'Shadow Noise',     fn: n => `░▒▓ ${n} ▓▒░` },
+      { id: 'glitch5',   cat: 'glitch',    label: 'Static',           fn: n => n.split('').join('̤') },
+    ];
+
+    /* ── Unicode mapping ── */
+    const UNI_MAP = {
+      bold_serif:    { a:0x1D41A, A:0x1D400, '0':0x1D7CE },
+      italic_serif:  { a:0x1D44E, A:0x1D434 },
+      double_struck: { a:0x1D552, A:0x1D538, '0':0x1D7D8 },
+      script:        { a:0x1D4EA, A:0x1D4D0 },
+      fraktur:       { a:0x1D586, A:0x1D56C },
+      monospace:     { a:0x1D670+26, A:0x1D670, '0':0x1D7F6 },
+      fullwidth:     { a:0xFF41, A:0xFF21, '0':0xFF10 },
+    };
+
+    // Fix monospace offset
+    UNI_MAP.monospace.a = 0x1D68A;
+    UNI_MAP.monospace.A = 0x1D670;
+
+    function toUni(text, style) {
+      const map = UNI_MAP[style];
+      if (!map) return text;
+      return text.split('').map(c => {
+        const code = c.charCodeAt(0);
+        if (c >= 'a' && c <= 'z') return String.fromCodePoint(map.a + code - 97);
+        if (c >= 'A' && c <= 'Z') return String.fromCodePoint(map.A + code - 65);
+        if (map['0'] && c >= '0' && c <= '9') return String.fromCodePoint(map['0'] + code - 48);
+        return c;
+      }).join('');
+    }
+
+    function toFullwidth(text) {
+      return text.split('').map(c => {
+        const code = c.charCodeAt(0);
+        if (c === ' ') return '\u3000';
+        if (code >= 33 && code <= 126) return String.fromCodePoint(code + 0xFF00 - 32);
+        return c;
+      }).join('');
+    }
+
+    const SMALL_CAPS = {a:'ᴀ',b:'ʙ',c:'ᴄ',d:'ᴅ',e:'ᴇ',f:'ꜰ',g:'ɢ',h:'ʜ',i:'ɪ',j:'ᴊ',k:'ᴋ',l:'ʟ',m:'ᴍ',n:'ɴ',o:'ᴏ',p:'ᴘ',q:'q',r:'ʀ',s:'s',t:'ᴛ',u:'ᴜ',v:'ᴠ',w:'ᴡ',x:'x',y:'ʏ',z:'ᴢ'};
+    function toSmallCaps(text) {
+      return text.toLowerCase().split('').map(c => SMALL_CAPS[c] || c).join('');
+    }
+
+    const ZALGO_ABOVE = ['\u0300','\u0301','\u0302','\u0303','\u0308','\u030A','\u030B','\u030C','\u030D','\u030E'];
+    const ZALGO_BELOW = ['\u0316','\u0317','\u031C','\u031D','\u031E','\u031F','\u0320','\u0321','\u0322'];
+    function zalgoLite(text) {
+      return text.split('').map(c => {
+        if (c === ' ') return c;
+        const above = ZALGO_ABOVE[Math.floor(Math.random()*ZALGO_ABOVE.length)];
+        const below = ZALGO_BELOW[Math.floor(Math.random()*ZALGO_BELOW.length)];
+        return c + above + below;
+      }).join('');
+    }
+
+    /* ── State ── */
+    let activeFilter = 'all';
+    let generatedNicknames = [];
+
+    /* ── DOM refs ── */
+    const input = document.getElementById('nicknameInput');
+    const grid  = document.getElementById('resultsGrid');
+    const toast = document.getElementById('toast');
+    const copyAllBar = document.getElementById('copyAllBar');
+    const copyAllCount = document.getElementById('copyAllCount');
+    const resultsCount = document.getElementById('resultsCount');
+    let toastTimer;
+
+    /* ── Toast ── */
+    function showToast(msg = 'Copied!') {
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
+    }
+
+    /* ── Generate ── */
+    function generate() {
+      const name = input.value.trim();
+
+      if (!name) {
+        grid.innerHTML = `<div class="results-empty"><span class="empty-icon">🎮</span><p>Type your name above and watch the styles appear instantly.</p></div>`;
+        copyAllBar.style.display = 'none';
+        resultsCount.textContent = '—';
+        return;
+      }
+
+      const filtered = STYLES.filter(s => activeFilter === 'all' || s.cat === activeFilter);
+      generatedNicknames = filtered.map(s => ({ ...s, result: s.fn(name) }));
+
+      resultsCount.textContent = `${generatedNicknames.length} style${generatedNicknames.length !== 1 ? 's' : ''}`;
+
+      grid.innerHTML = '';
+      generatedNicknames.forEach(({ id, cat, label, result }) => {
+        const card = document.createElement('div');
+        card.className = 'nickname-card';
+        card.dataset.stylecat = cat;
+        card.innerHTML = `
+          <div class="nickname-card-top">
+            <span class="nickname-style-label">${label}</span>
+            <span class="nickname-cat-tag tag-${cat}">${cat}</span>
+          </div>
+          <div class="nickname-text" id="nt-${id}">${result}</div>
+          <div class="nickname-card-footer">
+            <button class="copy-btn" data-id="${id}" data-text="${encodeURIComponent(result)}">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+              Copy
+            </button>
+            <span class="char-count">${[...result].length} chars</span>
+          </div>`;
+        grid.appendChild(card);
+      });
+
+      /* copy buttons */
+      grid.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const text = decodeURIComponent(btn.dataset.text);
+          navigator.clipboard.writeText(text).then(() => {
+            btn.classList.add('copied');
+            btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+            showToast('Copied!');
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy`;
+            }, 2000);
+          });
+        });
+      });
+
+      copyAllBar.style.display = '';
+      copyAllCount.textContent = generatedNicknames.length;
+    }
+
+    /* ── Events ── */
+    input.addEventListener('input', generate);
+
+    /* Category filter */
+    document.querySelectorAll('.style-cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.style-cat-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        activeFilter = btn.dataset.cat;
+        generate();
+      });
+    });
+
+    /* Toolbar */
+    document.getElementById('btnClear').addEventListener('click', () => {
+      input.value = '';
+      generate();
+      input.focus();
+    });
+
+    document.getElementById('btnPaste').addEventListener('click', async () => {
+      try {
+        const t = await navigator.clipboard.readText();
+        input.value = t.slice(0, 32).replace(/\n/g, '');
+        generate();
+        showToast('Pasted!');
+      } catch { showToast('Allow clipboard access'); }
+    });
+
+    document.getElementById('btnSample').addEventListener('click', () => {
+      const samples = ['Shadow', 'Nova', 'XxDragon', 'Blaze', 'Phantom', 'Striker', 'Viper', 'Eclipse'];
+      input.value = samples[Math.floor(Math.random() * samples.length)];
+      generate();
+    });
+
+    document.getElementById('btnCopyAll').addEventListener('click', () => {
+      if (!generatedNicknames.length) return;
+      const all = generatedNicknames.map(n => n.result).join('\n');
+      navigator.clipboard.writeText(all).then(() => showToast(`Copied ${generatedNicknames.length} nicknames!`));
+    });
+
+    /* ── FAQ ── */
+    document.querySelectorAll('.faq-item').forEach(item => {
+      item.querySelector('.faq-q').addEventListener('click', () => item.classList.toggle('open'));
+    });
+  </script>
+</body>
+
+</html>
