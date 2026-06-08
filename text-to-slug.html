@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>Text to Slug — URL Slug Generator | TextCraft</title>
+  <meta name="description" content="Free online text to slug converter. Instantly generate clean, SEO-friendly URL slugs from any title or text. Customize separator, case, and more. No sign-up required." />
+  <meta name="keywords" content="text to slug, slug generator, url slug, convert text to slug, seo friendly url, slug maker, permalink generator" />
+  <link rel="canonical" href="https://textMill.site/text-to-slug" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Text to Slug — URL Slug Generator | TextCraft" />
+  <meta property="og:description" content="Convert any title or phrase into a clean, SEO-friendly URL slug instantly. Free, private, browser-based." />
+  <meta property="og:url" content="https://textMill.site/text-to-slug" />
+  <meta property="og:site_name" content="TextCraft" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Text to Slug — URL Slug Generator" />
+  <meta name="twitter:description" content="Turn any title into a clean URL slug instantly — custom separator, case options, free & private." />
+  <link rel="icon" href="Capture.PNG" />
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Schema.org: WebApplication -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Text to Slug",
+    "url": "https://textMill.site/text-to-slug",
+    "description": "Free online tool to convert any title or text into a clean, SEO-friendly URL slug.",
+    "applicationCategory": "UtilitiesApplication",
+    "operatingSystem": "All",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "featureList": [
+      "Instant slug generation",
+      "Custom separator (hyphen, underscore, dot)",
+      "Lowercase and uppercase output",
+      "Remove stop words option",
+      "Transliteration support",
+      "Bulk slug generation",
+      "Copy to clipboard"
+    ]
+  }
+  </script>
+
+  <!-- Schema.org: BreadcrumbList -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "TextCraft", "item": "https://textMill.site" },
+      { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://textMill.site/#tools" },
+      { "@type": "ListItem", "position": 3, "name": "Text to Slug", "item": "https://textMill.site/text-to-slug" }
+    ]
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0c0c0f;
+      --surface:   #141418;
+      --surface2:  #1c1c23;
+      --border:    #2a2a35;
+      --accent:    #5cffb1;
+      --accent2:   #3d8bff;
+      --accent3:   #ff6f6f;
+      --muted:     #52525e;
+      --text:      #e8e8f0;
+      --text-dim:  #9898aa;
+      --radius:    14px;
+      --font-head: 'Syne', sans-serif;
+      --font-mono: 'DM Mono', monospace;
+      --font-body: 'DM Sans', sans-serif;
+      --tool-accent: #3d8bff;
+      --tool-accent-bg: rgba(61,139,255,.08);
+      --tool-accent-border: rgba(61,139,255,.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 48px 48px;
+      opacity: .3;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: -200px; left: 50%;
+      transform: translateX(-50%);
+      width: 800px; height: 600px;
+      background: radial-gradient(ellipse, rgba(61,139,255,.07) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* ── NAV ── */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 5vw; height: 64px;
+      background: rgba(12,12,15,.85);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: var(--font-head); font-size: 1.25rem; font-weight: 800;
+      letter-spacing: -.02em; color: var(--text); text-decoration: none;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .logo em { font-style: normal; color: var(--accent); }
+    .logo-mark {
+      width: 28px; height: 28px; background: var(--accent); border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-mono); font-size: .8rem; font-weight: 500; color: #0c0c0f;
+    }
+    .nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--text-dim); text-decoration: none; font-size: .875rem; font-weight: 500; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--accent) !important; color: #0c0c0f !important;
+      padding: .45rem 1.1rem; border-radius: 8px; font-weight: 600 !important; transition: opacity .2s !important;
+    }
+    .nav-cta:hover { opacity: .85 !important; color: #0c0c0f !important; }
+
+    /* ── BREADCRUMB ── */
+    .breadcrumb {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: .5rem;
+      padding: 1rem 5vw 0;
+      font-size: .78rem; color: var(--muted);
+      font-family: var(--font-mono);
+    }
+    .breadcrumb a { color: var(--muted); text-decoration: none; transition: color .2s; }
+    .breadcrumb a:hover { color: var(--text-dim); }
+    .breadcrumb span { color: var(--tool-accent); }
+
+    /* ── PAGE HEADER ── */
+    .page-header {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 2.5rem 5vw 0;
+      animation: fadeUp .5s ease both;
+    }
+    .tool-badge {
+      display: inline-flex; align-items: center; gap: .5rem;
+      background: var(--tool-accent-bg);
+      border: 1px solid var(--tool-accent-border);
+      border-radius: 999px; padding: .28rem .9rem;
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--tool-accent); margin-bottom: 1rem;
+      letter-spacing: .04em;
+    }
+    .page-header h1 {
+      font-family: var(--font-head); font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 800; letter-spacing: -.04em; line-height: 1.1;
+      opacity: 1; animation: none;
+    }
+    .page-header h1 em { font-style: normal; color: var(--tool-accent); }
+    .page-header p {
+      margin-top: .75rem; color: var(--text-dim); font-size: .95rem; max-width: 520px;
+    }
+
+    /* ── MAIN TOOL AREA ── */
+    .tool-wrap {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 2rem auto 0;
+      padding: 0 5vw 4rem;
+    }
+
+    /* ── INPUT CARD ── */
+    .input-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .card-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .85rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .card-title {
+      font-family: var(--font-mono); font-size: .75rem;
+      color: var(--text-dim); letter-spacing: .06em; text-transform: uppercase;
+    }
+    .card-actions { display: flex; gap: .5rem; }
+    .micro-btn {
+      background: transparent; border: 1px solid var(--border);
+      border-radius: 6px; padding: .28rem .7rem;
+      font-size: .72rem; font-family: var(--font-mono);
+      color: var(--text-dim); cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .micro-btn:hover { border-color: var(--text-dim); color: var(--text); }
+
+    #inputText {
+      width: 100%; min-height: 110px;
+      background: transparent; border: none; outline: none;
+      color: var(--text); font-family: var(--font-body);
+      font-size: 1rem; line-height: 1.65;
+      padding: 1.1rem 1.3rem; resize: vertical;
+    }
+    #inputText::placeholder { color: var(--muted); }
+
+    .char-count {
+      padding: .5rem 1.3rem;
+      font-family: var(--font-mono); font-size: .72rem; color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── OPTIONS ROW ── */
+    .options-row {
+      display: flex; align-items: stretch; gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-top: 1px;
+    }
+    .opt-group {
+      background: var(--surface); flex: 1;
+      padding: .9rem 1.2rem;
+      display: flex; flex-direction: column; gap: .45rem;
+    }
+    .opt-label {
+      font-family: var(--font-mono); font-size: .68rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+    }
+    .opt-pills { display: flex; gap: .35rem; flex-wrap: wrap; }
+    .pill {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 6px; padding: .28rem .75rem;
+      font-size: .78rem; font-family: var(--font-mono);
+      color: var(--text-dim); cursor: pointer;
+      transition: all .18s; white-space: nowrap;
+    }
+    .pill:hover { border-color: var(--tool-accent); color: var(--tool-accent); }
+    .pill.active {
+      background: var(--tool-accent-bg);
+      border-color: var(--tool-accent);
+      color: var(--tool-accent);
+    }
+    .toggle-wrap { display: flex; align-items: center; gap: .6rem; cursor: pointer; }
+    .toggle {
+      width: 34px; height: 18px; border-radius: 9px;
+      background: var(--border); position: relative;
+      transition: background .2s; cursor: pointer; border: none; flex-shrink: 0;
+    }
+    .toggle::after {
+      content: ''; position: absolute; top: 2px; left: 2px;
+      width: 14px; height: 14px; border-radius: 50%;
+      background: var(--muted); transition: transform .2s, background .2s;
+    }
+    .toggle.on { background: var(--tool-accent-bg); border: 1px solid var(--tool-accent); }
+    .toggle.on::after { transform: translateX(16px); background: var(--tool-accent); }
+    .toggle-label { font-size: .82rem; color: var(--text-dim); }
+
+    /* ── ACTION BAR ── */
+    .action-bar {
+      display: flex; align-items: center; gap: .75rem; margin-top: 1rem; flex-wrap: wrap;
+    }
+    .btn-primary {
+      background: var(--tool-accent); color: #fff;
+      border: none; border-radius: 10px; padding: .72rem 1.6rem;
+      font-family: var(--font-body); font-size: .93rem; font-weight: 600;
+      cursor: pointer; transition: transform .15s, opacity .15s;
+      display: flex; align-items: center; gap: .5rem;
+    }
+    .btn-primary:hover { transform: translateY(-1px); opacity: .88; }
+    .btn-ghost {
+      background: transparent; color: var(--text-dim);
+      border: 1px solid var(--border); border-radius: 10px; padding: .72rem 1.3rem;
+      font-family: var(--font-body); font-size: .88rem; font-weight: 500;
+      cursor: pointer; transition: border-color .2s, color .2s;
+    }
+    .btn-ghost:hover { border-color: var(--text-dim); color: var(--text); }
+
+    /* ── OUTPUT CARD ── */
+    .output-card {
+      margin-top: 1.4rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      animation: fadeUp .35s ease both;
+    }
+    .output-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .75rem 1.2rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .output-label {
+      display: flex; align-items: center; gap: .55rem;
+      font-family: var(--font-mono); font-size: .75rem; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: .06em;
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--muted); flex-shrink: 0;
+      transition: background .3s;
+    }
+    .status-dot.ok { background: var(--accent); box-shadow: 0 0 6px rgba(92,255,177,.5); }
+
+    .slug-output {
+      padding: 1.2rem 1.3rem;
+      font-family: var(--font-mono); font-size: 1rem;
+      color: var(--accent2); word-break: break-all; line-height: 1.7;
+      min-height: 56px;
+    }
+    .slug-output.empty { color: var(--muted); font-size: .88rem; font-family: var(--font-body); }
+
+    .slug-meta {
+      display: flex; align-items: center; gap: 1.5rem;
+      padding: .6rem 1.3rem;
+      border-top: 1px solid var(--border);
+      background: rgba(0,0,0,.15);
+    }
+    .slug-stat {
+      font-family: var(--font-mono); font-size: .7rem; color: var(--muted);
+    }
+    .slug-stat strong { color: var(--text-dim); }
+
+    /* ── BULK SECTION ── */
+    .bulk-toggle {
+      display: flex; align-items: center; gap: .6rem;
+      margin-top: 1.5rem; cursor: pointer; width: fit-content;
+    }
+    .bulk-toggle-icon {
+      width: 22px; height: 22px; border-radius: 5px;
+      background: var(--surface2); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .75rem; color: var(--text-dim); transition: all .2s;
+    }
+    .bulk-toggle:hover .bulk-toggle-icon { border-color: var(--tool-accent); color: var(--tool-accent); }
+    .bulk-toggle span { font-size: .85rem; color: var(--text-dim); transition: color .2s; }
+    .bulk-toggle:hover span { color: var(--text); }
+
+    .bulk-panel {
+      display: none;
+      margin-top: .75rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .bulk-panel.open { display: block; animation: fadeUp .3s ease both; }
+
+    .bulk-cols {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1px;
+      background: var(--border);
+    }
+    .bulk-pane {
+      background: var(--surface); padding: 1rem 1.2rem;
+    }
+    .bulk-pane-label {
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .08em;
+      margin-bottom: .6rem;
+    }
+    #bulkInput, #bulkOutput {
+      width: 100%; background: transparent; border: none; outline: none;
+      color: var(--text); font-family: var(--font-mono); font-size: .82rem;
+      line-height: 1.7; resize: vertical; min-height: 130px;
+    }
+    #bulkInput::placeholder { color: var(--muted); }
+    #bulkOutput { color: var(--tool-accent); }
+
+    .bulk-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: .7rem 1.2rem; border-top: 1px solid var(--border);
+      background: var(--surface2);
+    }
+    .bulk-info { font-family: var(--font-mono); font-size: .72rem; color: var(--muted); }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed; bottom: 2rem; right: 2rem; z-index: 999;
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: .7rem 1.2rem;
+      font-size: .85rem; color: var(--text);
+      box-shadow: 0 8px 32px rgba(0,0,0,.4);
+      transform: translateY(10px); opacity: 0;
+      transition: all .25s; pointer-events: none;
+    }
+    #toast.show { transform: translateY(0); opacity: 1; }
+    #toast.success { border-color: rgba(92,255,177,.3); color: var(--accent); }
+
+    /* ── REFERENCE TABLE ── */
+    .ref-section {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 5vw 3rem;
+    }
+    .ref-label {
+      font-family: var(--font-mono); font-size: .72rem;
+      color: var(--tool-accent); letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: .6rem;
+    }
+    .ref-title {
+      font-family: var(--font-head); font-size: 1.4rem; font-weight: 800;
+      letter-spacing: -.03em; margin-bottom: .4rem;
+    }
+    .ref-desc { color: var(--text-dim); font-size: .88rem; margin-bottom: 1.4rem; }
+
+    .example-table {
+      width: 100%; border-collapse: collapse;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      font-size: .85rem;
+    }
+    .example-table thead { background: var(--surface2); }
+    .example-table th {
+      padding: .7rem 1.1rem; text-align: left;
+      font-family: var(--font-mono); font-size: .7rem;
+      color: var(--muted); text-transform: uppercase; letter-spacing: .07em;
+      border-bottom: 1px solid var(--border);
+    }
+    .example-table td {
+      padding: .75rem 1.1rem; border-bottom: 1px solid rgba(42,42,53,.5);
+      vertical-align: middle;
+    }
+    .example-table tr:last-child td { border-bottom: none; }
+    .example-table tr:hover td { background: var(--surface2); }
+    .input-text { color: var(--text-dim); }
+    .slug-text { font-family: var(--font-mono); color: var(--tool-accent); }
+    .note-text { color: var(--muted); font-size: .78rem; }
+
+    /* ── FAQ ── */
+    .faq-section {
+      position: relative; z-index: 1;
+      max-width: 900px; margin: 0 auto;
+      padding: 0 5vw 4rem;
+    }
+    .faq-list { display: flex; flex-direction: column; gap: .5rem; margin-top: 1.2rem; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; overflow: hidden;
+    }
+    .faq-q {
+      width: 100%; text-align: left; background: none; border: none;
+      padding: 1rem 1.2rem; display: flex; align-items: center; justify-content: space-between;
+      cursor: pointer; color: var(--text); font-family: var(--font-body);
+      font-size: .9rem; font-weight: 500; gap: 1rem;
+    }
+    .faq-q:hover { color: var(--tool-accent); }
+    .faq-chevron {
+      font-size: .8rem; color: var(--muted); transition: transform .3s; flex-shrink: 0;
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height .35s ease, padding .35s ease;
+      padding: 0 1.2rem; color: var(--text-dim); font-size: .88rem; line-height: 1.7;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding: 0 1.2rem 1rem; }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      border-top: 1px solid var(--border); padding: 2.5rem 5vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-copy { font-size: .82rem; color: var(--muted); }
+    .footer-links { display: flex; gap: 1.5rem; list-style: none; }
+    .footer-links a { font-size: .82rem; color: var(--muted); text-decoration: none; transition: color .2s; }
+    .footer-links a:hover { color: var(--text-dim); }
+
+    @media (max-width: 620px) {
+      .nav-links { display: none; }
+      .options-row { flex-direction: column; }
+      .bulk-cols { grid-template-columns: 1fr; }
+      .page-header h1 { font-size: 1.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+    <a href="#" class="logo">
+      <div class="logo-mark">T_</div>
+      Text<em>Mill</em>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/#tools">Tools</a></li>
+      <li><a href="/#features">Features</a></li>
+      <!-- <li><a href="#">Blog</a></li> -->
+      <li><a href="#" class="nav-cta">Try Free →</a></li>
+    </ul>
+  </nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="/">TextCraft</a>
+  <span>›</span>
+  <a href="/#tools">Tools</a>
+  <span>›</span>
+  <span style="color:var(--text-dim)">Text to Slug</span>
+</div>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="tool-badge">⚡ URL TOOL</div>
+  <h1>Text to <em>Slug</em></h1>
+  <p>Convert any title or phrase into a clean, SEO-friendly URL slug instantly. Customize the separator, case, and more.</p>
+</div>
+
+<!-- TOOL AREA -->
+<div class="tool-wrap">
+
+  <!-- INPUT CARD -->
+  <div class="input-card">
+    <div class="card-header">
+      <span class="card-title">Input Text</span>
+      <div class="card-actions">
+        <button class="micro-btn" id="pasteBtn">Paste</button>
+        <button class="micro-btn" id="clearBtn">Clear</button>
+      </div>
+    </div>
+    <textarea id="inputText" placeholder="Paste or type your title here, e.g. "How to Build a REST API in 2025"…" spellcheck="false"></textarea>
+    <div class="char-count" id="charCount">0 characters · 0 words</div>
+  </div>
+
+  <!-- OPTIONS -->
+  <div class="options-row">
+    <div class="opt-group">
+      <div class="opt-label">Separator</div>
+      <div class="opt-pills" id="sepPills">
+        <button class="pill active" data-sep="-">hyphen  -</button>
+        <button class="pill" data-sep="_">underscore  _</button>
+        <button class="pill" data-sep=".">dot  .</button>
+      </div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Case</div>
+      <div class="opt-pills" id="casePills">
+        <button class="pill active" data-case="lower">lowercase</button>
+        <button class="pill" data-case="upper">UPPERCASE</button>
+        <button class="pill" data-case="preserve">Preserve</button>
+      </div>
+    </div>
+    <div class="opt-group">
+      <div class="opt-label">Options</div>
+      <label class="toggle-wrap" title="Remove common English stop words like 'a', 'the', 'and'">
+        <button class="toggle" id="stopToggle" role="switch" aria-checked="false"></button>
+        <span class="toggle-label">Remove stop words</span>
+      </label>
+      <label class="toggle-wrap" title="Strip numbers from the output slug">
+        <button class="toggle" id="numToggle" role="switch" aria-checked="false"></button>
+        <span class="toggle-label">Strip numbers</span>
+      </label>
+    </div>
+  </div>
+
+  <!-- ACTION BAR -->
+  <div class="action-bar">
+    <button class="btn-primary" id="generateBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline></svg>
+      Generate Slug
+    </button>
+    <button class="btn-ghost" id="copySlugBtn">Copy Slug</button>
+    <button class="btn-ghost" id="resetBtn">Reset</button>
+  </div>
+
+  <!-- OUTPUT CARD -->
+  <div class="output-card" id="outputCard">
+    <div class="output-header">
+      <div class="output-label">
+        <div class="status-dot" id="statusDot"></div>
+        Generated Slug
+      </div>
+      <div class="card-actions">
+        <button class="micro-btn" id="copyBtn2">Copy</button>
+      </div>
+    </div>
+    <div class="slug-output empty" id="slugOutput">Slug will appear here…</div>
+    <div class="slug-meta">
+      <div class="slug-stat">Length: <strong id="slugLength">—</strong></div>
+      <div class="slug-stat">Words: <strong id="slugWords">—</strong></div>
+      <div class="slug-stat">Chars removed: <strong id="charsRemoved">—</strong></div>
+    </div>
+  </div>
+
+  <!-- BULK TOGGLE -->
+  <div class="bulk-toggle" id="bulkToggle">
+    <div class="bulk-toggle-icon" id="bulkIcon">+</div>
+    <span>Bulk mode — convert multiple lines at once</span>
+  </div>
+
+  <!-- BULK PANEL -->
+  <div class="bulk-panel" id="bulkPanel">
+    <div class="bulk-cols">
+      <div class="bulk-pane">
+        <div class="bulk-pane-label">Input — one title per line</div>
+        <textarea id="bulkInput" placeholder="How to Build a REST API&#10;Top 10 JavaScript Tips&#10;Getting Started with Docker"></textarea>
+      </div>
+      <div class="bulk-pane">
+        <div class="bulk-pane-label">Output slugs</div>
+        <textarea id="bulkOutput" readonly placeholder="Slugs will appear here…"></textarea>
+      </div>
+    </div>
+    <div class="bulk-footer">
+      <span class="bulk-info" id="bulkInfo">0 slugs generated</span>
+      <div class="card-actions">
+        <button class="micro-btn" id="bulkCopyBtn">Copy All</button>
+        <button class="micro-btn" id="bulkClearBtn">Clear</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /tool-wrap -->
+
+<!-- REFERENCE TABLE -->
+<div class="ref-section reveal">
+  <div class="ref-label">Reference</div>
+  <div class="ref-title">Slug Examples</div>
+  <div class="ref-desc">See how different input text is transformed into URL-safe slugs.</div>
+  <table class="example-table">
+    <thead>
+      <tr>
+        <th>Input Text</th>
+        <th>Generated Slug</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="input-text">How to Build a REST API in 2025</td>
+        <td class="slug-text">how-to-build-a-rest-api-in-2025</td>
+        <td class="note-text">Default settings (hyphen, lowercase)</td>
+      </tr>
+      <tr>
+        <td class="input-text">Top 10 JavaScript Tips & Tricks!</td>
+        <td class="slug-text">top-10-javascript-tips-tricks</td>
+        <td class="note-text">Special chars and & removed</td>
+      </tr>
+      <tr>
+        <td class="input-text">Ünïcödé &amp; Àccénts Support</td>
+        <td class="slug-text">unicode-accents-support</td>
+        <td class="note-text">Accented chars transliterated</td>
+      </tr>
+      <tr>
+        <td class="input-text">  Extra   Spaces   Everywhere  </td>
+        <td class="slug-text">extra-spaces-everywhere</td>
+        <td class="note-text">Whitespace normalised</td>
+      </tr>
+      <tr>
+        <td class="input-text">Getting Started with Docker (2025 Edition)</td>
+        <td class="slug-text">getting-started-docker-2025-edition</td>
+        <td class="note-text">Stop words removed (with, the…)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- FAQ -->
+<div class="faq-section reveal">
+  <div class="ref-label">FAQ</div>
+  <div class="ref-title">Common Questions</div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What is a URL slug?<span class="faq-chevron">▾</span></button>
+      <div class="faq-a">A URL slug is the human-readable part of a web address that identifies a specific page. For example, in <code style="font-family:var(--font-mono);color:var(--tool-accent);font-size:.85em">example.com/blog/my-first-post</code>, the slug is <code style="font-family:var(--font-mono);color:var(--tool-accent);font-size:.85em">my-first-post</code>. Good slugs are short, lowercase, use hyphens as separators, and contain relevant keywords.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Why use hyphens instead of underscores?<span class="faq-chevron">▾</span></button>
+      <div class="faq-a">Google treats hyphens as word separators, making individual keywords recognisable for SEO. Underscores join words together, so "my_post" is treated as one word, not two. Unless your platform requires underscores (e.g. Python file names), hyphens are the recommended choice for URLs.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">What are stop words and should I remove them?<span class="faq-chevron">▾</span></button>
+      <div class="faq-a">Stop words are common words like "a", "the", "and", "in", "of" that add little SEO value. Removing them makes slugs shorter and more keyword-dense. For example, "the-best-way-to-learn-javascript" becomes "best-way-learn-javascript". This is optional — sometimes keeping stop words improves human readability.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">Is my text sent to a server?<span class="faq-chevron">▾</span></button>
+      <div class="faq-a">No. All processing happens entirely in your browser using JavaScript. Your text never leaves your device and no data is stored or transmitted anywhere.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q" aria-expanded="false">How are accented characters handled?<span class="faq-chevron">▾</span></button>
+      <div class="faq-a">Accented and special characters (like é, ü, ñ, ç) are automatically transliterated to their ASCII equivalents (e, u, n, c) before slugifying, ensuring maximum URL compatibility across all platforms and browsers.</div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-copy">© 2025 TextCraft · All tools are free and private.</span>
+  <ul class="footer-links">
+    <li><a href="/privacy">Privacy</a></li>
+    <li><a href="/about">About</a></li>
+    <li><a href="/#tools">All Tools</a></li>
+  </ul>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════
+   STOP WORDS
+══════════════════════════════════════ */
+const STOP_WORDS = new Set([
+  'a','an','the','and','or','but','in','on','at','to','for',
+  'of','with','by','from','as','is','was','are','were','be',
+  'been','has','have','had','it','its','this','that','these',
+  'those','i','you','he','she','we','they','do','did','will',
+  'would','could','should','may','might','not','no','nor','so',
+  'yet','both','either','neither','each','few','more','most',
+  'than','then','now','just','into','onto','up','out','about'
+]);
+
+/* ══════════════════════════════════════
+   TRANSLITERATE
+══════════════════════════════════════ */
+const TRANS_MAP = {
+  'à':'a','á':'a','â':'a','ã':'a','ä':'a','å':'a','æ':'ae',
+  'ç':'c','è':'e','é':'e','ê':'e','ë':'e','ì':'i','í':'i',
+  'î':'i','ï':'i','ð':'d','ñ':'n','ò':'o','ó':'o','ô':'o',
+  'õ':'o','ö':'o','ø':'o','ù':'u','ú':'u','û':'u','ü':'u',
+  'ý':'y','þ':'th','ÿ':'y','ß':'ss','œ':'oe','Œ':'oe',
+  'À':'a','Á':'a','Â':'a','Ã':'a','Ä':'a','Å':'a','Æ':'ae',
+  'Ç':'c','È':'e','É':'e','Ê':'e','Ë':'e','Ì':'i','Í':'i',
+  'Î':'i','Ï':'i','Ñ':'n','Ò':'o','Ó':'o','Ô':'o','Õ':'o',
+  'Ö':'o','Ø':'o','Ù':'u','Ú':'u','Û':'u','Ü':'u','Ý':'y',
+  '&':'and','@':'at','#':'hash','%':'percent','$':'dollar',
+  '€':'euro','£':'pound','¥':'yen','©':'c','®':'r','™':'tm'
+};
+
+function transliterate(str) {
+  return str.split('').map(c => TRANS_MAP[c] || c).join('');
+}
+
+/* ══════════════════════════════════════
+   CORE SLUGIFY
+══════════════════════════════════════ */
+function slugify(text, { sep = '-', caseMode = 'lower', removeStopWords = false, stripNumbers = false } = {}) {
+  if (!text.trim()) return '';
+
+  let s = transliterate(text);
+
+  // keep only alphanumeric + spaces
+  s = s.replace(/[^a-zA-Z0-9\s]/g, ' ');
+
+  // normalise whitespace
+  s = s.replace(/\s+/g, ' ').trim();
+
+  // split to words
+  let words = s.split(' ').filter(Boolean);
+
+  if (removeStopWords) {
+    words = words.filter(w => !STOP_WORDS.has(w.toLowerCase()));
+  }
+
+  if (stripNumbers) {
+    words = words.filter(w => !/^\d+$/.test(w));
+  }
+
+  if (!words.length) return '';
+
+  // apply case
+  if (caseMode === 'lower') {
+    words = words.map(w => w.toLowerCase());
+  } else if (caseMode === 'upper') {
+    words = words.map(w => w.toUpperCase());
+  }
+
+  // join
+  let slug = words.join(sep);
+
+  // collapse repeated separators
+  const escapedSep = sep.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  slug = slug.replace(new RegExp(`${escapedSep}+`, 'g'), sep);
+
+  return slug;
+}
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+const state = {
+  sep: '-',
+  caseMode: 'lower',
+  removeStopWords: false,
+  stripNumbers: false
+};
+
+/* ══════════════════════════════════════
+   OPTION PILLS
+══════════════════════════════════════ */
+document.querySelectorAll('#sepPills .pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#sepPills .pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    state.sep = btn.dataset.sep;
+    liveUpdate();
+  });
+});
+
+document.querySelectorAll('#casePills .pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#casePills .pill').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    state.caseMode = btn.dataset.case;
+    liveUpdate();
+  });
+});
+
+/* TOGGLES */
+['stopToggle', 'numToggle'].forEach((id, i) => {
+  const btn = document.getElementById(id);
+  btn.addEventListener('click', () => {
+    const on = !btn.classList.contains('on');
+    btn.classList.toggle('on', on);
+    btn.setAttribute('aria-checked', on);
+    if (i === 0) state.removeStopWords = on;
+    else state.stripNumbers = on;
+    liveUpdate();
+  });
+});
+
+/* ══════════════════════════════════════
+   LIVE UPDATE
+══════════════════════════════════════ */
+function liveUpdate() {
+  const input = document.getElementById('inputText').value;
+  if (!input.trim()) return;
+  renderSlug(input);
+  // bulk
+  const bulkVal = document.getElementById('bulkInput').value;
+  if (bulkVal.trim()) renderBulk(bulkVal);
+}
+
+function renderSlug(input) {
+  const slug = slugify(input, state);
+  const el = document.getElementById('slugOutput');
+  const dot = document.getElementById('statusDot');
+
+  if (!slug) {
+    el.textContent = 'No valid characters found.';
+    el.classList.add('empty');
+    dot.classList.remove('ok');
+    document.getElementById('slugLength').textContent = '—';
+    document.getElementById('slugWords').textContent = '—';
+    document.getElementById('charsRemoved').textContent = '—';
+    return;
+  }
+
+  el.textContent = slug;
+  el.classList.remove('empty');
+  dot.classList.add('ok');
+
+  document.getElementById('slugLength').textContent = slug.length;
+  document.getElementById('slugWords').textContent = slug.split(state.sep).filter(Boolean).length;
+  document.getElementById('charsRemoved').textContent = Math.max(0, input.trim().length - slug.length);
+}
+
+/* ══════════════════════════════════════
+   CHAR COUNT
+══════════════════════════════════════ */
+document.getElementById('inputText').addEventListener('input', e => {
+  const v = e.target.value;
+  const chars = v.length;
+  const words = v.trim() ? v.trim().split(/\s+/).length : 0;
+  document.getElementById('charCount').textContent = `${chars} character${chars !== 1 ? 's' : ''} · ${words} word${words !== 1 ? 's' : ''}`;
+  liveUpdate();
+});
+
+/* ══════════════════════════════════════
+   GENERATE BUTTON
+══════════════════════════════════════ */
+document.getElementById('generateBtn').addEventListener('click', () => {
+  const input = document.getElementById('inputText').value;
+  if (!input.trim()) { showToast('Type or paste some text first'); return; }
+  renderSlug(input);
+});
+
+/* ══════════════════════════════════════
+   COPY
+══════════════════════════════════════ */
+function copySlug() {
+  const slug = document.getElementById('slugOutput').textContent;
+  if (!slug || slug === 'Slug will appear here…') { showToast('Generate a slug first'); return; }
+  navigator.clipboard.writeText(slug).then(() => showToast('Slug copied ✓', true));
+}
+
+document.getElementById('copySlugBtn').addEventListener('click', copySlug);
+document.getElementById('copyBtn2').addEventListener('click', copySlug);
+
+/* ══════════════════════════════════════
+   PASTE / CLEAR
+══════════════════════════════════════ */
+document.getElementById('pasteBtn').addEventListener('click', async () => {
+  try {
+    const text = await navigator.clipboard.readText();
+    document.getElementById('inputText').value = text;
+    document.getElementById('inputText').dispatchEvent(new Event('input'));
+    showToast('Pasted from clipboard');
+  } catch { showToast('Clipboard access denied'); }
+});
+
+document.getElementById('clearBtn').addEventListener('click', () => {
+  document.getElementById('inputText').value = '';
+  document.getElementById('inputText').dispatchEvent(new Event('input'));
+});
+
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('inputText').value = '';
+  document.getElementById('charCount').textContent = '0 characters · 0 words';
+  const el = document.getElementById('slugOutput');
+  el.textContent = 'Slug will appear here…';
+  el.classList.add('empty');
+  document.getElementById('statusDot').classList.remove('ok');
+  document.getElementById('slugLength').textContent = '—';
+  document.getElementById('slugWords').textContent = '—';
+  document.getElementById('charsRemoved').textContent = '—';
+});
+
+/* ══════════════════════════════════════
+   BULK
+══════════════════════════════════════ */
+let bulkOpen = false;
+document.getElementById('bulkToggle').addEventListener('click', () => {
+  bulkOpen = !bulkOpen;
+  document.getElementById('bulkPanel').classList.toggle('open', bulkOpen);
+  document.getElementById('bulkIcon').textContent = bulkOpen ? '−' : '+';
+});
+
+function renderBulk(value) {
+  const lines = value.split('\n');
+  const slugs = lines.map(l => l.trim() ? slugify(l, state) : '');
+  document.getElementById('bulkOutput').value = slugs.join('\n');
+  const count = slugs.filter(Boolean).length;
+  document.getElementById('bulkInfo').textContent = `${count} slug${count !== 1 ? 's' : ''} generated`;
+}
+
+document.getElementById('bulkInput').addEventListener('input', e => {
+  renderBulk(e.target.value);
+});
+
+document.getElementById('bulkCopyBtn').addEventListener('click', () => {
+  const val = document.getElementById('bulkOutput').value;
+  if (!val.trim()) { showToast('No slugs to copy'); return; }
+  navigator.clipboard.writeText(val).then(() => showToast('All slugs copied ✓', true));
+});
+
+document.getElementById('bulkClearBtn').addEventListener('click', () => {
+  document.getElementById('bulkInput').value = '';
+  document.getElementById('bulkOutput').value = '';
+  document.getElementById('bulkInfo').textContent = '0 slugs generated';
+});
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+let toastTimer;
+function showToast(msg, success = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'show' + (success ? ' success' : '');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = ''; }, 2200);
+}
+
+/* ══════════════════════════════════════
+   FAQ ACCORDION
+══════════════════════════════════════ */
+document.querySelectorAll('.faq-q').forEach(q => {
+  q.addEventListener('click', () => {
+    const item = q.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => {
+      i.classList.remove('open');
+      i.querySelector('.faq-q').setAttribute('aria-expanded', 'false');
+    });
+    if (!isOpen) { item.classList.add('open'); q.setAttribute('aria-expanded', 'true'); }
+  });
+  q.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); q.click(); } });
+});
+
+/* ══════════════════════════════════════
+   SCROLL REVEAL
+══════════════════════════════════════ */
+const io = new IntersectionObserver(entries =>
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } }),
+  { threshold: 0.08 }
+);
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
