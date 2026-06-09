@@ -149,28 +149,28 @@
   <script>
     const tools = [
       {
-        name: 'Json Formatter', desc: 'Paste minified JSON and get a clean, pretty-printed version instantly.', icon: '🗄', bg: '#1e2a2f', accent: '#4fd1c5', cat: 'development', tag: 'Development', a: "json-formatter.html",
+        name: 'Json Formatter', desc: 'Paste minified JSON and get a clean, pretty-printed version instantly.', icon: '🗄', bg: '#1e2a2f', accent: '#4fd1c5', cat: 'development', tag: 'Development', a: "json-formatter",
         desc: 'Format JSON with ease. Just paste your minified JSON and get a clean, pretty-printed version instantly. '
       },
       {
         name: 'Word Counter',
         desc: 'Count words, characters, sentences, paragraphs and reading time instantly.', icon: '📊', bg: '#152218', accent: '#5cffb1', cat: 'analysis', tag: 'Analysis',
-        a: "word-counter.html"
+        a: "word-counter"
       },
-      { name: 'Case Converter', desc: 'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case and more.', icon: 'Aa', bg: '#12182d', accent: '#60a5fa', cat: 'conversion', tag: 'Conversion', a: "case-converter.html" },
-      { name: 'Text Cleaner', desc: 'Remove extra spaces, blank lines, special characters and other formatting noise.', icon: '🧹', bg: '#2a1515', accent: '#ff6f6f', cat: 'cleaning', tag: 'Cleaning', a: "text-cleaner.html" },
-      { name: 'Duplicate Line Remover', desc: 'Paste any list and instantly strip all repeated or duplicate lines.', icon: '⊟', bg: '#1a1530', accent: '#c084fc', cat: 'cleaning', tag: 'Cleaning', a: "duplicate-line-remover.html" },
-      { name: 'Text Compare', desc: 'Diff two blocks of text side-by-side and highlight exactly what changed.', icon: '⇌', bg: '#12282a', accent: '#2dd4bf', cat: 'analysis', tag: 'Analysis', a: "text-compare.html" },
+      { name: 'Case Converter', desc: 'Convert text to UPPERCASE, lowercase, Title Case, camelCase, snake_case and more.', icon: 'Aa', bg: '#12182d', accent: '#60a5fa', cat: 'conversion', tag: 'Conversion', a: "case-converter" },
+      { name: 'Text Cleaner', desc: 'Remove extra spaces, blank lines, special characters and other formatting noise.', icon: '🧹', bg: '#2a1515', accent: '#ff6f6f', cat: 'cleaning', tag: 'Cleaning', a: "text-cleaner" },
+      { name: 'Duplicate Line Remover', desc: 'Paste any list and instantly strip all repeated or duplicate lines.', icon: '⊟', bg: '#1a1530', accent: '#c084fc', cat: 'cleaning', tag: 'Cleaning', a: "duplicate-line-remover" },
+      { name: 'Text Compare', desc: 'Diff two blocks of text side-by-side and highlight exactly what changed.', icon: '⇌', bg: '#12282a', accent: '#2dd4bf', cat: 'analysis', tag: 'Analysis', a: "text-compare" },
       { name: 'Fancy Text Generator', desc: 'Transform plain text into 𝓬𝓾𝓻𝓼𝓲𝓿�, 𝕓𝕠𝕝𝕕, and 100+ Unicode styles.', icon: '✦', bg: '#2a1e10', accent: '#fb923c', cat: 'creative', tag: 'Creative', a: "fancy-text-generator.html" },
-      { name: 'Stylish Nickname Generator', desc: 'Create cool, decorated nicknames for gaming profiles, Discord and usernames.', icon: '🎮', bg: '#161830', accent: '#818cf8', cat: 'social', tag: 'Social', a: "stylish-nickname-generator.html" },
-      { name: 'Bio Generator', desc: 'Generate polished bios for Instagram, Twitter, LinkedIn or any platform.', icon: '✍️', bg: '#132215', accent: '#4ade80', cat: 'social', tag: 'Social', a: "bio-generator.html" },
-      // { name: 'Lorem Ipsum Generator', desc: 'Generate placeholder text in any length — words, sentences or full paragraphs.', icon: '¶', bg: '#252015', accent: '#facc15', cat: 'conversion', tag: 'Conversion', a: "lorem-ipsum-generator.html" },
-      { name: 'Text Reverser', desc: 'Reverse any text character-by-character, word-by-word, or line-by-line.', icon: '↩', bg: '#152015', accent: '#86efac', cat: 'conversion', tag: 'Conversion', a: "text-reverser.html" },
-      // name: 'Remove Line Breaks', desc: 'Strip line breaks from copied text and join it into clean continuous prose.', icon: '⏎', bg: '#2a1818', accent: '#fca5a5', cat: 'cleaning', tag: 'Cleaning', a: "remove-line-breaks.html" },
+      { name: 'Stylish Nickname Generator', desc: 'Create cool, decorated nicknames for gaming profiles, Discord and usernames.', icon: '🎮', bg: '#161830', accent: '#818cf8', cat: 'social', tag: 'Social', a: "stylish-nickname-generator" },
+      { name: 'Bio Generator', desc: 'Generate polished bios for Instagram, Twitter, LinkedIn or any platform.', icon: '✍️', bg: '#132215', accent: '#4ade80', cat: 'social', tag: 'Social', a: "bio-generator" },
+      // { name: 'Lorem Ipsum Generator', desc: 'Generate placeholder text in any length — words, sentences or full paragraphs.', icon: '¶', bg: '#252015', accent: '#facc15', cat: 'conversion', tag: 'Conversion', a: "lorem-ipsum-generator" },
+      { name: 'Text Reverser', desc: 'Reverse any text character-by-character, word-by-word, or line-by-line.', icon: '↩', bg: '#152015', accent: '#86efac', cat: 'conversion', tag: 'Conversion', a: "text-reverser" },
+      // name: 'Remove Line Breaks', desc: 'Strip line breaks from copied text and join it into clean continuous prose.', icon: '⏎', bg: '#2a1818', accent: '#fca5a5', cat: 'cleaning', tag: 'Cleaning', a: "remove-line-breaks" },
       { name: 'Text to Slug', desc: 'Convert any title or phrase into a clean, URL-friendly slug instantly.', icon: '🔗', bg: '#121e2e', accent: '#38bdf8', cat: 'conversion', tag: 'Conversion', a: "text-to-slug.html" },
-      //{name: 'HTML Tag Remover', desc: 'Strip HTML tags from pasted code and extract clean, readable plain text instantly.', icon: '👩‍💻', bg: '#2a1515', accent: '#ff8a65', cat: 'cleaning', tag: 'Cleaning', a: "html-tag-remover.html" },
-      //{ name: 'JSON Validator', desc: 'Validate JSON instantly, detect syntax errors, and pinpoint exactly where your JSON breaks.', icon: '🗄', bg: '#1e2a2f', accent: '#4fd1c5', cat: 'development', tag: 'Development', a: "json-validator.html"},
-      //{ name: 'CSS Minifier', desc: 'Compress CSS code by removing whitespace, comments, and unnecessary characters for smaller file sizes.', icon: '🎨', bg: '#12182d', accent: '#60a5fa', cat: 'development', tag: 'Development', a: "css-minifier.html"}
+      //{name: 'HTML Tag Remover', desc: 'Strip HTML tags from pasted code and extract clean, readable plain text instantly.', icon: '👩‍💻', bg: '#2a1515', accent: '#ff8a65', cat: 'cleaning', tag: 'Cleaning', a: "html-tag-remover" },
+      //{ name: 'JSON Validator', desc: 'Validate JSON instantly, detect syntax errors, and pinpoint exactly where your JSON breaks.', icon: '🗄', bg: '#1e2a2f', accent: '#4fd1c5', cat: 'development', tag: 'Development', a: "json-validator"},
+      //{ name: 'CSS Minifier', desc: 'Compress CSS code by removing whitespace, comments, and unnecessary characters for smaller file sizes.', icon: '🎨', bg: '#12182d', accent: '#60a5fa', cat: 'development', tag: 'Development', a: "css-minifier"}
     ];
 
     const grid = document.getElementById('toolsGrid');
